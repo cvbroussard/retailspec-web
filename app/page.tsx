@@ -1,65 +1,153 @@
-import Image from "next/image";
+import { Hero } from "@/components/marketing/hero";
+import { Section } from "@/components/layout/section";
+import { Container } from "@/components/layout/container";
+import { FeatureGrid } from "@/components/marketing/feature-grid";
+import { CtaSection } from "@/components/marketing/cta-section";
+import { MetricCard } from "@/components/marketing/metric-card";
+import { Card } from "@/components/ui/card";
 
-export default function Home() {
+const platformPillars = [
+  {
+    title: "Inventory Intelligence",
+    description:
+      "Real-time stock visibility across every location and channel. Cycle counts, allocation, shrink tracking, and automated reorder points — not guesswork.",
+    href: "/platform/inventory",
+  },
+  {
+    title: "Unified Commerce",
+    description:
+      "One catalog. One order pipeline. POS, web, and wholesale channels share a single source of truth. No reconciliation. No drift.",
+    href: "/platform/commerce",
+  },
+  {
+    title: "Operational Control",
+    description:
+      "Purchase orders, receiving, transfers, vendor management, and cost tracking in one system. See the full lifecycle from supplier to shelf to sale.",
+    href: "/platform/operations",
+  },
+];
+
+const detailHooks = [
+  { title: "Bulk catalog import", description: "10,000 SKUs onboarded in minutes, not months." },
+  { title: "AI image management", description: "Auto-optimization, background removal, gallery generation." },
+  { title: "SEO suite", description: "Structured data, core web vitals, content scoring per product." },
+  { title: "B2B portal", description: "Wholesale pricing, company accounts, net terms." },
+  { title: "Label & receipt printing", description: "Direct to thermal printers, no middleware." },
+  { title: "Barcode everything", description: "Scan to receive, scan to count, scan to sell." },
+  { title: "Promotions engine", description: "Stackable rules, scheduled campaigns, coupon tracking." },
+  { title: "Customer intelligence", description: "Segments, purchase history, lifetime value, consent management." },
+];
+
+const trustCards = [
+  { title: "Dedicated per tenant", description: "Isolated database, isolated performance." },
+  { title: "Edge-deployed", description: "Fast everywhere, not just near the data center." },
+  { title: "Your data, exportable", description: "Full data export at any time. No lock-in." },
+];
+
+const metrics = [
+  { metric: "40,000+", description: "SKU catalogs managed across multiple locations with real-time sync." },
+  { metric: "Multi-channel", description: "POS, web, and warehouse operating from one stock pool." },
+  { metric: "Sub-second", description: "Barcode scan to inventory update, no waiting." },
+];
+
+export default function HomePage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <>
+      {/* Hero */}
+      <Hero
+        headline="Your retail operation deserves real infrastructure."
+        subheadline="RetailSpec unifies inventory, orders, and operations across every location and channel — without the six-month implementation."
+        actions={[
+          { label: "Request a Demo", href: "/contact" },
+          { label: "See the Platform", href: "/platform/inventory", variant: "secondary" },
+        ]}
+      />
+
+      {/* Problem */}
+      <Section alternate>
+        <Container>
+          <div className="mx-auto max-w-3xl">
+            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900">
+              Five locations. Three systems. One spreadsheet holding it all together.
+            </h2>
+            <p className="mt-6 text-lg text-gray-600 leading-relaxed">
+              Your POS handles transactions. Your e-commerce platform handles online. Your warehouse
+              runs on instinct. And somewhere between them, inventory counts diverge, transfers get
+              lost, and shrink goes unnoticed until the quarterly review.
+            </p>
+            <p className="mt-4 text-lg text-gray-600 leading-relaxed">
+              You&apos;ve outgrown tools that were built for a single register.
+            </p>
+          </div>
+        </Container>
+      </Section>
+
+      {/* Platform Pillars */}
+      <Section>
+        <Container>
+          <FeatureGrid features={platformPillars} columns={3} />
+        </Container>
+      </Section>
+
+      {/* Details That Compound */}
+      <Section alternate>
+        <Container>
+          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900 text-center mb-12">
+            The details that compound
+          </h2>
+          <FeatureGrid features={detailHooks} columns={4} />
+        </Container>
+      </Section>
+
+      {/* Differentiator */}
+      <Section>
+        <Container>
+          <div className="mx-auto max-w-3xl">
+            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900">
+              You shouldn&apos;t have to choose between simple and capable.
+            </h2>
+            <p className="mt-6 text-lg text-gray-600 leading-relaxed">
+              Small-business tools break when you add your fifth location. Enterprise platforms take
+              six months to implement and a consultant on retainer to maintain.
+            </p>
+            <p className="mt-4 text-lg text-gray-600 leading-relaxed">
+              RetailSpec was built for the retailers in between — the ones operating at scale but
+              moving at speed. Enterprise-grade infrastructure. Operational in days.
+            </p>
+          </div>
+        </Container>
+      </Section>
+
+      {/* Infrastructure Trust */}
+      <Section alternate>
+        <Container>
+          <div className="mx-auto max-w-3xl text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900">
+              Built for isolation. Built for scale.
+            </h2>
+            <p className="mt-6 text-lg text-gray-600 leading-relaxed">
+              Every tenant operates on dedicated database infrastructure. Your data isn&apos;t
+              co-mingled with anyone else&apos;s. Your performance isn&apos;t affected by another
+              tenant&apos;s traffic spike.
+            </p>
+          </div>
+          <FeatureGrid features={trustCards} columns={3} />
+        </Container>
+      </Section>
+
+      {/* Scale Proof */}
+      <Section>
+        <Container>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+            {metrics.map((m) => (
+              <MetricCard key={m.metric} metric={m.metric} description={m.description} />
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      {/* Final CTA */}
+      <CtaSection headline="See what your operation looks like with real infrastructure." />
+    </>
   );
 }
