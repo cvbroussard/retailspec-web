@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "@/components/ui/logo";
 
 const platformLinks = [
   { label: "Inventory", href: "/platform/inventory" },
@@ -26,8 +27,8 @@ export function Footer() {
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
           {/* Brand */}
           <div className="col-span-2 sm:col-span-1">
-            <p className="text-lg font-semibold text-white tracking-tight">RetailSpec</p>
-            <p className="mt-2 text-sm">Retail operations infrastructure</p>
+            <Logo variant="dark" />
+            <p className="mt-3 text-sm">Retail operations infrastructure</p>
           </div>
 
           {/* Platform */}

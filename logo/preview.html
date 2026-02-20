@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RetailSpec Logo System — Ratio Comparison</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: #f9fafb; color: #111827; padding: 48px; }
+  h1 { font-size: 14px; font-weight: 500; color: #6b7280; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 40px; }
+  h2 { font-size: 12px; font-weight: 500; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; margin-top: 56px; }
+  .row { display: flex; gap: 64px; align-items: center; flex-wrap: wrap; margin-bottom: 24px; }
+  .cell { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .label { font-size: 11px; color: #9ca3af; }
+  .dark-bg { background: #111827; padding: 32px; border-radius: 12px; display: inline-flex; gap: 64px; align-items: center; flex-wrap: wrap; }
+
+  .logo { display: inline-flex; align-items: center; flex-shrink: 0; }
+  .logo-mark { display: grid; grid-template-columns: 1fr 1fr; flex-shrink: 0; }
+  .logo-mark div { border-radius: 3px; }
+
+  .m-tl { background: #111827; }
+  .m-tr { background: #8FA888; }
+  .m-bl { background: #8FA888; opacity: 0.6; }
+  .m-br { background: #111827; }
+  .m-tl-dark { background: #ffffff; }
+  .m-tr-dark { background: #8FA888; }
+  .m-bl-dark { background: #8FA888; opacity: 0.6; }
+  .m-br-dark { background: #ffffff; }
+
+  .wordmark { font-weight: 600; letter-spacing: -0.03em; line-height: 1; color: #111827; }
+  .divider { border: none; border-top: 1px solid #e5e7eb; margin: 56px 0; }
+
+  /* Guide line for cap-height reference */
+  .guide { position: relative; }
+  .guide::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    right: -8px;
+    top: 0;
+    height: 1px;
+    background: rgba(239, 68, 68, 0.2);
+  }
+  .guide::after {
+    content: '';
+    position: absolute;
+    left: -8px;
+    right: -8px;
+    bottom: 0;
+    height: 1px;
+    background: rgba(239, 68, 68, 0.2);
+  }
+</style>
+</head>
+<body>
+
+<h1>RetailSpec Logo — Mark-to-Wordmark Ratio Comparison</h1>
+
+<!-- ============================================ -->
+<!-- OPTION A: MARK-DOMINANT (current — 1.5:1)    -->
+<!-- ============================================ -->
+<h2>Option A — Mark-Dominant (current ratio ~1.5:1)</h2>
+<p style="font-size: 13px; color: #6b7280; margin-bottom: 24px; max-width: 540px;">
+  Mark is taller than the text cap-height. The icon is the visual anchor. Wordmark labels it.
+  <br><em style="color: #9ca3af;">Used by: Stripe, Notion, Slack</em>
+</p>
+
+<div class="row">
+  <!-- Large -->
+  <div class="cell">
+    <div class="logo" style="gap: 14px;">
+      <div class="logo-mark" style="width: 48px; height: 48px; gap: 4px;">
+        <div class="m-tl" style="width: 22px; height: 22px;"></div>
+        <div class="m-tr" style="width: 22px; height: 22px;"></div>
+        <div class="m-bl" style="width: 22px; height: 22px;"></div>
+        <div class="m-br" style="width: 22px; height: 22px;"></div>
+      </div>
+      <span class="wordmark" style="font-size: 32px;">RetailSpec</span>
+    </div>
+    <span class="label">48px mark / 32px text</span>
+  </div>
+  <!-- Nav -->
+  <div class="cell">
+    <div class="logo" style="gap: 10px;">
+      <div class="logo-mark" style="width: 24px; height: 24px; gap: 3px;">
+        <div class="m-tl" style="width: 10.5px; height: 10.5px; border-radius: 2px;"></div>
+        <div class="m-tr" style="width: 10.5px; height: 10.5px; border-radius: 2px;"></div>
+        <div class="m-bl" style="width: 10.5px; height: 10.5px; border-radius: 2px;"></div>
+        <div class="m-br" style="width: 10.5px; height: 10.5px; border-radius: 2px;"></div>
+      </div>
+      <span class="wordmark" style="font-size: 16px;">RetailSpec</span>
+    </div>
+    <span class="label">24px mark / 16px text (nav)</span>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ============================================ -->
+<!-- OPTION B: TEXT-DOMINANT (1:1 with cap-height) -->
+<!-- ============================================ -->
+<h2>Option B — Text-Dominant (mark = cap-height, ~1:1)</h2>
+<p style="font-size: 13px; color: #6b7280; margin-bottom: 24px; max-width: 540px;">
+  Mark aligns exactly with the text cap-height. Wordmark is the primary read, mark is a badge.
+  <br><em style="color: #9ca3af;">Used by: Vercel, Linear, Ramp</em>
+</p>
+
+<div class="row">
+  <!-- Large: 32px font → ~22px cap height → 22px mark -->
+  <div class="cell">
+    <div class="logo" style="gap: 12px;">
+      <div class="logo-mark" style="width: 24px; height: 24px; gap: 3px;">
+        <div class="m-tl" style="width: 10.5px; height: 10.5px; border-radius: 2px;"></div>
+        <div class="m-tr" style="width: 10.5px; height: 10.5px; border-radius: 2px;"></div>
+        <div class="m-bl" style="width: 10.5px; height: 10.5px; border-radius: 2px;"></div>
+        <div class="m-br" style="width: 10.5px; height: 10.5px; border-radius: 2px;"></div>
+      </div>
+      <span class="wordmark" style="font-size: 32px;">RetailSpec</span>
+    </div>
+    <span class="label">24px mark / 32px text</span>
+  </div>
+  <!-- Nav: 16px font → ~11px cap height → 14px mark (min legible) -->
+  <div class="cell">
+    <div class="logo" style="gap: 8px;">
+      <div class="logo-mark" style="width: 16px; height: 16px; gap: 2px;">
+        <div class="m-tl" style="width: 7px; height: 7px; border-radius: 1.5px;"></div>
+        <div class="m-tr" style="width: 7px; height: 7px; border-radius: 1.5px;"></div>
+        <div class="m-bl" style="width: 7px; height: 7px; border-radius: 1.5px;"></div>
+        <div class="m-br" style="width: 7px; height: 7px; border-radius: 1.5px;"></div>
+      </div>
+      <span class="wordmark" style="font-size: 16px;">RetailSpec</span>
+    </div>
+    <span class="label">16px mark / 16px text (nav)</span>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ============================================ -->
+<!-- OPTION C: BALANCED (mark slightly > cap-height, ~1.2:1) -->
+<!-- ============================================ -->
+<h2>Option C — Balanced (~1.2:1)</h2>
+<p style="font-size: 13px; color: #6b7280; margin-bottom: 24px; max-width: 540px;">
+  Mark sits just above the text cap-height. Neither dominates — they read as a unified pair.
+  <br><em style="color: #9ca3af;">A middle ground. Professional, balanced weight distribution.</em>
+</p>
+
+<div class="row">
+  <!-- Large: 32px font → 28px mark -->
+  <div class="cell">
+    <div class="logo" style="gap: 12px;">
+      <div class="logo-mark" style="width: 32px; height: 32px; gap: 3px;">
+        <div class="m-tl" style="width: 14.5px; height: 14.5px; border-radius: 2.5px;"></div>
+        <div class="m-tr" style="width: 14.5px; height: 14.5px; border-radius: 2.5px;"></div>
+        <div class="m-bl" style="width: 14.5px; height: 14.5px; border-radius: 2.5px;"></div>
+        <div class="m-br" style="width: 14.5px; height: 14.5px; border-radius: 2.5px;"></div>
+      </div>
+      <span class="wordmark" style="font-size: 32px;">RetailSpec</span>
+    </div>
+    <span class="label">32px mark / 32px text</span>
+  </div>
+  <!-- Nav: 16px font → 20px mark -->
+  <div class="cell">
+    <div class="logo" style="gap: 8px;">
+      <div class="logo-mark" style="width: 20px; height: 20px; gap: 2px;">
+        <div class="m-tl" style="width: 9px; height: 9px; border-radius: 2px;"></div>
+        <div class="m-tr" style="width: 9px; height: 9px; border-radius: 2px;"></div>
+        <div class="m-bl" style="width: 9px; height: 9px; border-radius: 2px;"></div>
+        <div class="m-br" style="width: 9px; height: 9px; border-radius: 2px;"></div>
+      </div>
+      <span class="wordmark" style="font-size: 16px;">RetailSpec</span>
+    </div>
+    <span class="label">20px mark / 16px text (nav)</span>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ============================================ -->
+<!-- SIDE BY SIDE IN NAV CONTEXT                  -->
+<!-- ============================================ -->
+<h2>All Three — In Navigation Context</h2>
+
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 960px;">
+  <!-- Option A nav -->
+  <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 64px;">
+    <div class="logo" style="gap: 10px;">
+      <div class="logo-mark" style="width: 24px; height: 24px; gap: 3px;">
+        <div class="m-tl" style="width: 10.5px; height: 10.5px; border-radius: 2px;"></div>
+        <div class="m-tr" style="width: 10.5px; height: 10.5px; border-radius: 2px;"></div>
+        <div class="m-bl" style="width: 10.5px; height: 10.5px; border-radius: 2px;"></div>
+        <div class="m-br" style="width: 10.5px; height: 10.5px; border-radius: 2px;"></div>
+      </div>
+      <span class="wordmark" style="font-size: 16px;">RetailSpec</span>
+    </div>
+    <div style="display: flex; gap: 32px; align-items: center;">
+      <span style="font-size: 14px; color: #4b5563;">Platform</span>
+      <span style="font-size: 14px; color: #4b5563;">Pricing</span>
+      <span style="font-size: 14px; color: #4b5563;">About</span>
+      <span style="font-size: 13px; font-weight: 500; background: #8FA888; color: white; padding: 8px 16px; border-radius: 8px;">Request a Demo</span>
+    </div>
+  </div>
+  <span class="label">A — Mark-dominant (24px mark / 16px text)</span>
+
+  <!-- Option B nav -->
+  <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 64px;">
+    <div class="logo" style="gap: 8px;">
+      <div class="logo-mark" style="width: 16px; height: 16px; gap: 2px;">
+        <div class="m-tl" style="width: 7px; height: 7px; border-radius: 1.5px;"></div>
+        <div class="m-tr" style="width: 7px; height: 7px; border-radius: 1.5px;"></div>
+        <div class="m-bl" style="width: 7px; height: 7px; border-radius: 1.5px;"></div>
+        <div class="m-br" style="width: 7px; height: 7px; border-radius: 1.5px;"></div>
+      </div>
+      <span class="wordmark" style="font-size: 16px;">RetailSpec</span>
+    </div>
+    <div style="display: flex; gap: 32px; align-items: center;">
+      <span style="font-size: 14px; color: #4b5563;">Platform</span>
+      <span style="font-size: 14px; color: #4b5563;">Pricing</span>
+      <span style="font-size: 14px; color: #4b5563;">About</span>
+      <span style="font-size: 13px; font-weight: 500; background: #8FA888; color: white; padding: 8px 16px; border-radius: 8px;">Request a Demo</span>
+    </div>
+  </div>
+  <span class="label">B — Text-dominant (16px mark / 16px text)</span>
+
+  <!-- Option C nav -->
+  <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 64px;">
+    <div class="logo" style="gap: 9px;">
+      <div class="logo-mark" style="width: 20px; height: 20px; gap: 2px;">
+        <div class="m-tl" style="width: 9px; height: 9px; border-radius: 2px;"></div>
+        <div class="m-tr" style="width: 9px; height: 9px; border-radius: 2px;"></div>
+        <div class="m-bl" style="width: 9px; height: 9px; border-radius: 2px;"></div>
+        <div class="m-br" style="width: 9px; height: 9px; border-radius: 2px;"></div>
+      </div>
+      <span class="wordmark" style="font-size: 16px;">RetailSpec</span>
+    </div>
+    <div style="display: flex; gap: 32px; align-items: center;">
+      <span style="font-size: 14px; color: #4b5563;">Platform</span>
+      <span style="font-size: 14px; color: #4b5563;">Pricing</span>
+      <span style="font-size: 14px; color: #4b5563;">About</span>
+      <span style="font-size: 13px; font-weight: 500; background: #8FA888; color: white; padding: 8px 16px; border-radius: 8px;">Request a Demo</span>
+    </div>
+  </div>
+  <span class="label">C — Balanced (20px mark / 16px text)</span>
+</div>
+
+<hr class="divider">
+
+<!-- ============================================ -->
+<!-- FOOTER CONTEXT                               -->
+<!-- ============================================ -->
+<h2>All Three — In Footer Context</h2>
+<div style="display: flex; gap: 16px; flex-wrap: wrap;">
+  <div style="background: #111111; border-radius: 12px; padding: 32px; width: 300px;">
+    <div class="logo" style="gap: 10px;">
+      <div class="logo-mark" style="width: 28px; height: 28px; gap: 3px;">
+        <div class="m-tl-dark" style="width: 12.5px; height: 12.5px; border-radius: 2px;"></div>
+        <div class="m-tr-dark" style="width: 12.5px; height: 12.5px; border-radius: 2px;"></div>
+        <div class="m-bl-dark" style="width: 12.5px; height: 12.5px; border-radius: 2px;"></div>
+        <div class="m-br-dark" style="width: 12.5px; height: 12.5px; border-radius: 2px;"></div>
+      </div>
+      <span class="wordmark" style="font-size: 18px; color: #ffffff;">RetailSpec</span>
+    </div>
+    <p style="font-size: 12px; color: #6b7280; margin-top: 6px;">A — Mark-dominant</p>
+  </div>
+  <div style="background: #111111; border-radius: 12px; padding: 32px; width: 300px;">
+    <div class="logo" style="gap: 8px;">
+      <div class="logo-mark" style="width: 18px; height: 18px; gap: 2px;">
+        <div class="m-tl-dark" style="width: 8px; height: 8px; border-radius: 1.5px;"></div>
+        <div class="m-tr-dark" style="width: 8px; height: 8px; border-radius: 1.5px;"></div>
+        <div class="m-bl-dark" style="width: 8px; height: 8px; border-radius: 1.5px;"></div>
+        <div class="m-br-dark" style="width: 8px; height: 8px; border-radius: 1.5px;"></div>
+      </div>
+      <span class="wordmark" style="font-size: 18px; color: #ffffff;">RetailSpec</span>
+    </div>
+    <p style="font-size: 12px; color: #6b7280; margin-top: 6px;">B — Text-dominant</p>
+  </div>
+  <div style="background: #111111; border-radius: 12px; padding: 32px; width: 300px;">
+    <div class="logo" style="gap: 9px;">
+      <div class="logo-mark" style="width: 22px; height: 22px; gap: 2px;">
+        <div class="m-tl-dark" style="width: 10px; height: 10px; border-radius: 2px;"></div>
+        <div class="m-tr-dark" style="width: 10px; height: 10px; border-radius: 2px;"></div>
+        <div class="m-bl-dark" style="width: 10px; height: 10px; border-radius: 2px;"></div>
+        <div class="m-br-dark" style="width: 10px; height: 10px; border-radius: 2px;"></div>
+      </div>
+      <span class="wordmark" style="font-size: 18px; color: #ffffff;">RetailSpec</span>
+    </div>
+    <p style="font-size: 12px; color: #6b7280; margin-top: 6px;">C — Balanced</p>
+  </div>
+</div>
+
+</body>
+</html>

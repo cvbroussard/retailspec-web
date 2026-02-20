@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/ui/logo";
 
 const platformLinks = [
   { label: "Inventory Intelligence", description: "Real-time stock across every location", href: "/platform/inventory" },
@@ -24,9 +25,7 @@ export function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-gray-200/60 bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 sm:px-8 lg:px-12 h-16">
-        <Link href="/" className="text-lg font-semibold text-gray-900 tracking-tight">
-          RetailSpec
-        </Link>
+        <Logo />
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-8">
