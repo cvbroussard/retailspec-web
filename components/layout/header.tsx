@@ -19,6 +19,7 @@ const navLinks = [
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [platformOpen, setPlatformOpen] = useState(false);
+  const [hideTimeout, setHideTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-gray-200/60 bg-white/80 backdrop-blur-md">
@@ -31,8 +32,14 @@ export function Header() {
         <nav className="hidden md:flex items-center gap-8">
           <div
             className="relative"
-            onMouseEnter={() => setPlatformOpen(true)}
-            onMouseLeave={() => setPlatformOpen(false)}
+            onMouseEnter={() => {
+              if (hideTimeout) clearTimeout(hideTimeout);
+              setPlatformOpen(true);
+            }}
+            onMouseLeave={() => {
+              const t = setTimeout(() => setPlatformOpen(false), 150);
+              setHideTimeout(t);
+            }}
           >
             <button className="text-sm text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-1">
               Platform
