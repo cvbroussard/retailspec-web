@@ -6,6 +6,7 @@ interface ButtonProps {
   variant?: "primary" | "secondary" | "ghost";
   className?: string;
   type?: "button" | "submit";
+  disabled?: boolean;
 }
 
 export function Button({
@@ -14,6 +15,7 @@ export function Button({
   variant = "primary",
   className = "",
   type = "button",
+  disabled,
 }: ButtonProps) {
   const base = "inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-medium transition-all duration-150";
 
@@ -34,7 +36,7 @@ export function Button({
   }
 
   return (
-    <button type={type} className={classes}>
+    <button type={type} className={classes} disabled={disabled}>
       {children}
     </button>
   );

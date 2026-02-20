@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { submitContactForm } from "@/app/actions/contact";
 
 export function ContactForm() {
   const [formData, setFormData] = useState({
@@ -11,21 +12,32 @@ export function ContactForm() {
     locations: "",
     challenge: "",
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setSubmitted(true);
+    setStatus("submitting");
+    setErrorMsg("");
+
+    const result = await submitContactForm(formData);
+
+    if (result.success) {
+      setStatus("success");
+    } else {
+      setStatus("error");
+      setErrorMsg(result.error || "Something went wrong.");
+    }
   }
 
   const inputStyles =
     "w-full rounded-lg border border-gray-300 px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage/20 transition-colors";
 
-  if (submitted) {
+  if (status === "success") {
     return (
       <div className="rounded-xl border border-sage bg-sage-light p-8 text-center">
         <h2 className="text-xl font-semibold text-gray-900">Thank you.</h2>
@@ -118,8 +130,12 @@ export function ContactForm() {
         />
       </div>
 
-      <Button type="submit" variant="primary" className="w-full">
-        Request a Demo
+      {status === "error" && (
+        <p className="text-sm text-red-600 text-center">{errorMsg}</p>
+      )}
+
+      <Button type="submit" variant="primary" className="w-full" disabled={status === "submitting"}>
+        {status === "submitting" ? "Sending..." : "Request a Demo"}
       </Button>
 
       <p className="text-sm text-gray-500 text-center">
