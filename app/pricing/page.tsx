@@ -110,16 +110,16 @@ export default function PricingPage() {
       </Section>
 
       {/* Tier Comparison */}
-      <Section alternate>
+      <Section variant="sage">
         <Container>
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 items-start">
             {tiers.map((tier) => (
               <div
                 key={tier.name}
-                className={`rounded-xl border bg-white p-8 flex flex-col ${
+                className={`rounded-xl border bg-white p-8 flex flex-col transition-all duration-200 ${
                   tier.highlighted
-                    ? "border-sage ring-1 ring-sage"
-                    : "border-gray-200"
+                    ? "border-sage ring-1 ring-sage shadow-md scale-[1.02]"
+                    : "border-gray-200 shadow-sm"
                 }`}
               >
                 <h3 className="text-xl font-semibold text-gray-900">{tier.name}</h3>

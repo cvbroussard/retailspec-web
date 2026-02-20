@@ -5,10 +5,10 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
 const platformLinks = [
-  { label: "Inventory Intelligence", href: "/platform/inventory" },
-  { label: "Unified Commerce", href: "/platform/commerce" },
-  { label: "Operational Control", href: "/platform/operations" },
-  { label: "Security & Infrastructure", href: "/platform/security" },
+  { label: "Inventory Intelligence", description: "Real-time stock across every location", href: "/platform/inventory" },
+  { label: "Unified Commerce", description: "One catalog, every channel", href: "/platform/commerce" },
+  { label: "Operational Control", description: "Purchase orders to fulfillment", href: "/platform/operations" },
+  { label: "Security & Infrastructure", description: "Dedicated database per tenant", href: "/platform/security" },
 ];
 
 const navLinks = [
@@ -41,14 +41,15 @@ export function Header() {
               </svg>
             </button>
             {platformOpen && (
-              <div className="absolute top-full left-0 mt-2 w-64 rounded-xl border border-gray-200 bg-white p-2 shadow-lg">
+              <div className="absolute top-full left-0 mt-2 w-80 rounded-xl border border-gray-200 bg-white p-2 shadow-lg">
                 {platformLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="block rounded-lg px-4 py-2.5 text-sm text-gray-600 hover:bg-sage-light hover:text-gray-900 transition-colors"
+                    className="block rounded-lg px-4 py-3 hover:bg-sage-50 transition-colors"
                   >
-                    {link.label}
+                    <span className="block text-sm font-medium text-gray-900">{link.label}</span>
+                    <span className="block text-xs text-gray-500 mt-0.5">{link.description}</span>
                   </Link>
                 ))}
               </div>
@@ -95,7 +96,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="block rounded-lg px-3 py-2 text-sm text-gray-600 hover:bg-sage-light hover:text-gray-900"
+                className="block rounded-lg px-3 py-2 text-sm text-gray-600 hover:bg-sage-50 hover:text-gray-900"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}
@@ -106,7 +107,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="block rounded-lg px-3 py-2 text-sm text-gray-600 hover:bg-sage-light hover:text-gray-900"
+                className="block rounded-lg px-3 py-2 text-sm text-gray-600 hover:bg-sage-50 hover:text-gray-900"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}

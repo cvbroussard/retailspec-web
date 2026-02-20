@@ -11,13 +11,13 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <section className="pt-32 pb-20 sm:pt-40 sm:pb-24 lg:pb-32">
+      <section className="pt-32 pb-20 sm:pt-40 sm:pb-24 lg:pb-32 gradient-hero">
         <Container>
           <div className="mx-auto max-w-3xl text-center animate-fade-in-up">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-gray-900">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-[-0.03em] text-gray-900">
               Let&apos;s talk about your operation.
             </h1>
-            <p className="mt-6 text-lg sm:text-xl text-gray-600 leading-relaxed">
+            <p className="mt-6 text-lg sm:text-xl text-gray-600 leading-relaxed animate-fade-in-up-delay-1">
               Tell us a bit about your business and we&apos;ll schedule a walkthrough tailored to
               your setup.
             </p>
@@ -25,10 +25,12 @@ export default function ContactPage() {
         </Container>
       </section>
 
-      <section className="pb-20 sm:pb-24 lg:pb-32">
+      <section className="pb-20 sm:pb-24 lg:pb-32 bg-sage-50">
         <Container>
           <div className="mx-auto max-w-xl">
-            <ContactForm />
+            <div className="rounded-2xl bg-white p-8 sm:p-10 shadow-md">
+              <ContactForm />
+            </div>
           </div>
         </Container>
       </section>

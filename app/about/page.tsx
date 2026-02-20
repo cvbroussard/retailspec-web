@@ -65,7 +65,7 @@ export default function AboutPage() {
       </Section>
 
       {/* Principles */}
-      <Section alternate>
+      <Section variant="sage">
         <Container>
           <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900 text-center mb-12">
             What we believe

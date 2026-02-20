@@ -7,6 +7,8 @@
   --sage-hover: #7a9477;
   --sage-light: rgba(143, 168, 136, 0.1);
   --sage-medium: rgba(143, 168, 136, 0.2);
+  --sage-50: rgba(143, 168, 136, 0.05);
+  --sage-100: rgba(143, 168, 136, 0.08);
   --gray-50: #f9fafb;
   --gray-100: #f3f4f6;
   --gray-200: #e5e7eb;
@@ -18,6 +20,9 @@
   --gray-800: #1f2937;
   --gray-900: #111827;
   --footer-bg: #111111;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 4px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 24px -3px rgba(0, 0, 0, 0.1), 0 4px 10px -2px rgba(0, 0, 0, 0.05);
 }
 
 @theme inline {
@@ -27,8 +32,13 @@
   --color-sage-hover: var(--sage-hover);
   --color-sage-light: var(--sage-light);
   --color-sage-medium: var(--sage-medium);
+  --color-sage-50: var(--sage-50);
+  --color-sage-100: var(--sage-100);
   --color-footer: var(--footer-bg);
   --font-sans: var(--font-geist-sans);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
 }
 
 html {
@@ -52,6 +62,14 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.02em;
 }
 
+h1 {
+  letter-spacing: -0.025em;
+}
+
+.gradient-hero {
+  background: radial-gradient(ellipse 80% 60% at 50% 40%, var(--sage-50) 0%, transparent 70%);
+}
+
 @keyframes fade-in-up {
   from {
     opacity: 0;
@@ -65,4 +83,16 @@ h1, h2, h3, h4, h5, h6 {
 
 .animate-fade-in-up {
   animation: fade-in-up 0.6s ease-out both;
+}
+
+.animate-fade-in-up-delay-1 {
+  animation: fade-in-up 0.6s ease-out 0.1s both;
+}
+
+.animate-fade-in-up-delay-2 {
+  animation: fade-in-up 0.6s ease-out 0.2s both;
+}
+
+.animate-fade-in-up-delay-3 {
+  animation: fade-in-up 0.6s ease-out 0.3s both;
 }

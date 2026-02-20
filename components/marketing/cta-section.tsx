@@ -13,10 +13,10 @@ export function CtaSection({
   buttonHref = "/contact",
 }: CtaSectionProps) {
   return (
-    <section className="py-20 sm:py-24 lg:py-32 bg-gray-50">
+    <section className="py-20 sm:py-24 lg:py-32 bg-gray-900">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900">
+          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">
             {headline}
           </h2>
           <div className="mt-8">

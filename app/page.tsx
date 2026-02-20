@@ -4,7 +4,6 @@ import { Container } from "@/components/layout/container";
 import { FeatureGrid } from "@/components/marketing/feature-grid";
 import { CtaSection } from "@/components/marketing/cta-section";
 import { MetricCard } from "@/components/marketing/metric-card";
-import { Card } from "@/components/ui/card";
 
 const platformPillars = [
   {
@@ -63,8 +62,17 @@ export default function HomePage() {
         ]}
       />
 
+      {/* Social Proof Placeholder */}
+      <div className="border-y border-gray-100 py-8">
+        <Container>
+          <p className="text-center text-sm text-gray-400 tracking-wide">
+            Trusted by retailers operating at scale
+          </p>
+        </Container>
+      </div>
+
       {/* Problem */}
-      <Section alternate>
+      <Section variant="sage">
         <Container>
           <div className="mx-auto max-w-3xl">
             <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900">
@@ -90,7 +98,7 @@ export default function HomePage() {
       </Section>
 
       {/* Details That Compound */}
-      <Section alternate>
+      <Section variant="sage">
         <Container>
           <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900 text-center mb-12">
             The details that compound
@@ -119,7 +127,7 @@ export default function HomePage() {
       </Section>
 
       {/* Infrastructure Trust */}
-      <Section alternate>
+      <Section variant="sage">
         <Container>
           <div className="mx-auto max-w-3xl text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900">
@@ -138,10 +146,12 @@ export default function HomePage() {
       {/* Scale Proof */}
       <Section>
         <Container>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-            {metrics.map((m) => (
-              <MetricCard key={m.metric} metric={m.metric} description={m.description} />
-            ))}
+          <div className="mx-auto max-w-4xl rounded-2xl border border-gray-200 bg-white shadow-sm">
+            <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-200">
+              {metrics.map((m) => (
+                <MetricCard key={m.metric} metric={m.metric} description={m.description} />
+              ))}
+            </div>
           </div>
         </Container>
       </Section>

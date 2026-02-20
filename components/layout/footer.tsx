@@ -21,7 +21,7 @@ const resourceLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-footer text-gray-400">
+    <footer className="bg-gradient-to-b from-gray-900 to-footer text-gray-400">
       <div className="mx-auto max-w-6xl px-6 sm:px-8 lg:px-12 py-16">
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
           {/* Brand */}

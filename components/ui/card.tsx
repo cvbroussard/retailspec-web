@@ -7,8 +7,8 @@ interface CardProps {
 }
 
 export function Card({ children, href, className = "" }: CardProps) {
-  const base = `rounded-xl border border-gray-200 bg-white p-6 sm:p-8 transition-colors ${
-    href ? "hover:border-sage" : ""
+  const base = `rounded-xl border border-gray-200 bg-white p-6 sm:p-8 shadow-sm transition-all duration-200 ${
+    href ? "hover:shadow-md hover:border-sage hover:-translate-y-0.5" : ""
   } ${className}`;
 
   if (href) {
