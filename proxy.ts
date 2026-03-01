@@ -89,7 +89,7 @@ function gateHtml(redirect: string, error = false): string {
       <input type="hidden" name="_pw" id="pw-hidden" />
       <input type="password" id="pw-input" placeholder="Password" autofocus required />
       <button type="submit">Enter</button>
-      \${error ? '<p class="error">Incorrect password.</p>' : ""}
+      ${error ? '<p class="error">Incorrect password.</p>' : ""}
     </form>
     <script>
       document.querySelector('form').addEventListener('submit', function(e) {
