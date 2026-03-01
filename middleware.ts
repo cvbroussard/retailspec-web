@@ -18,7 +18,7 @@ const PUBLIC_PATHS = [
 const COOKIE_NAME = "site_access";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Let public paths through
