@@ -18,7 +18,7 @@ const PUBLIC_PATHS = [
 const COOKIE_NAME = "site_access";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
 
-export async function middleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Let public paths through
@@ -38,36 +38,9 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Handle password submission
-  if (request.method === "POST" && pathname === "/gate") {
-    return handleGateSubmit(request, password);
-  }
-
   // Show password form
-  return new NextResponse(gateHtml(pathname), {
-    status: 200,
-    headers: { "Content-Type": "text/html; charset=utf-8" },
-  });
-}
-
-async function handleGateSubmit(request: NextRequest, password: string) {
-  const body = await request.formData();
-  const submitted = body.get("password") as string;
-
-  if (submitted === password) {
-    const redirect = (body.get("redirect") as string) || "/";
-    const response = NextResponse.redirect(new URL(redirect, request.url));
-    response.cookies.set(COOKIE_NAME, password, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-      maxAge: COOKIE_MAX_AGE,
-      path: "/",
-    });
-    return response;
-  }
-
-  return new NextResponse(gateHtml("/", true), {
+  const error = request.nextUrl.searchParams.get("error") === "1";
+  return new NextResponse(gateHtml(pathname, error), {
     status: 200,
     headers: { "Content-Type": "text/html; charset=utf-8" },
   });
@@ -97,7 +70,7 @@ function gateHtml(redirect: string, error = false): string {
   <div class="gate">
     <h1>RetailSpec</h1>
     <p>This site is not yet public. Enter the password to continue.</p>
-    <form method="POST" action="/gate">
+    <form method="POST" action="/api/gate">
       <input type="hidden" name="redirect" value="${redirect}" />
       <input type="password" name="password" placeholder="Password" autofocus required />
       <button type="submit">Enter</button>
