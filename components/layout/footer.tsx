@@ -12,6 +12,8 @@ const platformLinks = [
 const companyLinks = [
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
+  { label: "Sign In", href: "/login" },
+  { label: "Register", href: "/register" },
 ];
 
 const resourceLinks = [
@@ -64,7 +66,7 @@ export function Footer() {
             <p className="text-sm font-medium text-white">Resources</p>
             <ul className="mt-3 space-y-2">
               {resourceLinks.map((link) => (
-                <li key={link.href}>
+                <li key={link.label}>
                   <Link href={link.href} className="text-sm hover:text-white transition-colors">
                     {link.label}
                   </Link>

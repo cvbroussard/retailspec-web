@@ -19,7 +19,7 @@ const COOKIE_NAME = "site_access";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, searchParams } = request.nextUrl;
 
   // Let public paths through
   if (PUBLIC_PATHS.some((p) => pathname.startsWith(p))) {
@@ -38,8 +38,23 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Show password form
-  const error = request.nextUrl.searchParams.get("error") === "1";
+  // Handle password submission (GET with ?_pw= param)
+  const submitted = searchParams.get("_pw");
+  if (submitted === password) {
+    const clean = new URL(pathname, request.url);
+    const response = NextResponse.redirect(clean);
+    response.cookies.set(COOKIE_NAME, password, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      maxAge: COOKIE_MAX_AGE,
+      path: "/",
+    });
+    return response;
+  }
+
+  // Show password form (with error if a wrong password was submitted)
+  const error = submitted !== null && submitted !== password;
   return new NextResponse(gateHtml(pathname, error), {
     status: 200,
     headers: { "Content-Type": "text/html; charset=utf-8" },
@@ -70,12 +85,17 @@ function gateHtml(redirect: string, error = false): string {
   <div class="gate">
     <h1>RetailSpec</h1>
     <p>This site is not yet public. Enter the password to continue.</p>
-    <form method="POST" action="/api/gate">
-      <input type="hidden" name="redirect" value="${redirect}" />
-      <input type="password" name="password" placeholder="Password" autofocus required />
+    <form method="GET" action="${redirect}">
+      <input type="hidden" name="_pw" id="pw-hidden" />
+      <input type="password" id="pw-input" placeholder="Password" autofocus required />
       <button type="submit">Enter</button>
       ${error ? '<p class="error">Incorrect password.</p>' : ""}
     </form>
+    <script>
+      document.querySelector('form').addEventListener('submit', function(e) {
+        document.getElementById('pw-hidden').value = document.getElementById('pw-input').value;
+      });
+    </script>
   </div>
 </body>
 </html>`;

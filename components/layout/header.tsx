@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
+import { UserMenu } from "@/components/auth/user-menu";
 
 const platformLinks = [
   { label: "Inventory Intelligence", description: "Real-time stock across every location", href: "/platform/inventory" },
@@ -73,6 +74,7 @@ export function Header() {
           <Button href="/contact" variant="primary">
             Request a Demo
           </Button>
+          <UserMenu />
         </nav>
 
         {/* Mobile hamburger */}
@@ -119,10 +121,13 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
-            <div className="mt-3">
+            <div className="mt-3 space-y-2">
               <Button href="/contact" variant="primary" className="w-full">
                 Request a Demo
               </Button>
+              <div className="flex justify-center pt-1">
+                <UserMenu />
+              </div>
             </div>
           </nav>
         </div>
