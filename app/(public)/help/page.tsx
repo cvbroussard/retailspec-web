@@ -1,7 +1,4 @@
 import type { Metadata } from "next";
-import { Hero } from "@/components/marketing/hero";
-import { Section } from "@/components/layout/section";
-import { Container } from "@/components/layout/container";
 
 /** Public support page (operator 11-12): open even while the rest of the site is behind the pre-launch password
  *  (proxy.ts GATE_PUBLIC_PATHS). Clover's app listing points here; the full help centre grows under /help later. */
@@ -15,11 +12,10 @@ export const metadata: Metadata = {
 export default function HelpPage() {
   return (
     <>
-      <Hero headline="Help & support" subheadline="We're here when you need us — in the console, on a call, or by email." />
-
-      <Section>
-        <Container>
-          <div className="mx-auto max-w-3xl space-y-12 text-gray-700 leading-relaxed">
+      <div className="mx-auto max-w-3xl px-6 py-12">
+          <h1 className="text-3xl font-semibold tracking-tight text-gray-900">Help &amp; support</h1>
+          <p className="mt-2 text-gray-600">We&apos;re here when you need us — in the console, on a call, or by email.</p>
+          <div className="mt-10 space-y-12 text-gray-700 leading-relaxed">
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold tracking-tight text-gray-900">Get in touch</h2>
               <ul className="list-disc space-y-2 pl-5">
@@ -54,11 +50,10 @@ export default function HelpPage() {
             </section>
 
             <section className="space-y-2 text-sm text-gray-500">
-              <p>See also our <a className="underline" href="https://platform.retailspec.com/legal/terms">Terms of Service</a> and <a className="underline" href="https://platform.retailspec.com/legal/privacy">Privacy Policy</a>.</p>
+              <p>See also our <a className="underline" href="/legal/terms">Terms of Service</a> and <a className="underline" href="/legal/privacy">Privacy Policy</a>.</p>
             </section>
           </div>
-        </Container>
-      </Section>
+      </div>
     </>
   );
 }

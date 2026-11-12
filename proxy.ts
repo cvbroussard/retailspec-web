@@ -1,12 +1,12 @@
 import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { isPublicPath } from "@/lib/public-pages";
 
 const GATE_PUBLIC_PATHS = [
   "/robots.txt",
   "/sitemap.xml",
   "/api/",
-  "/help", // public support page (Clover app listing) — open before launch
 ];
 
 const COOKIE_NAME = "site_access";
@@ -18,7 +18,7 @@ export async function proxy(request: NextRequest) {
   // --- Pre-launch password gate ---
   const sitePassword = process.env.SITE_PASSWORD;
   if (sitePassword) {
-    const isPublic = GATE_PUBLIC_PATHS.some((p) => pathname.startsWith(p));
+    const isPublic = isPublicPath(pathname) || GATE_PUBLIC_PATHS.some((p) => pathname.startsWith(p));
     const hasCookie = request.cookies.get(COOKIE_NAME)?.value === sitePassword;
 
     if (!isPublic && !hasCookie) {
