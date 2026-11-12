@@ -6,6 +6,7 @@ const GATE_PUBLIC_PATHS = [
   "/robots.txt",
   "/sitemap.xml",
   "/api/",
+  "/help", // public support page (Clover app listing) — open before launch
 ];
 
 const COOKIE_NAME = "site_access";
