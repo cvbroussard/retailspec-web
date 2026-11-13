@@ -6,27 +6,27 @@
 export const HELP_REPLY = "RetailSpec: help at retailspec.com/help or support@retailspec.com. Msg & data rates may apply. Reply STOP to opt out.";
 export const STOP_REPLY = "You're unsubscribed and won't get more texts from this number. Reply START to resubscribe.";
 
-export type OptIn = { id: string; where: string; who: string; members?: boolean; kind: "one-time" | "transactional" | "marketing" | "account"; consent: string; field: string; checkbox?: string };
+export type OptIn = { id: string; where: string; who: string; members?: boolean; kind: "one-time" | "transactional" | "marketing" | "account"; consent: string; field: string; checkbox?: string; button: string };
 
 export const OPT_INS: OptIn[] = [
   {
     id: "counter-receipt", where: "At the store's register, on the customer display", who: "Shoppers", kind: "one-time",
-    field: "Text my receipt to",
-    consent: "Enter your mobile number to get this receipt by text from {store}. One message. Msg & data rates may apply. Your number is used only for this receipt unless you choose otherwise.",
+    field: "Which number should we text your receipt to?", button: "Send",
+    consent: "We’ll text this one receipt. Msg & data rates may apply. Your number is used only for this receipt.",
   },
   {
     id: "order-updates", where: "A store's website — account settings and checkout", who: "Shoppers with an account", members: true, kind: "transactional",
-    field: "Mobile number", checkbox: "Text me updates about my orders",
+    field: "Mobile number", checkbox: "Text me updates about my orders", button: "Save text settings",
     consent: "Get texts from {store} about your orders: confirmation, ready for pickup, shipped and delivered. Msg frequency varies. Msg & data rates may apply. Reply STOP to opt out, HELP for help. Privacy: retailspec.com/legal/privacy.",
   },
   {
     id: "store-offers", where: "A store's website — account settings (separate, unticked box)", who: "Shoppers with an account", members: true, kind: "marketing",
-    field: "Mobile number", checkbox: "Yes, text me offers and news from {store}",
+    field: "Mobile number", checkbox: "Yes, text me offers and news from {store}", button: "Save text settings",
     consent: "Get offers and news from {store} by text, up to 4 messages a month. Consent is not a condition of purchase. Msg & data rates may apply. Reply STOP to cancel, HELP for help. Privacy: retailspec.com/legal/privacy.",
   },
   {
-    id: "staff-account", where: "RetailSpec console — My Account", who: "A store's staff using RetailSpec", members: true, kind: "account",
-    field: "Mobile number", checkbox: "Send my sign-in codes and account alerts by text",
+    id: "staff-account", where: "RetailSpec console — My Account → Sign-in codes → sent by text message", who: "A store's staff using RetailSpec", members: true, kind: "account",
+    field: "Mobile number", button: "Text me a code",
     consent: "Get RetailSpec sign-in codes and account alerts (security notices, support callbacks) by text. Msg frequency varies. Msg & data rates may apply. Reply STOP to opt out, HELP for help.",
   },
 ];

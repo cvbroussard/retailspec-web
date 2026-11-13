@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 /** A working copy of an opt-in, for review: it behaves like the real one but sends nothing. */
-export function SampleForm({ id, field, checkbox, consent }: { id: string; field: string; checkbox?: string; consent: string }) {
+export function SampleForm({ id, field, checkbox, consent, button }: { id: string; field: string; checkbox?: string; consent: string; button: string }) {
   const [done, setDone] = useState(false);
   return (
     <form className="mt-4 space-y-3 rounded-md border border-dashed border-gray-300 bg-gray-50 p-4" onSubmit={(e) => { e.preventDefault(); setDone(true); }}>
@@ -15,7 +15,7 @@ export function SampleForm({ id, field, checkbox, consent }: { id: string; field
         </label>
       )}
       <p className="text-xs text-gray-600">{consent}</p>
-      <button type="submit" className="rounded-md bg-gray-900 px-3 py-1.5 text-sm font-medium text-white">{checkbox ? "Save" : "Text my receipt"}</button>
+      <button type="submit" className="rounded-md bg-gray-900 px-3 py-1.5 text-sm font-medium text-white">{button}</button>
       {done && <p className="text-sm text-gray-700" role="status">This is a demonstration — no text was sent.</p>}
     </form>
   );

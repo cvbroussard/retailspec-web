@@ -22,7 +22,7 @@ export default function OptInPage() {
               {o.members && <span className="rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-800">Members only — shown for review</span>}
             </div>
             <p className="mt-1 text-sm text-gray-500">For: {o.who}</p>
-            <SampleForm id={o.id} field={o.field} checkbox={o.checkbox?.replace("{store}", "Golden Beetle")} consent={o.consent.replace(/\{store\}/g, "Golden Beetle")} />
+            <SampleForm id={o.id} field={o.field} button={o.button} checkbox={o.checkbox?.replace("{store}", "Golden Beetle")} consent={o.consent.replace(/\{store\}/g, "Golden Beetle")} />
           </section>
         ))}
       </div>
