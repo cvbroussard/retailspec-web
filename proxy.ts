@@ -15,6 +15,14 @@ const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
 export async function proxy(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
 
+  // eppux.com (operator 11-12): the company page for Eppux, LLC — never gated
+  const host = (request.headers.get("host") || "").toLowerCase().replace(/:\d+$/, "");
+  if (host === "eppux.com" || host === "www.eppux.com") {
+    if (pathname === "/" || pathname === "") return NextResponse.rewrite(new URL("/eppux", request.url));
+    if (pathname !== "/eppux") return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.next();
+  }
+
   // --- Pre-launch password gate ---
   const sitePassword = process.env.SITE_PASSWORD;
   if (sitePassword) {
