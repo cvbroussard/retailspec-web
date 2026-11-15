@@ -11,6 +11,7 @@ import { PLATFORM_ORIGIN } from "@/lib/public-pages";
 
 const DIR = path.join(process.cwd(), "content", "site");
 const SLUG = /^[a-z0-9-]+$/;
+const ICONS = '<link rel="icon" href="/favicon.ico" sizes="48x48">\n<link rel="icon" href="/icon.svg" type="image/svg+xml">\n<link rel="apple-touch-icon" href="/apple-touch-icon.png">\n<meta name="theme-color" content="#ffffff">\n';
 
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 const KIND: Record<string, string> = {
@@ -45,6 +46,8 @@ export async function sitePage(slug: string): Promise<string | null> {
     return null;
   }
   html = html.replaceAll("{{PLATFORM_ORIGIN}}", PLATFORM_ORIGIN);
+  // these pages are finished HTML, so Next.js doesn't add its icon tags — the brand mark goes in every head
+  if (!html.includes('rel="icon"')) html = html.replace("</head>", ICONS + "</head>");
   if (slug === "hardware") {
     const rows = await certifiedRows();
     if (rows) html = html.replace(/<!--CERT-->[\s\S]*?<!--\/CERT-->/, `<!--CERT-->${rows}<!--/CERT-->`);
