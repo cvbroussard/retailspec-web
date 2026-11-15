@@ -22,7 +22,7 @@ const KIND: Record<string, string> = {
 /** The Certified rows from the platform's catalogue; null keeps the page's own list (feed down, or nothing published yet). */
 async function certifiedRows(): Promise<string | null> {
   try {
-    const r = await fetch(`${PLATFORM_ORIGIN}/api/public/hardware`, { next: { revalidate: 3600 } });
+    const r = await fetch(`${PLATFORM_ORIGIN}/api/public/hardware`, { next: { revalidate: 3600, tags: ["hardware"] } });
     if (!r.ok) return null;
     const j = await r.json();
     const fams = (j?.families || []).filter((f: any) => f.status === "certified");
@@ -61,5 +61,7 @@ export async function siteResponse(slug: string): Promise<Response> {
     const nf = (await sitePage("index")) ? `<!doctype html><meta charset="utf-8"><title>Not found</title><p style="font:16px system-ui;padding:40px">That page isn't here. <a href="/">Go to the home page</a>.</p>` : "Not found";
     return new Response(nf, { status: 404, headers: { "content-type": "text/html; charset=utf-8" } });
   }
-  return new Response(html, { headers: { "content-type": "text/html; charset=utf-8", "cache-control": "public, s-maxage=600, stale-while-revalidate=86400" } });
+  // /hardware isn't held at the edge, so a catalogue change shows as soon as the platform asks for a refresh
+  const cache = slug === "hardware" ? "public, max-age=0, must-revalidate" : "public, s-maxage=600, stale-while-revalidate=86400";
+  return new Response(html, { headers: { "content-type": "text/html; charset=utf-8", "cache-control": cache } });
 }
