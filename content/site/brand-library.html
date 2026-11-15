@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brand Library</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: a store day told in five moments (open → rush → trouble → close → behind the counter). Each moment: timestamp, one story line, three headline powers, the rest folded. The receipt is the motif: thermal paper, perforations, mono type. */
+:root {
+  --bg: #f3f5f0;
+  --ink: #1a2118;
+  --muted: #5b6656;
+  --accent: #3f6b35;
+  --accent-soft: #e2eadc;
+  --paper: #fffef9;
+  --paper-ink: #2a2a26;
+  --card: #ffffff;
+  --rule: #d6dccf;
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --text: "Inter", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #10140f; --ink: #e6ebe2; --muted: #9ba596; --accent: #9cc48f; --accent-soft: #1e2a1b;
+  --paper: #eeeadf; --paper-ink: #24241f; --card: #171c15; --rule: #2a3226; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #10140f; --ink: #e6ebe2; --muted: #9ba596; --accent: #9cc48f; --accent-soft: #1e2a1b;
+  --paper: #eeeadf; --paper-ink: #24241f; --card: #171c15; --rule: #2a3226; color-scheme: dark }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+.top { padding-block: 18px 0; font: 500 13.5px/1 var(--text); }
+.top a { color: var(--muted); text-decoration: none; }
+.top a:hover, .top a:focus-visible { color: var(--accent); }
+body { background: var(--bg); color: var(--ink); font-family: var(--text); line-height: 1.6; }
+.wrap { max-width: 1100px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.eyebrow { font: 600 12px/1 var(--text); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+
+/* hero */
+.hero { padding-block: 48px 40px; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 48px; align-items: center; }
+.hero h1 { font: 700 clamp(34px, 5.4vw, 58px)/1.02 var(--display); letter-spacing: -.015em; margin: 14px 0 18px; text-wrap: balance; }
+.hero p { font-size: 18px; color: var(--muted); max-width: 52ch; margin: 0 0 22px; }
+.feel { display: flex; flex-wrap: wrap; gap: 8px; }
+.feel span { font: 500 13.5px/1 var(--text); padding: 9px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+
+.receipt { background: var(--paper); color: var(--paper-ink); font: 400 13.5px/1.55 var(--mono); padding: 26px 24px 30px; max-width: 340px; justify-self: center; width: 100%;
+  box-shadow: 0 22px 40px rgba(20, 30, 18, .16); transform: rotate(1.6deg); position: relative;
+  -webkit-mask: radial-gradient(circle 6px at 50% 100%, transparent 98%, #000) 0 0 / 16px 100% repeat-x;
+          mask: radial-gradient(circle 6px at 50% 100%, transparent 98%, #000) 0 0 / 16px 100% repeat-x; }
+.receipt .c { text-align: center; }
+.receipt .b { font-weight: 600; }
+.receipt hr { border: 0; border-top: 1.5px dashed currentColor; opacity: .45; margin: 10px 0; }
+.receipt .row { display: flex; justify-content: space-between; gap: 12px; }
+@media (prefers-reduced-motion: no-preference) { .receipt { animation: feed .9s ease-out both; } @keyframes feed { from { transform: translateY(-10px) rotate(1.6deg); } to { transform: rotate(1.6deg); } } }
+
+/* day rail */
+.rail { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(6px); border-block: 1px solid var(--rule); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.rail nav { display: flex; gap: 6px; overflow-x: auto; padding-block: 10px; scrollbar-width: none; }
+.rail a { flex: none; text-decoration: none; color: var(--muted); font: 500 13.5px/1 var(--text); padding: 9px 12px; border-radius: 8px; display: inline-flex; gap: 8px; align-items: baseline; }
+.rail a b { font: 600 12px/1 var(--mono); color: var(--accent); }
+.rail a:hover, .rail a:focus-visible { background: var(--accent-soft); color: var(--ink); outline: none; }
+
+/* moments */
+.moment { padding-block: 64px 8px; scroll-margin-top: 64px; }
+.stamp { font: 600 14px/1 var(--mono); color: var(--accent); display: flex; align-items: center; gap: 12px; }
+.stamp::after { content: ""; flex: 1; border-top: 1.5px dashed var(--rule); }
+.moment h2 { font: 600 clamp(26px, 3.6vw, 38px)/1.1 var(--display); margin: 16px 0 10px; text-wrap: balance; max-width: 22ch; }
+.story { font-size: 17px; color: var(--muted); max-width: 62ch; margin: 0 0 26px; }
+.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.power { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 20px 20px 22px; min-width: 0; }
+.power h3 { font: 600 18px/1.25 var(--display); margin: 0 0 8px; }
+.power p { margin: 0; font-size: 14.5px; color: var(--muted); }
+.power .k { font: 500 11.5px/1 var(--mono); color: var(--accent); letter-spacing: .04em; margin-bottom: 12px; display: block; }
+details { margin-top: 14px; border-top: 1px dashed var(--rule); }
+summary { cursor: pointer; list-style: none; padding: 14px 0; font: 600 14px/1 var(--text); color: var(--accent); display: inline-flex; gap: 8px; align-items: center; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; font: 600 16px/1 var(--mono); width: 16px; }
+details[open] summary::before { content: "−"; }
+summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+.more { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 4px 28px; padding-bottom: 8px; }
+.more div { padding: 8px 0; border-bottom: 1px solid var(--rule); font-size: 14px; color: var(--muted); min-width: 0; }
+.more b { color: var(--ink); font-weight: 600; }
+
+/* close */
+.end { margin-block: 80px 64px; background: var(--card); border: 1px solid var(--rule); border-radius: 16px; padding: 36px clamp(20px, 4vw, 44px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; }
+.end h2 { font: 700 clamp(26px, 3.6vw, 36px)/1.1 var(--display); margin: 10px 0 12px; text-wrap: balance; }
+.end ul { margin: 0; padding: 0; list-style: none; font-size: 15px; }
+.end li { padding: 9px 0; border-bottom: 1px dashed var(--rule); display: flex; gap: 12px; }
+.end li b { font: 600 12.5px/1.6 var(--mono); color: var(--accent); flex: none; width: 48px; }
+.cta { display: inline-block; margin-top: 8px; background: var(--accent); color: var(--bg); text-decoration: none; font: 600 15px/1 var(--text); padding: 14px 20px; border-radius: 10px; }
+.cta:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.next { display: block; margin-top: 18px; color: var(--muted); font-size: 14px; }
+
+@media (max-width: 820px) {
+  .hero { grid-template-columns: 1fr; gap: 32px; }
+  .trio { grid-template-columns: 1fr; }
+  .end { grid-template-columns: 1fr; }
+}
+</style>
+<link rel="stylesheet" href="/site.css">
+</head>
+<body>
+<script>document.documentElement.dataset.page="brand-library"</script><header class="site-h"><div class="site-in"><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><rect x="0" y="0" width="28" height="28" rx="4" fill="#111827"/><rect x="36" y="0" width="28" height="28" rx="4" fill="#82AB78"/><rect x="0" y="36" width="28" height="28" rx="4" fill="#82AB78" opacity="0.6"/><rect x="36" y="36" width="28" height="28" rx="4" fill="#111827"/></svg>RetailSpec</a><nav class="site-nav" aria-label="Main"><details class="mega"><summary>Platform</summary><div class="mega-p"><div><h4>Sell</h4><a href="/catalogue">Catalogue power<span>Brands land ready to sell</span></a><a href="/online-store">Selling everywhere<span>Storefronts in any currency</span></a><a href="/counter">Counter power<span>Registers that never stop</span></a></div><div><h4>Operate</h4><a href="/stock">Stock and buying<span>One warehouse, every store</span></a><a href="/orders">Orders and fulfilment<span>Every order leaves right</span></a><a href="/shipping">Shipping<span>Labels, rates, customs</span></a></div><div><h4>Grow</h4><a href="/customers">Knowing your shoppers<span>One customer, everywhere</span></a><a href="/insight">Insight<span>The week before coffee</span></a></div><div><h4>Run</h4><a href="/money">Money and books<span>Month close, done</span></a><a href="/overnight">While you sleep<span>What runs on its own</span></a><a href="/trust">Control and trust<span>Who changed what</span></a></div><div class="mega-side"><a class="mega-card" href="/one-platform"><b>One platform</b><span>Every store, website and brand on one code base that makes every call.</span></a><a class="mega-card" href="/sam"><b>Sam, the AI copilot</b><span>Drafts the next step from your own numbers. You make the call.</span></a></div><a class="all" href="/platform">See all twelve →</a></div></details><details class="mega"><summary>Solutions</summary><div class="mega-p cards"><a href="/multi-store"><b>Multi-store retail</b><span>Every store runs like your best one.</span></a><a href="/retail-and-trade"><b>Retail and trade</b><span>Shoppers and trade accounts, one system.</span></a><a href="/cross-border"><b>Selling across borders</b><span>A second country, not a second system.</span></a><a href="/stores-web-warehouse"><b>Stores, web and warehouse</b><span>Everyone counting the same stock.</span></a></div></details><a class="nav-flag" href="/brand-library" aria-current=page>Brand Library</a><details class="mega"><summary>Why switch</summary><div class="mega-p cards"><a href="/vs-shopify-plus"><b>Moving from Shopify Plus</b><span>What changes, what you gain, and how the move works.</span></a><a href="/vs-lightspeed"><b>Moving from Lightspeed</b><span>One platform for every store and website, side by side.</span></a><a href="/moving-in"><b>How moving in works</b><span>Our team moves you store by store. Every import can be undone.</span></a><a href="/one-platform"><b>One code base</b><span>Every tool built in. No apps bolted on, one bill, one login.</span></a><a href="/halcourt"><b>Meet Halcourt</b><span>One shop that grew into a retail group. Picture your own next stage.</span></a><a href="/compare"><b>All comparisons</b><span>Every comparison in one place, dated and sourced.</span></a><a href="/app-cost"><b>What your apps cost</b><span>Add up the subscriptions you pay for today.</span></a></div></details><a href="/hardware">Hardware</a></nav><a class="site-login" href="{{PLATFORM_ORIGIN}}/login">Log in</a><a class="site-cta" href="/demo">Book a demo</a></div></header>
+<style>
+/* Brand Library page: a showroom for the flagship. Product anatomy, before/after, variant matrix, search preview. */
+.bl-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin: 8px 0 0; }
+.bl-stat { background: #fff; border: 1px solid var(--warm-2, #ebe6dc); border-radius: 14px; padding: 22px; }
+.bl-stat b { display: block; font: 300 clamp(34px, 4.2vw, 52px)/1 var(--display); letter-spacing: -.03em; color: var(--ink); }
+.bl-stat span { display: block; margin-top: 10px; font-size: 14px; color: var(--muted); }
+.bl-stat .todo { color: #9a6b1f; font-size: 12px; margin-top: 6px; }
+.bl-sec { padding-block: clamp(64px, 8vw, 112px); }
+.bl-sec h2 { font-weight: 380; font-size: clamp(28px, 3.6vw, 46px); line-height: 1.08; letter-spacing: -.025em; margin: 10px 0 12px; max-width: 22ch; text-wrap: balance; }
+.bl-sec > p.lede { max-width: 62ch; color: var(--muted); font-size: 18px; margin: 0 0 32px; }
+.bl-warm { background: var(--warm, #f4f1eb); box-shadow: 0 0 0 100vmax var(--warm, #f4f1eb); clip-path: inset(0 -100vmax); }
+.eyebrow-s { font: 600 12px/1 var(--text); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+
+/* anatomy: a product card with numbered callouts */
+.anat { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 40px; align-items: start; }
+.pcard { background: #fff; border: 1px solid var(--warm-2, #ebe6dc); border-radius: 18px; padding: 18px; }
+.gal-main { aspect-ratio: 1; border-radius: 12px; overflow: hidden; background: var(--warm); position: relative; }
+.gal-thumbs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 8px; }
+.gal-thumbs > * { aspect-ratio: 1; border-radius: 8px; overflow: hidden; background: var(--warm); }
+.pinfo { padding: 16px 4px 4px; }
+.pinfo .brand { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.pinfo h3 { margin: 6px 0 4px; font-weight: 450; font-size: 22px; letter-spacing: -.01em; }
+.pinfo .price { font-size: 17px; }
+.swatches { display: flex; gap: 8px; margin: 12px 0; }
+.swatches i { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px var(--warm-2); display: inline-block; }
+.sizes { display: flex; gap: 8px; }
+.sizes span { border: 1px solid var(--warm-2); border-radius: 8px; padding: 6px 12px; font-size: 13px; }
+.pinfo .short { color: var(--muted); font-size: 14.5px; margin-top: 12px; }
+.pin { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--ink); color: #fff; font: 600 12px/1 var(--text); flex: none; }
+.pcard .pin { position: absolute; }
+.callouts { display: grid; gap: 18px; }
+.callouts div { display: flex; gap: 14px; }
+.callouts h4 { margin: 0 0 4px; font-weight: 550; font-size: 16px; }
+.callouts p { margin: 0; color: var(--muted); font-size: 14.5px; }
+
+/* before / after */
+.ba { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 20px; align-items: stretch; }
+.ba > div { border-radius: 16px; padding: 22px; }
+.ba .before { background: #f1f1ef; color: #4b4f47; }
+.ba .after { background: #fff; border: 1px solid var(--warm-2); }
+.ba h3 { margin: 0 0 14px; font-weight: 500; font-size: 17px; }
+.sheet { width: 100%; border-collapse: collapse; font-size: 12.5px; background: #fff; border: 1px solid #ddd; }
+.sheet th, .sheet td { border: 1px solid #e2e2e0; padding: 6px 8px; text-align: left; white-space: nowrap; }
+.sheet th { background: #f7f7f5; font-weight: 600; }
+.lowres { margin-top: 14px; width: 92px; height: 92px; border-radius: 6px; background: repeating-linear-gradient(45deg, #ddd 0 6px, #e8e8e8 6px 12px); display: grid; place-items: center; font-size: 11px; color: #777; text-align: center; }
+.ba ul { margin: 0; padding-left: 18px; font-size: 14.5px; }
+.ba li + li { margin-top: 6px; }
+.ba .after-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 14px; }
+.ba .after-grid > * { aspect-ratio: 1; border-radius: 8px; overflow: hidden; background: var(--warm); }
+
+/* variant matrix */
+.matrix { width: 100%; border-collapse: separate; border-spacing: 10px; }
+.matrix th { font-weight: 500; font-size: 14px; color: var(--muted); text-align: left; }
+.matrix td { background: #fff; border: 1px solid var(--warm-2); border-radius: 14px; padding: 10px; vertical-align: top; width: 30%; }
+.matrix td .img { aspect-ratio: 1; border-radius: 10px; overflow: hidden; background: var(--warm); margin-bottom: 8px; }
+.matrix td small { display: block; font-size: 12px; color: var(--muted); line-height: 1.5; }
+.mx-wrap { overflow-x: auto; }
+
+/* search preview */
+.serp { background: #fff; border: 1px solid var(--warm-2); border-radius: 16px; padding: 22px; font-family: Arial, Helvetica, sans-serif; max-width: 640px; }
+.serp .site { font-size: 13px; color: #202124; }
+.serp .url { font-size: 12px; color: #4d5156; }
+.serp .t { color: #1a0dab; font-size: 20px; margin: 4px 0; }
+.serp .d { color: #4d5156; font-size: 14px; line-height: 1.55; }
+.alt { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 16px; align-items: center; margin-top: 18px; }
+.alt > div:first-child { aspect-ratio: 1; border-radius: 10px; overflow: hidden; background: var(--warm); }
+.alt code { display: block; background: #f4f4f2; border-radius: 8px; padding: 10px 12px; font: 13px/1.5 ui-monospace, monospace; color: #3b3f37; white-space: normal; }
+.seo-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+
+/* stays current */
+.flow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.flow div { background: #fff; border: 1px solid var(--warm-2); border-radius: 14px; padding: 18px; }
+.flow b { display: block; font-weight: 550; margin-bottom: 6px; }
+.flow p { margin: 0; font-size: 14px; color: var(--muted); }
+
+.ph.small { min-height: 0; padding: 10px; border-radius: inherit; }
+.ph.small .ph-prompt { display: none; }
+@media (max-width: 860px) {
+  .bl-stats, .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .anat, .ba, .seo-grid { grid-template-columns: 1fr; }
+}
+
+/* taxonomy: flattened options vs structured spine */
+.tax { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: stretch; }
+.tax > div { border-radius: 16px; padding: 22px; min-width: 0; }
+.tax .flat { background: #f1f1ef; }
+.tax .spine { background: #fff; border: 1px solid var(--warm-2); }
+.tax h3 { margin: 0 0 4px; font-weight: 500; font-size: 17px; }
+.tax .sub { margin: 0 0 16px; font-size: 13.5px; color: var(--muted); }
+.opt { width: 100%; border-collapse: collapse; font-size: 13px; background: #fff; }
+.opt th, .opt td { border: 1px solid #e2e2e0; padding: 7px 9px; text-align: left; }
+.opt th { background: #f7f7f5; font-weight: 600; }
+.opt td.bad { color: #9a3b1f; }
+.result { margin-top: 16px; font-size: 13px; }
+.result b { display: block; margin-bottom: 6px; font-weight: 600; }
+.chipline { display: flex; flex-wrap: wrap; gap: 6px; }
+.chipline span { border-radius: 999px; padding: 5px 10px; font-size: 12.5px; background: #fff; border: 1px solid #ddd; }
+.chipline.ok span { background: var(--accent-soft, #eef3ec); border-color: transparent; color: var(--ink); }
+.tree { list-style: none; margin: 0; padding: 0; font-size: 14px; }
+.tree li { position: relative; padding: 6px 0 6px 18px; }
+.tree ul { list-style: none; margin: 0; padding-left: 18px; border-left: 1.5px solid var(--warm-2); }
+.tree .lvl { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-left: 8px; }
+.tree .key { font-weight: 600; }
+.tree .vals { display: inline-flex; flex-wrap: wrap; gap: 6px; margin-left: 6px; vertical-align: middle; }
+.tree .vals span { border-radius: 999px; padding: 3px 9px; font-size: 12.5px; background: var(--accent-soft, #eef3ec); }
+.powers { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 28px; }
+.powers div { background: #fff; border: 1px solid var(--warm-2); border-radius: 14px; padding: 16px; font-size: 14px; color: var(--muted); }
+.powers b { display: block; color: var(--ink); font-weight: 550; margin-bottom: 4px; }
+.story { margin-top: 28px; background: var(--warm); border-radius: 14px; padding: 20px 22px; font-size: 15px; max-width: 760px; }
+.src { margin-top: 18px; font-size: 12.5px; color: var(--muted); }
+.src a { color: var(--muted); }
+@media (max-width: 860px) { .tax { grid-template-columns: 1fr; } .powers { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* investment watch: PO badge + receiving card */
+.inv { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.inv-cards { display: grid; gap: 14px; }
+.ui { background: #fff; border: 1px solid var(--warm-2); border-radius: 14px; padding: 16px 18px; font-size: 14px; }
+.ui .row { display: flex; justify-content: space-between; gap: 12px; }
+.ui .muted { color: var(--muted); font-size: 12.5px; }
+.badge { display: inline-flex; gap: 6px; align-items: center; margin-top: 10px; background: #fbf3e4; color: #7a5420; border-radius: 999px; padding: 6px 11px; font-size: 12.5px; }
+.badge.ok { background: var(--accent-soft, #eef3ec); color: #2d5a2a; }
+.inv ul { margin: 0; padding-left: 18px; }
+.inv li + li { margin-top: 10px; }
+.note { margin-top: 18px; font-size: 13.5px; color: var(--muted); }
+@media (max-width: 860px) { .inv { grid-template-columns: 1fr; } }
+</style>
+
+<header class="wrap hero">
+  <div>
+    <div class="eyebrow">Brand Library · RetailSpec's flagship</div>
+    <h1>Subscribe to a brand. Its whole catalogue arrives ready to sell.</h1>
+    <p class="lede">Every product comes finished: studio and lifestyle photography, every colour and size with its own picture and barcode, descriptions written for search, alt text on every image, in every language your stores sell in. It stays current as the brand changes, and your own edits always stay yours.</p>
+    <div class="feel"><span>Photographed</span><span>Every variant</span><span>Written for search</span><span>Always current</span></div>
+    <p style="margin-top:22px"><a class="cta" href="/demo">See it with your brands</a></p>
+  </div>
+  <figure class="ph small" data-ratio="4:5" title="Setting: Halcourt&#x27;s Charleston flagship, a bright contemporary store in an upscale shopping centre: light oak wall shelving, warm cream walls, pale terrazzo floor, clean recessed lighting. Camera: 35mm lens at f/2.8. On a large monitor at a bright back-office desk, a softly blurred product page with a big photo gallery of stoneware pitchers in sage, terracotta and cream; beside the monitor, the real pitchers in the same three glazes stand on the desk. a Black man in his thirties with close-cropped hair, thin round wire-rim glasses and an olive overshirt leans in, pleased, comparing them. Keep the scene simple and natural: one clear moment, nothing staged or crowded. Bright, airy, high-key commercial lifestyle photography for a premium retail brand, crisp and clean: even soft light, true colours, no film grain, no vignette, no film border, full-bleed. Art-directed colour: the set in a tasteful palette (for example sage, terracotta, burgundy, mustard, cream), never clashing; merchandise loosely grouped by colour and naturally merchandised as in a real store, with variety and some depth, never rigid identical rows; people wear varied, natural everyday clothing (denim, knits, coats, patterns) in harmonious colours, never matching sets or uniform-like outfits; but every shipping carton, storage box and pallet load is a standard plain brown corrugated kraft box, never coloured. People look natural and real: true-to-life skin, believable hands and proportions, diverse and individually distinct; calm and focused when working alone, gentle genuine smiles when interacting with another person; never posing or looking at the camera, never worried. Staff may wear a small blank name badge. No legible text, no logos; any labels blank or out of focus. Photographed in a real working store, not a 3D render: where it fits, one or two shoppers softly out of focus in the background, merchandise slightly imperfect, a few natural signs of activity. People, when present, fill at least a third of the frame; crop close; no large empty foreground surfaces. Keep natural skin texture. All registers, card readers, tablets, phones and devices are plain and unbranded, with no logos, marks or brand shapes. Aspect ratio 4:5."><span class="ph-tag">AI image · bl-hero</span></figure>
+</header>
+
+<main class="wrap">
+  <section class="bl-sec">
+    <div class="eyebrow-s">The numbers</div>
+    <h2>A catalogue you could never build by hand.</h2>
+    <div class="bl-stats">
+      <div class="bl-stat"><b>[n]</b><span>brands in the Library</span><div class="todo">to confirm from the Library</div></div>
+      <div class="bl-stat"><b>[n]</b><span>products ready to sell</span><div class="todo">to confirm from the Library</div></div>
+      <div class="bl-stat"><b>[n]</b><span>photos per product, on average</span><div class="todo">to confirm from the Library</div></div>
+      <div class="bl-stat"><b>[n]%</b><span>of images with alt text</span><div class="todo">to confirm from the Library</div></div>
+    </div>
+  </section>
+
+  <section class="bl-sec bl-warm">
+    <div class="eyebrow-s">Look closer</div>
+    <h2>What arrives with every product.</h2>
+    <p class="lede">One product from a Brand Library subscription, exactly as it lands in your catalogue. Nothing here was typed by your team.</p>
+    <div class="anat">
+      <div class="pcard">
+        <div class="gal-main"><figure class="ph small" data-ratio="1:1" title="A handmade stoneware pitcher with a soft sage-green satin glaze, straight-on front view, centred. Premium e-commerce product photography for a home-goods brand called Hollis &amp; Pine (do not show the name): seamless warm off-white studio sweep, soft diffused studio light, true-to-life colour and glaze texture, crisp detail, gentle natural shadow, no props unless stated, no text, no logos, no labels. Aspect ratio 1:1."><span class="ph-tag">AI image · bl-studio-front</span></figure><span class="pin" style="top:12px;left:12px">1</span></div>
+        <div class="gal-thumbs"><figure class="ph small" data-ratio="1:1" title="The same handmade stoneware pitcher with a soft sage-green satin glaze, three-quarter angle showing the handle and spout. Premium e-commerce product photography for a home-goods brand called Hollis &amp; Pine (do not show the name): seamless warm off-white studio sweep, soft diffused studio light, true-to-life colour and glaze texture, crisp detail, gentle natural shadow, no props unless stated, no text, no logos, no labels. Aspect ratio 1:1."><span class="ph-tag">AI image · bl-studio-angle</span></figure><figure class="ph small" data-ratio="1:1" title="Extreme close-up macro detail of a sage-green satin glaze on handmade stoneware, showing speckles, the thrown ridges and the unglazed foot ring. Premium e-commerce product photography for a home-goods brand called Hollis &amp; Pine (do not show the name): seamless warm off-white studio sweep, soft diffused studio light, true-to-life colour and glaze texture, crisp detail, gentle natural shadow, no props unless stated, no text, no logos, no labels. Aspect ratio 1:1."><span class="ph-tag">AI image · bl-detail</span></figure><figure class="ph small" data-ratio="1:1" title="Lifestyle product photo: the sage-green stoneware pitcher holding a few stems of olive branches on a light oak dining table, morning light, linen napkin and two stoneware cups nearby. Bright, airy, true colour, no text, no logos. Aspect ratio 1:1."><span class="ph-tag">AI image · bl-lifestyle</span></figure><figure class="ph small" data-ratio="1:1" title="The identical handmade stoneware pitcher in a warm terracotta satin glaze, same three-quarter angle and lighting. Premium e-commerce product photography for a home-goods brand called Hollis &amp; Pine (do not show the name): seamless warm off-white studio sweep, soft diffused studio light, true-to-life colour and glaze texture, crisp detail, gentle natural shadow, no props unless stated, no text, no logos, no labels. Aspect ratio 1:1."><span class="ph-tag">AI image · bl-variant-terracotta</span></figure></div>
+        <div class="pinfo">
+          <div class="brand">Hollis &amp; Pine</div>
+          <h3>Stoneware Pitcher, 1.5 qt</h3>
+          <div class="price">$68.00</div>
+          <div class="swatches" aria-label="Glazes"><i style="background:#9fb39a"></i><i style="background:#c56a45"></i><i style="background:#ece4d3"></i> <span class="pin" style="position:static">2</span></div>
+          <div class="sizes"><span>1 qt</span><span>1.5 qt</span></div>
+          <p class="short">Thrown by hand and finished in a soft satin glaze, this pitcher pours cleanly and holds a generous 1.5 quarts. Dishwasher safe. <span class="pin" style="position:static;vertical-align:middle">3</span></p>
+        </div>
+      </div>
+      <div class="callouts">
+        <div><span class="pin">1</span><div><h4>A real gallery</h4><p>Studio views from every angle, close-up detail of the glaze, and lifestyle shots in a home. High resolution, zoomable, consistent across the whole brand.</p></div></div>
+        <div><span class="pin">2</span><div><h4>Every variant, fully dressed</h4><p>Each glaze and size is its own variant, with its own photo, SKU and barcode, so shoppers see exactly what they're buying and your stores scan it at the counter.</p></div></div>
+        <div><span class="pin">3</span><div><h4>Copy written for people and search</h4><p>A short description built to win the search result, a full description, specifications, dimensions and care, all in the brand's facts and your store's tone.</p></div></div>
+        <div><span class="pin">4</span><div><h4>Alt text on every image</h4><p>Every photo carries a plain description, so search engines and screen readers know what's in it. It's the work most catalogues never get around to.</p></div></div>
+        <div><span class="pin">5</span><div><h4>Ready in your languages</h4><p>Product text arrives translated for every storefront language you sell in, from English to Spanish and beyond.</p></div></div>
+        <div><span class="pin">6</span><div><h4>Already in the right place</h4><p>Categories, attributes and collections are set, so the product shows up in the right aisle online and at the register.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bl-sec">
+    <div class="eyebrow-s">The difference</div>
+    <h2>The same product, two ways.</h2>
+    <p class="lede">Most retailers build their catalogue from a supplier spreadsheet and a single photo. Here is what that looks like next to the Brand Library.</p>
+    <div class="ba">
+      <div class="before">
+        <h3>What a supplier usually sends</h3>
+        <div style="overflow-x:auto"><table class="sheet"><tr><th>SKU</th><th>DESC</th><th>COST</th><th>MSRP</th></tr><tr><td>HP-PTR-15-SG</td><td>PITCHER STWR SAGE 1.5QT</td><td>27.20</td><td>68.00</td></tr></table></div>
+        <div class="lowres">one photo,<br>800 px</div>
+        <ul style="margin-top:14px"><li>No description, no alt text</li><li>Colours as cryptic codes</li><li>Your team photographs, writes and keys it all</li></ul>
+      </div>
+      <div class="after">
+        <h3>What arrives from the Brand Library</h3>
+        <div class="after-grid"><figure class="ph small" data-ratio="1:1" title="A handmade stoneware pitcher with a soft sage-green satin glaze, straight-on front view, centred. Premium e-commerce product photography for a home-goods brand called Hollis &amp; Pine (do not show the name): seamless warm off-white studio sweep, soft diffused studio light, true-to-life colour and glaze texture, crisp detail, gentle natural shadow, no props unless stated, no text, no logos, no labels. Aspect ratio 1:1."><span class="ph-tag">AI image · bl-studio-front</span></figure><figure class="ph small" data-ratio="1:1" title="The same handmade stoneware pitcher with a soft sage-green satin glaze, three-quarter angle showing the handle and spout. Premium e-commerce product photography for a home-goods brand called Hollis &amp; Pine (do not show the name): seamless warm off-white studio sweep, soft diffused studio light, true-to-life colour and glaze texture, crisp detail, gentle natural shadow, no props unless stated, no text, no logos, no labels. Aspect ratio 1:1."><span class="ph-tag">AI image · bl-studio-angle</span></figure><figure class="ph small" data-ratio="1:1" title="Extreme close-up macro detail of a sage-green satin glaze on handmade stoneware, showing speckles, the thrown ridges and the unglazed foot ring. Premium e-commerce product photography for a home-goods brand called Hollis &amp; Pine (do not show the name): seamless warm off-white studio sweep, soft diffused studio light, true-to-life colour and glaze texture, crisp detail, gentle natural shadow, no props unless stated, no text, no logos, no labels. Aspect ratio 1:1."><span class="ph-tag">AI image · bl-detail</span></figure><figure class="ph small" data-ratio="1:1" title="Lifestyle product photo: the sage-green stoneware pitcher holding a few stems of olive branches on a light oak dining table, morning light, linen napkin and two stoneware cups nearby. Bright, airy, true colour, no text, no logos. Aspect ratio 1:1."><span class="ph-tag">AI image · bl-lifestyle</span></figure></div>
+        <ul><li>A full gallery, zoomable, consistent across the brand</li><li>Every glaze and size as its own variant, each with photo, SKU and barcode</li><li>Short and long descriptions, specifications and care, written for search</li><li>Alt text on every image, translations for every storefront</li><li>Updates flow in as the brand changes</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="bl-sec bl-warm">
+    <div class="eyebrow-s">Variant depth</div>
+    <h2>Every colour. Every size. Every one photographed.</h2>
+    <p class="lede">A shopper choosing terracotta sees terracotta. Your register scans the exact item. Your stock counts every variant on its own.</p>
+    <div class="mx-wrap"><table class="matrix">
+      <tr><th></th><th>Sage</th><th>Terracotta</th><th>Cream</th></tr>
+      <tr><th>1.5 qt</th>
+        <td><div class="img"><figure class="ph small" data-ratio="1:1" title="The handmade stoneware pitcher in a soft sage-green satin glaze, three-quarter angle. Premium e-commerce product photography for a home-goods brand called Hollis &amp; Pine (do not show the name): seamless warm off-white studio sweep, soft diffused studio light, true-to-life colour and glaze texture, crisp detail, gentle natural shadow, no props unless stated, no text, no logos, no labels. Aspect ratio 1:1."><span class="ph-tag">AI image · bl-variant-sage</span></figure></div><small>HP-PTR-15-SG<br>GTIN 0 84512 33017 2</small></td>
+        <td><div class="img"><figure class="ph small" data-ratio="1:1" title="The identical handmade stoneware pitcher in a warm terracotta satin glaze, same three-quarter angle and lighting. Premium e-commerce product photography for a home-goods brand called Hollis &amp; Pine (do not show the name): seamless warm off-white studio sweep, soft diffused studio light, true-to-life colour and glaze texture, crisp detail, gentle natural shadow, no props unless stated, no text, no logos, no labels. Aspect ratio 1:1."><span class="ph-tag">AI image · bl-variant-terracotta</span></figure></div><small>HP-PTR-15-TC<br>GTIN 0 84512 33018 9</small></td>
+        <td><div class="img"><figure class="ph small" data-ratio="1:1" title="The identical handmade stoneware pitcher in a creamy off-white satin glaze, same three-quarter angle and lighting. Premium e-commerce product photography for a home-goods brand called Hollis &amp; Pine (do not show the name): seamless warm off-white studio sweep, soft diffused studio light, true-to-life colour and glaze texture, crisp detail, gentle natural shadow, no props unless stated, no text, no logos, no labels. Aspect ratio 1:1."><span class="ph-tag">AI image · bl-variant-cream</span></figure></div><small>HP-PTR-15-CR<br>GTIN 0 84512 33019 6</small></td></tr>
+    </table></div>
+    <p style="color:var(--muted);font-size:13px;margin-top:10px">Illustration: Hollis &amp; Pine is an example brand; codes are examples.</p>
+  </section>
+
+  <section class="bl-sec">
+    <div class="eyebrow-s">Structured all the way down</div>
+    <h2>Attributes that agree with each other, across every brand.</h2>
+    <p class="lede">If you've run a catalogue on a platform where options are typed product by product, you know the result: Color on one product, Colour on the next, and four ways to spell the same sage. Filters split, reports don't add up. Brand Library products arrive inside one taxonomy, from the category down to the last value.</p>
+    <div class="tax">
+      <div class="flat">
+        <h3>Options typed product by product</h3>
+        <p class="sub">The same colour, entered four times by four people</p>
+        <div style="overflow-x:auto"><table class="opt">
+          <tr><th>Product</th><th>Option name</th><th>Option value</th></tr>
+          <tr><td>Pitcher</td><td>Color</td><td>sage</td></tr>
+          <tr><td>Vase</td><td class="bad">Colour</td><td class="bad">Sage Green</td></tr>
+          <tr><td>Mug</td><td class="bad">color:</td><td class="bad">SAGE</td></tr>
+          <tr><td>Bowl</td><td class="bad">Glaze</td><td class="bad">Sg</td></tr>
+        </table></div>
+        <div class="result"><b>What the shopper's filter shows</b>
+          <div class="chipline"><span>Color: sage (1)</span><span>Colour: Sage Green (1)</span><span>color: SAGE (1)</span><span>Glaze: Sg (1)</span></div></div>
+      </div>
+      <div class="spine">
+        <h3>The Brand Library taxonomy</h3>
+        <p class="sub">Every value knows its key; every key knows its vertical</p>
+        <ul class="tree">
+          <li>Home &amp; Kitchen <span class="lvl">vertical</span>
+            <ul><li>Serveware › Pitchers <span class="lvl">category</span>
+              <ul>
+                <li><span class="key">Glaze</span> <span class="lvl">key</span><span class="vals"><span>Sage</span><span>Terracotta</span><span>Cream</span></span></li>
+                <li><span class="key">Capacity</span> <span class="lvl">key</span><span class="vals"><span>1 qt</span><span>1.5 qt</span></span></li>
+                <li><span class="key">Material</span> <span class="lvl">key</span><span class="vals"><span>Stoneware</span></span></li>
+              </ul></li></ul></li>
+        </ul>
+        <div class="result"><b>What the shopper's filter shows</b>
+          <div class="chipline ok"><span>Glaze: Sage (4)</span><span>Terracotta (3)</span><span>Cream (5)</span></div></div>
+      </div>
+    </div>
+    <div class="story"><b>Whatever the brand sends, it lands in the right place.</b> One brand filed care instructions, painting techniques, materials and countries of origin all under a single "Care" tag, more than 17,000 values across 2,700 products. The Library's term dictionary read each term and moved it to where it belongs: Dishwasher safe to Care, Hand-painted to Technique, Portugal to Origin.</div>
+    <div class="powers">
+      <div><b>Filters that work</b>One Glaze filter across every brand you carry, not four.</div>
+      <div><b>Search that understands</b>Shoppers searching "sage pitcher" find every sage pitcher.</div>
+      <div><b>A register that browses</b>SpecPick technology walks staff down the same aisles shoppers see online.</div>
+      <div><b>Reports by attribute</b>See what sells by glaze, capacity or material, across every store.</div>
+    </div>
+    <p class="src">On Shopify, each product can have up to three options, and option names and values are entered per product; Shopify's own filter guidance asks merchants to "verify that your product option names match exactly across products." Shopify's Standard Product Taxonomy (2024) offers category attributes that merchants can link to options, product by product. As of November 2026. Sources: <a href="https://help.shopify.com/en/manual/products/variants/add-variants">Shopify Help Center, variants</a> · <a href="https://help.shopify.com/en/manual/online-store/search-and-discovery/filters">Shopify Help Center, filters</a> · <a href="https://help.shopify.com/en/manual/products/details/product-category">Shopify Help Center, product category</a>.</p>
+  </section>
+
+  <section class="bl-sec">
+    <div class="eyebrow-s">Found on search</div>
+    <h2>Written to be found.</h2>
+    <p class="lede">Library copy is shaped for the search result before a shopper ever clicks: a clear title, a short description that answers what they searched for, and alt text that lets image search understand every photo.</p>
+    <div class="seo-grid">
+      <div class="serp">
+        <div class="site">Magnigift</div><div class="url">magnigift.com › kitchen › pitchers</div>
+        <div class="t">Hollis &amp; Pine Stoneware Pitcher, 1.5 qt, Sage</div>
+        <div class="d">Thrown by hand and finished in a soft satin glaze, this stoneware pitcher pours cleanly and holds 1.5 quarts. Dishwasher safe. In stock in Charleston and online.</div>
+      </div>
+      <div>
+        <div class="alt"><div><figure class="ph small" data-ratio="1:1" title="Lifestyle product photo: the sage-green stoneware pitcher holding a few stems of olive branches on a light oak dining table, morning light, linen napkin and two stoneware cups nearby. Bright, airy, true colour, no text, no logos. Aspect ratio 1:1."><span class="ph-tag">AI image · bl-lifestyle</span></figure></div><div><span style="font-size:13px;color:var(--muted)">The image's alt text</span><code>Sage-green stoneware pitcher holding olive branches on a light oak dining table, with two stoneware cups and a linen napkin</code></div></div>
+        <div class="alt"><div><figure class="ph small" data-ratio="1:1" title="Extreme close-up macro detail of a sage-green satin glaze on handmade stoneware, showing speckles, the thrown ridges and the unglazed foot ring. Premium e-commerce product photography for a home-goods brand called Hollis &amp; Pine (do not show the name): seamless warm off-white studio sweep, soft diffused studio light, true-to-life colour and glaze texture, crisp detail, gentle natural shadow, no props unless stated, no text, no logos, no labels. Aspect ratio 1:1."><span class="ph-tag">AI image · bl-detail</span></figure></div><div><span style="font-size:13px;color:var(--muted)">The image's alt text</span><code>Close-up of a speckled sage satin glaze on hand-thrown stoneware, showing throwing ridges and the unglazed foot</code></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bl-sec">
+    <div class="eyebrow-s">A safeguard on every order</div>
+    <h2>The right information at the moment you buy.</h2>
+    <p class="lede">Every purchase order is an investment in a brand. The Library follows each brand's own pricing in real time, so what you need to know is already in front of you when you reorder, when you build a purchase order and when stock arrives. It's a safeguard built into the way you buy.</p>
+    <div class="inv">
+      <div class="inv-cards">
+        <div class="ui"><div class="row"><b>Reorder · Stoneware Pitcher, Sage</b><span>24 units</span></div><div class="muted">Hollis &amp; Pine · wholesale $27.20</div>
+          <span class="badge">● Brand promotion in progress: 30% off since Nov 2 · usually runs Nov to Dec</span></div>
+        <div class="ui"><div class="row"><b>Received · PO 4821</b><span>24 of 24</span></div><div class="muted">Arrived while the brand's promotion is running</div>
+          <span class="badge ok">✓ Price protection lined up · dated record kept · 21-day window tracked</span></div>
+      </div>
+      <ul>
+        <li><b>Real-time awareness.</b> Each brand's current pricing and usual promotion seasons, alongside the products you carry.</li>
+        <li><b>Informed at the moment of decision.</b> Reorder lists and purchase orders note when a brand promotion is running on the items you're about to buy, so every order is placed with the full picture.</li>
+        <li><b>Protected on arrival.</b> When stock lands while a promotion is running, the price protection your vendor agreement offers is lined up for you: a dated record kept, the window tracked, the request ready.</li>
+        <li><b>A clearer buying conversation.</b> Promotion timing beside lead time and fill rate, brand by brand, so planning with each brand is easier.</li>
+        <li><b>Your prices stay yours.</b> Nothing reprices on its own. You decide whether to follow.</li>
+      </ul>
+    </div>
+    <p class="note">Included with every Brand Library subscription. Products you add to your catalogue yourself aren't tracked.</p>
+  </section>
+
+  <section class="bl-sec bl-warm">
+    <div class="eyebrow-s">Always current</div>
+    <h2>When the brand changes, your catalogue does too.</h2>
+    <div class="flow">
+      <div><b>New colours and products</b><p>A brand launches a new glaze. It arrives in your catalogue, photographed and described, ready to add to your range.</p></div>
+      <div><b>Price changes</b><p>A brand updates its retail price. You see it, and you decide whether to follow.</p></div>
+      <div><b>Discontinued items</b><p>Flagged for you, never pulled from under you, so you can sell through what you have.</p></div>
+      <div><b>Your edits stay yours</b><p>Rewrite a description, swap the hero photo, hide an item. Library updates never overwrite your changes.</p></div>
+    </div>
+  </section>
+
+  <section class="end" id="demo">
+    <div>
+      <div class="eyebrow">Brand Library</div>
+      <h2>Bring us your brand list. We'll show you what arrives.</h2>
+      <p style="margin:0 0 18px">In a demo we open the brands you already carry and show you their products in RetailSpec, finished.</p>
+      <a class="cta" href="/demo">Book a demo</a>
+      <a class="next" href="/catalogue">See everything in Catalogue power →</a>
+    </div>
+    <ul aria-label="What you get">
+      <li><b>Photos</b><span>Studio, detail and lifestyle, for every product</span></li>
+      <li><b>Variants</b><span>Each colour and size with its own photo and barcode</span></li>
+      <li><b>Search</b><span>Short descriptions and alt text written to be found</span></li>
+      <li><b>Current</b><span>Updates flow in; your edits stay yours</span></li>
+    </ul>
+  </section>
+</main>
+
+<section class="pre-f" aria-label="Keep exploring"><div class="pin"><div class="pre-l"><h2>Not convinced yet? Fair enough.</h2><p>Most retailers look around before they talk to anyone. Here are three good places to look next, and the demo is here whenever you want it.</p><a class="site-cta" href="/demo">Book a demo</a></div><div class="pre-g"><a href="/platform"><b>See every tool</b><span>Twelve stories from a real retail day, week and year.</span></a><a href="/moving-in"><b>See how moving works</b><span>Store by store, with our team, and every import can be undone.</span></a><a href="/one-platform"><b>See how it fits together</b><span>One code base that makes every call, with no apps bolted on.</span></a></div></div></section><footer class="site-f"><div class="fin"><div><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><rect x="0" y="0" width="28" height="28" rx="4" fill="#ffffff"/><rect x="36" y="0" width="28" height="28" rx="4" fill="#82AB78"/><rect x="0" y="36" width="28" height="28" rx="4" fill="#82AB78" opacity="0.6"/><rect x="36" y="36" width="28" height="28" rx="4" fill="#ffffff"/></svg>RetailSpec</a><p>One platform for retailers with more than one store, more than one website and more than one brand.</p><a class="site-cta" href="/demo" style="display:inline-block;margin-top:14px">Book a demo</a></div><div><h4>Platform</h4><a href="/platform">All powers</a><a href="/catalogue">Catalogue power</a><a href="/online-store">Selling everywhere</a><a href="/counter">Counter power</a><a href="/stock">Stock and buying</a><a href="/orders">Orders and fulfilment</a><a href="/shipping">Shipping</a><a href="/customers">Knowing your shoppers</a><a href="/insight">Insight</a><a href="/money">Money and books</a><a href="/overnight">While you sleep</a><a href="/trust">Control and trust</a></div><div><h4>Solutions</h4><a href="/multi-store">Multi-store retail</a><a href="/retail-and-trade">Retail and trade</a><a href="/cross-border">Selling across borders</a><a href="/stores-web-warehouse">Stores, web and warehouse</a><a href="/sam">Sam, the AI copilot</a></div><div><h4>Compare</h4><a href="/compare">All comparisons</a><a href="/vs-shopify-plus">vs Shopify Plus</a><a href="/vs-lightspeed">vs Lightspeed</a><a href="/app-cost">What your apps cost</a><a href="/moving-in">Moving to RetailSpec</a></div><div><h4>Company</h4><a href="/about">About</a><a href="/halcourt">Meet Halcourt</a><a href="/one-platform">One platform</a><a href="/hardware">Supported hardware</a><a href="/demo">Book a demo</a></div><div><h4>Help and legal</h4><a href="https://retailspec.com/help">Help center</a><a href="https://retailspec.com/legal">Legal</a><a href="https://retailspec.com/sms">Text messaging</a></div><div class="legal">© 2026 RetailSpec. All rights reserved.</div></div></footer><a class="float-cta" href="/demo" hidden>Book a demo</a><a class="back-tour" href="/#tour" hidden>&larr; Back to the home page</a><script>(()=>{const K="rs-tour";document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("a");if(!a)return;try{a.hasAttribute("data-tour")?sessionStorage.setItem(K,a.id):sessionStorage.removeItem(K)}catch(x){}});let id=null;try{id=sessionStorage.getItem(K)}catch(e){}const home=/\/(index\.html)?$/.test(location.pathname);if(home||!id)return;let r=null;try{r=new URL(document.referrer)}catch(e){}if(!r||r.origin!==location.origin||!/\/(index\.html)?$/.test(r.pathname))return;const b=document.querySelector(".back-tour");if(!b)return;b.href="/#"+id;b.hidden=false;b.addEventListener("click",e=>{if(history.length>1){e.preventDefault();history.back()}})})();</script><script>document.addEventListener("click",e=>{document.querySelectorAll("details.mega[open]").forEach(d=>{if(!d.contains(e.target))d.removeAttribute("open")})});document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll("details.mega[open]").forEach(d=>d.removeAttribute("open"))});(()=>{const b=document.querySelector(".float-cta");if(!b||location.pathname==="/demo")return;const f=()=>{b.hidden=window.scrollY<600};addEventListener("scroll",f,{passive:true});f()})();</script>
+</body>
+</html>

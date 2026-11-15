@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RetailSpec</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: the home page. Hero with a morning snapshot on receipt paper, the patchwork problem, one platform, three lead powers, the twelve-page tour, moving in, calm by default, closing CTA. Same tokens as the power pages. */
+:root {
+  --bg: #f3f5f0;
+  --ink: #1a2118;
+  --muted: #5b6656;
+  --accent: #3f6b35;
+  --accent-soft: #e2eadc;
+  --paper: #fffef9;
+  --paper-ink: #2a2a26;
+  --card: #ffffff;
+  --rule: #d6dccf;
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --text: "Inter", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #10140f; --ink: #e6ebe2; --muted: #9ba596; --accent: #9cc48f; --accent-soft: #1e2a1b;
+  --paper: #eeeadf; --paper-ink: #24241f; --card: #171c15; --rule: #2a3226; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #10140f; --ink: #e6ebe2; --muted: #9ba596; --accent: #9cc48f; --accent-soft: #1e2a1b;
+  --paper: #eeeadf; --paper-ink: #24241f; --card: #171c15; --rule: #2a3226; color-scheme: dark }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+.top { padding-block: 18px 0; font: 500 13.5px/1 var(--text); }
+.top a { color: var(--muted); text-decoration: none; }
+.top a:hover, .top a:focus-visible { color: var(--accent); }
+body { background: var(--bg); color: var(--ink); font-family: var(--text); line-height: 1.6; }
+.wrap { max-width: 1100px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.eyebrow { font: 600 12px/1 var(--text); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+
+/* hero */
+.hero { padding-block: 48px 40px; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 48px; align-items: center; }
+.hero h1 { font: 700 clamp(34px, 5.4vw, 58px)/1.02 var(--display); letter-spacing: -.015em; margin: 14px 0 18px; text-wrap: balance; }
+.hero p { font-size: 18px; color: var(--muted); max-width: 52ch; margin: 0 0 22px; }
+.feel { display: flex; flex-wrap: wrap; gap: 8px; }
+.feel span { font: 500 13.5px/1 var(--text); padding: 9px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+
+.receipt { background: var(--paper); color: var(--paper-ink); font: 400 13.5px/1.55 var(--mono); padding: 26px 24px 30px; max-width: 340px; justify-self: center; width: 100%;
+  box-shadow: 0 22px 40px rgba(20, 30, 18, .16); transform: rotate(1.6deg); position: relative;
+  -webkit-mask: radial-gradient(circle 6px at 50% 100%, transparent 98%, #000) 0 0 / 16px 100% repeat-x;
+          mask: radial-gradient(circle 6px at 50% 100%, transparent 98%, #000) 0 0 / 16px 100% repeat-x; }
+.receipt .c { text-align: center; }
+.receipt .b { font-weight: 600; }
+.receipt hr { border: 0; border-top: 1.5px dashed currentColor; opacity: .45; margin: 10px 0; }
+.receipt .row { display: flex; justify-content: space-between; gap: 12px; }
+@media (prefers-reduced-motion: no-preference) { .receipt { animation: feed .9s ease-out both; } @keyframes feed { from { transform: translateY(-10px) rotate(1.6deg); } to { transform: rotate(1.6deg); } } }
+
+/* day rail */
+.rail { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(6px); border-block: 1px solid var(--rule); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.rail nav { display: flex; gap: 6px; overflow-x: auto; padding-block: 10px; scrollbar-width: none; }
+.rail a { flex: none; text-decoration: none; color: var(--muted); font: 500 13.5px/1 var(--text); padding: 9px 12px; border-radius: 8px; display: inline-flex; gap: 8px; align-items: baseline; }
+.rail a b { font: 600 12px/1 var(--mono); color: var(--accent); }
+.rail a:hover, .rail a:focus-visible { background: var(--accent-soft); color: var(--ink); outline: none; }
+
+/* moments */
+.moment { padding-block: 64px 8px; scroll-margin-top: 64px; }
+.stamp { font: 600 14px/1 var(--mono); color: var(--accent); display: flex; align-items: center; gap: 12px; }
+.stamp::after { content: ""; flex: 1; border-top: 1.5px dashed var(--rule); }
+.moment h2 { font: 600 clamp(26px, 3.6vw, 38px)/1.1 var(--display); margin: 16px 0 10px; text-wrap: balance; max-width: 22ch; }
+.story { font-size: 17px; color: var(--muted); max-width: 62ch; margin: 0 0 26px; }
+.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.power { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 20px 20px 22px; min-width: 0; }
+.power h3 { font: 600 18px/1.25 var(--display); margin: 0 0 8px; }
+.power p { margin: 0; font-size: 14.5px; color: var(--muted); }
+.power .k { font: 500 11.5px/1 var(--mono); color: var(--accent); letter-spacing: .04em; margin-bottom: 12px; display: block; }
+details { margin-top: 14px; border-top: 1px dashed var(--rule); }
+summary { cursor: pointer; list-style: none; padding: 14px 0; font: 600 14px/1 var(--text); color: var(--accent); display: inline-flex; gap: 8px; align-items: center; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; font: 600 16px/1 var(--mono); width: 16px; }
+details[open] summary::before { content: "−"; }
+summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+.more { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 4px 28px; padding-bottom: 8px; }
+.more div { padding: 8px 0; border-bottom: 1px solid var(--rule); font-size: 14px; color: var(--muted); min-width: 0; }
+.more b { color: var(--ink); font-weight: 600; }
+
+/* close */
+.end { margin-block: 80px 64px; background: var(--card); border: 1px solid var(--rule); border-radius: 16px; padding: 36px clamp(20px, 4vw, 44px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; }
+.end h2 { font: 700 clamp(26px, 3.6vw, 36px)/1.1 var(--display); margin: 10px 0 12px; text-wrap: balance; }
+.end ul { margin: 0; padding: 0; list-style: none; font-size: 15px; }
+.end li { padding: 9px 0; border-bottom: 1px dashed var(--rule); display: flex; gap: 12px; }
+.end li b { font: 600 12.5px/1.6 var(--mono); color: var(--accent); flex: none; width: 48px; }
+.cta { display: inline-block; margin-top: 8px; background: var(--accent); color: var(--bg); text-decoration: none; font: 600 15px/1 var(--text); padding: 14px 20px; border-radius: 10px; }
+.cta:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.next { display: block; margin-top: 18px; color: var(--muted); font-size: 14px; }
+
+@media (max-width: 820px) {
+  .hero { grid-template-columns: 1fr; gap: 32px; }
+  .trio { grid-template-columns: 1fr; }
+  .end { grid-template-columns: 1fr; }
+}
+
+/* ---- home-only components ---- */
+.btns { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 4px; }
+.btns .cta { margin-top: 0; }
+.ghost { display: inline-block; color: var(--accent); text-decoration: none; font: 600 15px/1 var(--text); padding: 13px 19px; border-radius: 10px; border: 1.5px solid var(--accent); }
+.ghost:hover, .ghost:focus-visible { background: var(--accent-soft); outline: none; }
+.receipt.morning { max-width: 360px; transform: rotate(-1.2deg); }
+@media (prefers-reduced-motion: no-preference) { .receipt.morning { animation: feed2 .9s ease-out both; } @keyframes feed2 { from { transform: translateY(-10px) rotate(-1.2deg); } to { transform: rotate(-1.2deg); } } }
+.receipt .sub { font-size: 11.5px; opacity: .75; letter-spacing: .06em; text-transform: uppercase; margin: 2px 0 4px; }
+.receipt .row span:first-child { min-width: 0; }
+
+.band { padding-block: 72px 8px; }
+.band h2 { font: 600 clamp(26px, 3.6vw, 38px)/1.1 var(--display); margin: 14px 0 12px; text-wrap: balance; max-width: 24ch; }
+.band .story { margin-bottom: 30px; }
+.split { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 28px; align-items: center; }
+
+/* patchwork */
+.patch { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.tile { background: var(--card); border: 1px dashed var(--rule); border-radius: 10px; padding: 14px 14px 12px; min-width: 0; }
+.tile:nth-child(1) { transform: rotate(-2deg); } .tile:nth-child(2) { transform: rotate(1.5deg) translateY(6px); }
+.tile:nth-child(3) { transform: rotate(-1deg); } .tile:nth-child(4) { transform: rotate(2deg) translateY(-4px); }
+.tile:nth-child(5) { transform: rotate(-1.5deg) translateY(4px); } .tile:nth-child(6) { transform: rotate(1deg); }
+.tile b { display: block; font: 600 15px/1.25 var(--display); margin-bottom: 8px; }
+.tile ul { margin: 0; padding: 0; list-style: none; font: 400 11.5px/1.7 var(--mono); color: var(--muted); }
+.one { background: var(--accent-soft); border: 1.5px solid var(--accent); border-radius: 14px; padding: 24px; }
+.one .k { font: 600 12px/1 var(--mono); color: var(--accent); letter-spacing: .06em; }
+.one b { display: block; font: 700 24px/1.15 var(--display); margin: 10px 0 12px; }
+.one ul { margin: 0; padding: 0; list-style: none; font: 400 13px/1.8 var(--mono); }
+.one li::before { content: "✓ "; color: var(--accent); font-weight: 600; }
+.tally { margin-top: 18px; font-size: 14.5px; color: var(--muted); }
+
+/* one platform points */
+.points { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.points .power .n { font: 600 28px/1 var(--display); color: var(--accent); display: block; margin-bottom: 12px; }
+.link { display: inline-block; margin-top: 18px; color: var(--accent); font: 600 15px/1.4 var(--text); text-decoration: none; }
+.link:hover, .link:focus-visible { text-decoration: underline; outline: none; }
+
+/* lead powers */
+.lead { display: grid; gap: 14px; }
+.feature { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: center; background: var(--card); border: 1px solid var(--rule); border-radius: 16px; padding: 28px clamp(20px, 4vw, 36px); }
+.feature h3 { font: 600 clamp(22px, 2.8vw, 28px)/1.15 var(--display); margin: 10px 0 10px; text-wrap: balance; }
+.feature p { margin: 0; color: var(--muted); font-size: 15.5px; }
+.feature .link { margin-top: 14px; }
+.mini { font: 400 13px/1.7 var(--mono); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; background: var(--bg); min-width: 0; }
+.mini .row { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dashed var(--rule); padding: 4px 0; }
+.mini .row:last-child { border-bottom: 0; }
+.mini .row span:last-child { color: var(--accent); font-weight: 500; text-align: right; }
+.mini .h { font-weight: 600; color: var(--muted); font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; padding-bottom: 6px; }
+
+/* tour grid */
+.doors { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
+.door { display: flex; flex-direction: column; gap: 6px; background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 18px; text-decoration: none; color: inherit; min-width: 0; transition: border-color .15s, transform .15s; }
+.door:hover, .door:focus-visible { border-color: var(--accent); outline: none; }
+@media (prefers-reduced-motion: no-preference) { .door:hover { transform: translateY(-2px); } }
+.door .stamp { font-size: 11.5px; }
+.door .stamp::after { display: none; }
+.door h3 { font: 600 18px/1.2 var(--display); margin: 4px 0 0; }
+.door p { margin: 0; font-size: 14px; color: var(--muted); }
+.door .go { margin-top: auto; padding-top: 8px; font: 600 13px/1 var(--text); color: var(--accent); }
+
+/* moving in */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.steps li { display: flex; gap: 14px; background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 16px 18px; font-size: 14.5px; color: var(--muted); }
+.steps li b { font: 600 12.5px/1.6 var(--mono); color: var(--accent); flex: none; width: 56px; }
+.steps li strong { color: var(--ink); font-weight: 600; }
+
+/* calm by default */
+.depth { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.depth div { border-top: 3px solid var(--accent); background: var(--card); border-radius: 0 0 12px 12px; padding: 16px 16px 18px; font-size: 14px; color: var(--muted); min-width: 0; }
+.depth .when { display: block; font: 600 12px/1.4 var(--mono); color: var(--accent); margin-bottom: 8px; }
+.depth b { display: block; color: var(--ink); font: 600 16px/1.25 var(--display); margin-bottom: 6px; }
+
+.end.closing { grid-template-columns: minmax(0, 1.3fr) minmax(0, .7fr); align-items: center; }
+
+@media (max-width: 820px) {
+  .split, .points, .feature, .end.closing { grid-template-columns: 1fr; }
+  .patch { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .depth { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .depth { grid-template-columns: 1fr; }
+}
+
+/* hero multi strip + showcase line (11-16) */
+.multi { display: grid; grid-template-columns: repeat(4, max-content); gap: 14px 28px; margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--warm-2, #EBE6DC); font-size: 14px; color: var(--muted, #5C6157); }
+.multi span { white-space: nowrap; display: flex; flex-direction: column; gap: 4px; }
+.multi b { font: 400 26px/1 var(--display); letter-spacing: -.02em; color: var(--ink, #111827); margin-right: 4px; }
+.multi .mx-one b { color: var(--accent, #3F6B35); font-weight: 500; }
+.multi .mx-one { color: var(--ink, #111827); font-weight: 600; }
+.showcase { display: flex; gap: 14px; align-items: center; margin-top: 20px; text-decoration: none; color: var(--muted, #5C6157); font-size: 14px; max-width: 54ch; }
+.showcase img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; flex: none; border: 2px solid #fff; box-shadow: 0 0 0 1px var(--warm-2, #EBE6DC); }
+.showcase b { color: var(--ink, #111827); font-weight: 600; display: block; margin-bottom: 2px; }
+.showcase u { color: var(--accent, #3F6B35); text-decoration: none; font-weight: 600; white-space: nowrap; }
+.showcase:hover u { text-decoration: underline; }
+
+/* patchwork tiles, restyled 11-16: no monospace, no tilt; dashed = disconnected; chips count the duplicates */
+.tile { transform: none !important; background: #fff !important; border: 1.5px dashed #d6d1c6 !important; border-radius: 14px !important; padding: 16px !important; }
+.tile .th { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: var(--muted); }
+.tile .th b { margin: 0 !important; font: 550 15px/1.2 var(--text) !important; color: var(--ink); }
+.tile .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.tile .chips span { font: 500 12px/1 var(--text); color: #7a5420; background: #fbf3e4; border-radius: 999px; padding: 6px 9px; }
+.one { background: #fff !important; border: 1.5px solid var(--accent) !important; border-radius: 16px !important; }
+.one .k { display: inline-flex; align-items: center; gap: 8px; font: 600 12px/1 var(--text) !important; letter-spacing: .1em; text-transform: uppercase; color: var(--ink) !important; }
+.one ul { font: 400 15px/1.9 var(--text) !important; }
+.one li::before { content: "" !important; display: inline-block; width: 6px; height: 11px; border-right: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(45deg); margin: 0 12px -1px 2px; }
+
+/* patchwork as a photo: the owner as the human integration (11-16) */
+.one .fixes { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 10px; font: 400 14.5px/1.4 var(--text) !important; }
+.one .fixes li { display: grid; grid-template-columns: 10.5em minmax(0, 1fr); gap: 14px; align-items: center; }
+.one .fixes li::before { content: none !important; display: none !important; }
+.one .note { font: 500 15px/1.15 'Caveat', 'Bradley Hand', cursive; color: #5b5750; text-decoration: line-through; text-decoration-color: var(--accent); text-decoration-thickness: 2px; padding: 6px 8px; border-radius: 2px; box-shadow: 0 1px 2px rgba(17,24,39,.12); transform: rotate(-1.5deg); }
+.one .fixes li:nth-child(even) .note { transform: rotate(1.2deg); }
+.one .n-y { background: #f6efa6; } .one .n-p { background: #f7c9d3; } .one .n-m { background: #c4e6d4; } .one .n-o { background: #f9c592; }
+#patchwork .split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+@media (max-width: 520px) { .one .fixes li { grid-template-columns: 1fr; gap: 6px; } .one .note { justify-self: start; } }
+.points { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+.points .wide { grid-column: 1 / -1; }
+.wide .core { display: grid; grid-template-columns: 9.5em minmax(0, 1fr); gap: 18px; align-items: center; margin-top: 22px; background: var(--warm); border-radius: 12px; padding: 16px 18px; }
+.wide .lbl b { display: block; font: 600 12px/1.2 var(--text); letter-spacing: .12em; text-transform: uppercase; color: var(--ink); }
+.wide .lbl span { display: block; margin-top: 4px; font-size: 12.5px; color: var(--muted); line-height: 1.35; }
+.wide .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.wide .chips span { background: #fff; border: 1px solid var(--warm-2); border-radius: 999px; padding: 7px 13px; font-size: 14px; }
+.wide .apps-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--warm-2); }
+.wide .apps-head .lbl b { font-size: 13px; }
+.wide .count { font-size: 14px; color: var(--muted); }
+.wide .count strong { font-weight: 600; font-size: 22px; color: var(--accent); letter-spacing: -.02em; margin-right: 4px; }
+.wide .mods { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-top: 18px; }
+.wide .mods h4 { margin: 0 0 10px; font: 600 12px/1 var(--text); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.wide .mods ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.wide .mods li { font-size: 15px; line-height: 1.35; display: flex; gap: 10px; color: var(--ink); }
+.wide .mods li::before { content: ""; flex: none; width: 6px; height: 11px; margin: 2px 2px 0 3px; border-right: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(45deg); }
+.wide .sam { margin-top: 20px; display: flex; align-items: center; gap: 10px; font-size: 14.5px; color: var(--muted); }
+.wide .sam i { flex: none; width: 8px; height: 8px; border-radius: 50%; background: #82AB78; }
+.wide .sam b { color: var(--ink); font-weight: 500; }
+@media (max-width: 860px) { .points { grid-template-columns: 1fr !important; } .wide .mods { grid-template-columns: repeat(2, minmax(0, 1fr)); } .wide .core { grid-template-columns: 1fr; gap: 10px; } }
+#first-week .fw { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 12px; }
+#first-week .fw li { display: grid; grid-template-columns: 48px minmax(0, 1.25fr) minmax(0, 1fr); gap: 22px; align-items: center; background: #fff; border: 1px solid var(--warm-2, #ebe6dc); border-radius: 14px; padding: 18px 20px; }
+#first-week .fw-n { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: #fff; font: 600 17px/1 var(--text); }
+#first-week .fw-do h3 { margin: 0 0 4px; font-size: 18px; }
+#first-week .fw-do p a { color: var(--accent); font-weight: 600; text-decoration: none; }
+#first-week .fw-do p { margin: 0; font-size: 14.5px; color: var(--muted); }
+#first-week .fw-get { background: var(--accent-soft, #eef3ec); border-radius: 10px; padding: 12px 14px; font-size: 14.5px; color: #24402a; }
+#first-week .fw-get b { display: block; font: 600 11.5px/1 var(--text); letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+#first-week .fw-close { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; margin-top: 20px; }
+#first-week .fw-close p { margin: 0; font-size: 16px; color: var(--ink); max-width: 60ch; }
+@media (max-width: 760px) { #first-week .fw li { grid-template-columns: 40px minmax(0, 1fr); } #first-week .fw-get { grid-column: 2; } }
+.bl-modal { width: min(680px, calc(100vw - 32px)); max-height: calc(100vh - 48px); border: 0; border-radius: 18px; padding: 34px 34px 28px; background: #fff; color: var(--ink); box-shadow: 0 30px 80px rgba(17,24,39,.25); }
+.bl-modal::backdrop { background: rgba(17,24,39,.45); }
+.bl-modal h2 { font-weight: 400; font-size: clamp(24px, 3vw, 32px); line-height: 1.12; letter-spacing: -.02em; margin: 10px 0 20px; text-wrap: balance; }
+.bl-x { position: absolute; top: 12px; right: 14px; width: 36px; height: 36px; border: 0; border-radius: 50%; background: var(--warm, #f4f1eb); font-size: 22px; line-height: 1; cursor: pointer; color: var(--ink); }
+.bl-steps { list-style: none; counter-reset: bl; margin: 0; padding: 0; display: grid; gap: 14px; }
+.bl-steps li { counter-increment: bl; position: relative; padding-left: 40px; font-size: 15px; color: var(--muted); }
+.bl-steps li::before { content: counter(bl); position: absolute; left: 0; top: 0; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft, #eef3ec); color: var(--accent); font: 600 13px/1 var(--text); }
+.bl-steps li:nth-child(4)::before { background: var(--accent); color: #fff; }
+.bl-steps b { display: block; color: var(--ink); font-weight: 600; margin-bottom: 2px; }
+.bl-steps strong { color: var(--accent); }
+.bl-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 24px; }
+.bl-close { border: 0; background: none; font: 600 15px/1 var(--text); color: var(--muted); cursor: pointer; padding: 0; }
+@media (max-width: 520px) { .bl-modal { padding: 28px 20px 22px; } }
+#bl-intro-sec .bi-grid { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 48px; align-items: start; }
+#bl-intro-sec .bi-head { position: sticky; top: 96px; }
+#bl-intro-sec .bi-head h2 { margin-bottom: 18px; }
+#bl-intro-sec .bi-img { aspect-ratio: 4 / 3; border-radius: 16px; overflow: hidden; background: var(--warm, #f4f1eb); margin-bottom: 16px; }
+#bl-intro-sec .bi-img img, #bl-intro-sec .bi-img figure { width: 100%; height: 100%; object-fit: cover; display: block; margin: 0; }
+#bl-intro-sec .bi-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+#bl-intro-sec .bi-steps li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 16px; background: #fff; border: 1px solid var(--warm-2, #ebe6dc); border-radius: 14px; padding: 18px 20px; }
+#bl-intro-sec .bi-n { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft, #eef3ec); color: var(--accent); font: 600 14px/1 var(--text); }
+#bl-intro-sec .bi-steps b { display: block; font-weight: 600; font-size: 16.5px; margin-bottom: 4px; }
+#bl-intro-sec .bi-steps p { margin: 0; font-size: 15px; color: var(--muted); }
+#bl-intro-sec .bi-steps strong { color: var(--accent); }
+#bl-intro-sec .bi-steps li:nth-child(4) { border: 1.5px solid var(--accent); }
+#bl-intro-sec .bi-steps li:nth-child(4) .bi-n { background: var(--accent); color: #fff; }
+.js-reveal #bl-intro-sec .rv { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .6s ease; }
+.js-reveal #bl-intro-sec .rv.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .js-reveal #bl-intro-sec .rv { opacity: 1; transform: none; transition: none; } }
+@media (max-width: 860px) { #bl-intro-sec .bi-grid { grid-template-columns: 1fr; gap: 20px; } #bl-intro-sec .bi-head { position: static; } }
+#tour .tour { display: grid; gap: 30px; margin-top: 8px; }
+#tour .tg h4 { margin: 0 0 12px; font: 600 12px/1 var(--text); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+#tour .tg-c { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+#tour .tc { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--warm-2, #ebe6dc); border-radius: 14px; overflow: hidden; color: inherit; text-decoration: none; transition: border-color .2s, transform .2s; }
+#tour .tc:hover { border-color: var(--accent); transform: translateY(-2px); }
+#tour .tc figure { margin: 0; aspect-ratio: 16 / 9; background: var(--warm, #f4f1eb); overflow: hidden; }
+#tour .tc img { width: 100%; height: 100%; object-fit: cover; display: block; }
+#tour .tc-b { padding: 16px 18px 18px; display: flex; flex-direction: column; flex: 1; }
+#tour .tc .stamp { font: 600 11.5px/1.2 var(--text); letter-spacing: .08em; color: var(--muted); }
+#tour .tc h3 { margin: 8px 0 6px; font-size: 18px; }
+#tour .tc p { margin: 0 0 12px; font-size: 14.5px; color: var(--muted); }
+#tour .tc .go { margin-top: auto; font-weight: 600; font-size: 14px; color: var(--accent); }
+@media (max-width: 860px) { #tour .tg-c { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { #tour .tg-c { grid-template-columns: 1fr; } }
+#calm .thr { margin-top: 28px; background: #fff; border: 1px solid var(--warm-2, #ebe6dc); border-radius: 16px; padding: 26px 26px 22px; }
+#calm .thr-track { position: relative; height: 8px; border-radius: 99px; background: var(--warm-2, #ebe6dc); margin: 6px 16.66% 22px; }
+#calm .thr-fill { position: absolute; inset: 0 auto 0 0; width: 0; border-radius: 99px; background: linear-gradient(90deg, #82AB78, var(--accent)); transition: width 1.6s cubic-bezier(.3,.7,.2,1) .2s; }
+#calm .thr-knob { position: absolute; top: 50%; left: 0; width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%; background: #fff; border: 4px solid var(--accent); box-shadow: 0 4px 12px rgba(17,24,39,.18); transition: left 1.6s cubic-bezier(.3,.7,.2,1) .2s; }
+#calm .thr.in .thr-fill { width: 100%; }
+#calm .thr.in .thr-knob { left: 100%; }
+#calm .thr-stops { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; text-align: center; }
+#calm .thr-stops b { display: block; font: 600 12px/1 var(--text); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+#calm .thr-stops span { font-size: 14.5px; color: var(--muted); }
+#calm .who-h { margin: 36px 0 12px; font-size: 20px; }
+#calm .who { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+#calm .who div { background: #fff; border: 1px solid var(--warm-2, #ebe6dc); border-radius: 14px; padding: 18px; }
+#calm .who b { display: block; font-weight: 600; margin-bottom: 6px; }
+#calm .who span { font-size: 14.5px; color: var(--muted); }
+.js-reveal #calm .who .rv { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+.js-reveal #calm .who .rv.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { #calm .thr-fill, #calm .thr-knob, .js-reveal #calm .who .rv { transition: none !important; } .js-reveal #calm .who .rv { opacity: 1; transform: none; } }
+@media (max-width: 860px) { #calm .who { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { #calm .thr-stops { grid-template-columns: 1fr; text-align: left; } #calm .thr-track { margin: 6px 13px 20px; } #calm .who { grid-template-columns: 1fr; } }
+.pw-photo { min-width: 0; }
+.pw-img { aspect-ratio: 4 / 3; border-radius: 16px; overflow: hidden; background: var(--warm, #F4F1EB); }
+.pw-img .ph { height: 100%; border-radius: 16px; }
+.pw-apps { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.pw-apps span { font: 500 12.5px/1 var(--text); color: var(--muted); background: #fff; border: 1.5px dashed #d6d1c6; border-radius: 999px; padding: 7px 11px; }
+</style>
+<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap">
+</head>
+<body>
+<script>document.documentElement.dataset.page="home"</script><header class="site-h"><div class="site-in"><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><rect x="0" y="0" width="28" height="28" rx="4" fill="#111827"/><rect x="36" y="0" width="28" height="28" rx="4" fill="#82AB78"/><rect x="0" y="36" width="28" height="28" rx="4" fill="#82AB78" opacity="0.6"/><rect x="36" y="36" width="28" height="28" rx="4" fill="#111827"/></svg>RetailSpec</a><nav class="site-nav" aria-label="Main"><details class="mega"><summary>Platform</summary><div class="mega-p"><div><h4>Sell</h4><a href="/catalogue">Catalogue power<span>Brands land ready to sell</span></a><a href="/online-store">Selling everywhere<span>Storefronts in any currency</span></a><a href="/counter">Counter power<span>Registers that never stop</span></a></div><div><h4>Operate</h4><a href="/stock">Stock and buying<span>One warehouse, every store</span></a><a href="/orders">Orders and fulfilment<span>Every order leaves right</span></a><a href="/shipping">Shipping<span>Labels, rates, customs</span></a></div><div><h4>Grow</h4><a href="/customers">Knowing your shoppers<span>One customer, everywhere</span></a><a href="/insight">Insight<span>The week before coffee</span></a></div><div><h4>Run</h4><a href="/money">Money and books<span>Month close, done</span></a><a href="/overnight">While you sleep<span>What runs on its own</span></a><a href="/trust">Control and trust<span>Who changed what</span></a></div><div class="mega-side"><a class="mega-card" href="/one-platform"><b>One platform</b><span>Every store, website and brand on one code base that makes every call.</span></a><a class="mega-card" href="/sam"><b>Sam, the AI copilot</b><span>Drafts the next step from your own numbers. You make the call.</span></a></div><a class="all" href="/platform">See all twelve →</a></div></details><details class="mega"><summary>Solutions</summary><div class="mega-p cards"><a href="/multi-store"><b>Multi-store retail</b><span>Every store runs like your best one.</span></a><a href="/retail-and-trade"><b>Retail and trade</b><span>Shoppers and trade accounts, one system.</span></a><a href="/cross-border"><b>Selling across borders</b><span>A second country, not a second system.</span></a><a href="/stores-web-warehouse"><b>Stores, web and warehouse</b><span>Everyone counting the same stock.</span></a></div></details><a class="nav-flag" href="/brand-library">Brand Library</a><details class="mega"><summary>Why switch</summary><div class="mega-p cards"><a href="/vs-shopify-plus"><b>Moving from Shopify Plus</b><span>What changes, what you gain, and how the move works.</span></a><a href="/vs-lightspeed"><b>Moving from Lightspeed</b><span>One platform for every store and website, side by side.</span></a><a href="/moving-in"><b>How moving in works</b><span>Our team moves you store by store. Every import can be undone.</span></a><a href="/one-platform"><b>One code base</b><span>Every tool built in. No apps bolted on, one bill, one login.</span></a><a href="/halcourt"><b>Meet Halcourt</b><span>One shop that grew into a retail group. Picture your own next stage.</span></a><a href="/compare"><b>All comparisons</b><span>Every comparison in one place, dated and sourced.</span></a><a href="/app-cost"><b>What your apps cost</b><span>Add up the subscriptions you pay for today.</span></a></div></details><a href="/hardware">Hardware</a></nav><a class="site-login" href="{{PLATFORM_ORIGIN}}/login">Log in</a><a class="site-cta" href="/demo">Book a demo</a></div></header>
+
+<header class="wrap hero">
+  <div>
+    <div class="eyebrow">For businesses with more than one of everything</div>
+    <h1>All your stores, websites and brands, run as one business.</h1>
+    <p>RetailSpec runs the whole business from one place: your stores and warehouse, your websites and trade accounts, your products and stock, your customers, and your payments and books. Built for established retailers growing across locations, channels and borders, with every tool ready the day you need it.</p>
+    <div class="btns">
+      <a class="cta" href="/demo">Book a demo</a>
+      <a class="ghost" href="/platform">See the platform</a>
+    </div>
+    <div class="multi" aria-label="Halcourt on one platform">
+      <span><b>4</b> stores</span><span><b>2</b> countries</span><span><b>2</b> websites</span><span><b>2</b> currencies</span>
+      <span><b>2</b> languages</span><span><b>2</b> businesses</span><span><b>50+</b> brands</span><span class="mx-one"><b>1</b> platform</span>
+    </div>
+    <a class="showcase" href="/halcourt"><img src="/img/claire-face.jpg" alt="Claire Whitaker, owner of Halcourt">
+      <span><b>Claire Whitaker runs all of this on one platform.</b> Halcourt is the retail group in our stories: four stores, two countries, a winery. <u>Meet Halcourt →</u></span></a>
+  </div>
+  <figure class="ph photo" data-ratio="4:5"><img src="/img/hero-home.jpg" alt="The owner arranging a ceramics display at opening time in Halcourt&#x27;s Charleston flagship" loading="lazy"></figure><div class="receipt morning" aria-label="An illustrated morning summary for Halcourt, the retail group in our stories">
+    <div class="c b">HALCOURT · THIS MORNING</div>
+    <div class="c">Yesterday's sales · Mon 07:30</div>
+    <hr>
+    <div class="sub">Magnigift stores</div>
+    <div class="row"><span>Charleston</span><span>$6,842.10</span></div>
+    <div class="row"><span>Savannah</span><span>$5,317.45</span></div>
+    <div class="row"><span>Asheville</span><span>$3,960.00</span></div>
+    <div class="row"><span>San Miguel</span><span>MX$41,280</span></div>
+    <div class="sub">Websites</div>
+    <div class="row"><span>magnigift.com</span><span>$4,115.80</span></div>
+    <div class="row"><span>magnigift.com.mx</span><span>MX$18,640</span></div>
+    <div class="sub">Cielo Verde Cellars</div>
+    <div class="row"><span>Tasting room + club</span><span>$3,288.00</span></div>
+    <div class="row"><span>Restaurant trade</span><span>$2,140.00</span></div>
+    <hr>
+    <div class="row b"><span>GROUP (USD)</span><span>$29,173.06</span></div>
+    <div class="c">vs last Monday +8.4%</div>
+    <hr>
+    <div class="c">1 catalogue · 1 customer list · 1 login</div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="band" id="patchwork">
+    <div class="eyebrow">The patchwork problem</div>
+    <h2>Somewhere past your second store, the software starts running you.</h2>
+    <p class="story">Growing retailers end up with a register system, a website platform, an email app, a shipping app, a loyalty app and an accounting plug-in. Each one has its own login, its own bill, its own support line and its own copy of your customers. Every copy drifts, and your team spends the week keeping them in step.</p>
+    <div class="split">
+      <div class="pw-photo"><div class="pw-img"><img src="/img/home-patchwork.jpg" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></div><div class="pw-apps" aria-label="Six separate systems"><span>Register system</span><span>Website platform</span><span>Email app</span><span>Shipping app</span><span>Loyalty app</span><span>Accounting plug-in</span></div></div>
+      <div class="one">
+        <span class="k"><svg viewBox="0 0 64 64" width="18" height="18" aria-hidden="true"><rect x="0" y="0" width="28" height="28" rx="4" fill="#111827"/><rect x="36" y="0" width="28" height="28" rx="4" fill="#82AB78"/><rect x="0" y="36" width="28" height="28" rx="4" fill="#82AB78" opacity="0.6"/><rect x="36" y="36" width="28" height="28" rx="4" fill="#111827"/></svg>RetailSpec</span>
+        <b>Every note comes down.</b>
+        <ul class="fixes" aria-label="What happens to each sticky note">
+          <li><s class="note n-y">Sync web stock!</s><span>One stock count. A sale anywhere updates every store and website.</span></li>
+          <li><s class="note n-p">Export customers Fri</s><span>One customer record, already in every store.</span></li>
+          <li><s class="note n-m">Re-key trade orders</s><span>Trade orders arrive with every other order.</span></li>
+          <li><s class="note n-o">Points to email app</s><span>Rewards and email read the same customer.</span></li>
+          <li><s class="note n-y">Returns: refund in 2 apps</s><span>One return: the refund, the stock and the books in one step.</span></li>
+          <li><s class="note n-o">Copy tracking numbers</s><span>Labels print here, and tracking goes to the shopper on its own.</span></li>
+          <li><s class="note n-m">Price change: web too</s><span>Change a price once. Registers and websites follow.</span></li>
+          <li><s class="note n-o">Gift cards: check both</s><span>One gift card balance, in store and online.</span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="tally">Eight sticky notes, eight jobs RetailSpec does on its own, because the stores, websites, customers and books share one system.</p>
+  </section>
+
+  <section class="band" id="one">
+    <div class="eyebrow">Why the notes stay down</div>
+    <h2>Not connected. Built as one.</h2>
+    <p class="story">Some “all-in-one” systems are still a register, a website and a stack of apps joined by connectors. RetailSpec was written as one system by one team, so there is nothing between the parts to break, lag or bill you separately. Look at what you pay for today: which parts came with your main subscription, and which are separate app subscriptions added on top?</p>
+    <div class="points">
+      <div class="power wide">
+      <span class="n">01</span>
+      <h3>Built in, not bolted on</h3>
+      <p>Every piece below is part of RetailSpec itself, written by one team on one code base. There are no add-ons to buy, connect and keep in step.</p>
+
+      <div class="core">
+        <div class="lbl"><b>The core</b><span>What everything else runs on</span></div>
+        <div class="chips" aria-label="The core">
+          <span>Point of sale</span><span>Online stores</span><span>Inventory and purchasing</span><span>Orders and fulfilment</span><span>Payments</span><span>Accounting</span><span>Reports</span><span>Brand Library</span>
+        </div>
+      </div>
+
+      <div class="apps-head">
+        <div class="lbl"><b>The apps you won’t need</b><span>Each one is usually a separate subscription. In RetailSpec it’s already there.</span></div>
+        <div class="count"><strong>20</strong>kinds of add-on, built in</div>
+      </div>
+      <div class="mods">
+        <div><h4>Grow</h4><ul><li>Email marketing and flows</li><li>Loyalty and rewards</li><li>Product reviews</li><li>SEO tools</li><li>Translations and currencies</li></ul></div>
+        <div><h4>Sell</h4><ul><li>Trade and wholesale</li><li>Subscriptions</li><li>Gift cards</li><li>Bundles and kits</li><li>Wish lists and registries</li></ul></div>
+        <div><h4>Operate</h4><ul><li>Shipping labels</li><li>Returns portal</li><li>Pick and pack</li><li>Pre-orders and special orders</li><li>Accounting sync</li></ul></div>
+        <div><h4>In the store</h4><ul><li>Label and receipt printing</li><li>In-store signage</li><li>Staff time clock</li><li>Customer display and kiosk</li><li>Customer capture at the register</li></ul></div>
+      </div>
+      <p class="sam"><i></i><span><b>And Sam, the AI copilot,</b> working across all of it.</span></p>
+    </div>
+      <div class="power"><span class="n">02</span><h3>The same minute, everywhere</h3><p>Sell the last vase in Savannah and it comes off both websites before the customer reaches the door. One stock count, not a nightly sync.</p></div>
+      <div class="power"><span class="n">03</span><h3>Your own database</h3><p>Your business lives in its own database, kept apart from every other retailer's. If you ever leave, a full export of your business goes with you.</p></div>
+    </div>
+    <a class="link" href="/one-platform">See how the pieces connect →</a>
+  </section>
+
+  <section class="band" id="bl-intro-sec">
+    <div class="bi-grid">
+      <div class="bi-head">
+        <div class="eyebrow">The Brand Library</div>
+        <h2>You sell other companies' products. Someone has to set each one up.</h2>
+        <div class="bi-img"><img src="/img/bl-tradeshow.jpg" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <a class="link" href="/brand-library">See the Brand Library →</a>
+      </div>
+      <ol class="bi-steps">
+      <li class="rv"><span class="bi-n">1</span><div><b>Who RetailSpec is for</b><p>RetailSpec is built for businesses that sell products made by many different brands, in their stores, on their websites and to trade customers.</p></div></li>
+      <li class="rv"><span class="bi-n">2</span><div><b>The work you already know</b><p>Before a product can sell anywhere, someone on your team sets it up: the name, the photos, the description, the barcode, every size and colour. Then again for the website, then again for the next brand, and again whenever a brand changes something.</p></div></li>
+      <li class="rv"><span class="bi-n">3</span><div><b>The part nobody sees</b><p>Every other shop that carries the same brand is doing exactly the same work, by hand, for the same products.</p></div></li>
+      <li class="rv"><span class="bi-n">4</span><div><b>What RetailSpec does instead</b><p>We set up each brand's products once, from the brand's own photos, descriptions and barcodes, and keep them current. That shared catalogue is the <strong>Brand Library</strong>.</p></div></li>
+      <li class="rv"><span class="bi-n">5</span><div><b>What it means for you</b><p>Turn on a brand you carry and its products arrive ready to sell in every store and on every website. You add your prices and your own words.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band" id="first-week">
+    <div class="eyebrow">Your first week</div>
+    <h2>The payoff starts before you switch.</h2>
+    <p class="story">Moving to RetailSpec isn't a leap you take on faith. Each step of moving in pays you back that week, while your stores keep trading on the systems they use today.</p>
+    <ol class="fw">
+      <li><span class="fw-n">1</span><div class="fw-do"><h3>We bring your history in</h3><p>Products, customers and years of sales come over from the systems you run today, with a migration lead beside you.</p></div><div class="fw-get"><b>You get</b>Nothing to retype, and nothing left behind.</div></li>
+      <li><span class="fw-n">2</span><div class="fw-do"><h3>The setup work stops</h3><p>Your products are matched to the <a href="/brand-library" data-modal="bl-intro">Brand Library</a> by barcode and name. Products from brands in the library arrive already set up. Your team stops typing them in, and stops updating them every time a brand changes something.</p></div><div class="fw-get"><b>You get</b>The hours your team spends on product setup, back, and a catalogue that stays current on its own.</div></li>
+      <li><span class="fw-n">3</span><div class="fw-do"><h3>Your customers become one list</h3><p>Shoppers from the store, the website and the email list are matched into one record each.</p></div><div class="fw-get"><b>You get</b>You see who your best customers really are, across every channel.</div></li>
+      <li><span class="fw-n">4</span><div class="fw-do"><h3>Your numbers land in one place</h3><p>Every store and website reports in one set of numbers.</p></div><div class="fw-get"><b>You get</b>The whole business on one screen, often for the first time.</div></li>
+      <li><span class="fw-n">5</span><div class="fw-do"><h3>A register goes on the counter</h3><p>A RetailSpec register sits beside the old one at your first store, usually on an iPad you already own.</p></div><div class="fw-get"><b>You get</b>Your team tries it with real customers, with nothing at risk.</div></li>
+    </ol>
+    <div class="fw-close"><p>Then each store switches when its team is ready, and the next one follows. No store closes for a day.</p><a class="link" href="/moving-in">How moving in works →</a></div>
+  </section>
+
+  <section class="band" id="tour">
+    <div class="eyebrow">The tour</div>
+    <h2>Follow one retail group through its day, week and year.</h2>
+    <p class="story"><a href="/halcourt">Meet Halcourt</a>: Magnigift, a multi-brand gift retailer with stores in Charleston, Savannah, Asheville and San Miguel de Allende, two websites and a trade program, and Cielo Verde Cellars, a winery in Paso Robles. Each story follows them through one part of running the business.</p>
+    <nav class="tour" aria-label="RetailSpec stories">
+      <div class="tg"><h4>Sell</h4><div class="tg-c"><a class="tc" id="door-catalogue" href="/catalogue" data-tour><figure><img src="/img/hero-catalogue.jpg" alt="Products from a new brand ready on the shelf and online" loading="lazy"></figure><div class="tc-b"><span class="stamp">MONDAY · A NEW BRAND ARRIVES</span><h3>Catalogue power</h3><p>A new brand arrives set up from the Brand Library and goes live in four stores and two websites.</p><span class="go">Open →</span></div></a><a class="tc" id="door-online-store" href="/online-store" data-tour><figure><img src="/img/hero-online-store.jpg" alt="The web lead working on the online store" loading="lazy"></figure><div class="tc-b"><span class="stamp">ALL DAY · YOUR WEBSITE</span><h3>Selling everywhere</h3><p>Two storefronts, two currencies, two languages, from the first visitor to the last order.</p><span class="go">Open →</span></div></a><a class="tc" id="door-counter" href="/counter" data-tour><figure><img src="/img/hero-counter.jpg" alt="A busy Saturday at the register" loading="lazy"></figure><div class="tc-b"><span class="stamp">SATURDAY · 11:42</span><h3>Counter power</h3><p>The Wi-Fi drops in Savannah in the middle of the rush. Every register keeps selling.</p><span class="go">Open →</span></div></a></div></div>
+      <div class="tg"><h4>Operate</h4><div class="tg-c"><a class="tc" id="door-stock" href="/stock" data-tour><figure><img src="/img/hero-stock.jpg" alt="Checking stock in the warehouse racking" loading="lazy"></figure><div class="tc-b"><span class="stamp">THIS SEASON · BUYING</span><h3>Stock and buying</h3><p>Buy for four stores from one warehouse, in any currency, with landed cost worked out.</p><span class="go">Open →</span></div></a><a class="tc" id="door-orders" href="/orders" data-tour><figure><img src="/img/hero-orders.jpg" alt="Taking an order at the order desk" loading="lazy"></figure><div class="tc-b"><span class="stamp">09:00 · THE PHONE RINGS</span><h3>Orders and fulfilment</h3><p>Phone orders, quotes, picking, packing, returns and special orders, all on one desk.</p><span class="go">Open →</span></div></a><a class="tc" id="door-shipping" href="/shipping" data-tour><figure><img src="/img/hero-shipping.jpg" alt="Packing a parcel for shipping" loading="lazy"></figure><div class="tc-b"><span class="stamp">ONE PARCEL · DOOR TO DOOR</span><h3>Shipping</h3><p>Labels, rates, tracking and returns built in, with no shipping app to bolt on.</p><span class="go">Open →</span></div></a></div></div>
+      <div class="tg"><h4>Grow</h4><div class="tg-c"><a class="tc" id="door-customers" href="/customers" data-tour><figure><img src="/img/hero-customers.jpg" alt="A regular customer recognised at the counter" loading="lazy"></figure><div class="tc-b"><span class="stamp">ONE CUSTOMER · ONE YEAR</span><h3>Knowing your shoppers</h3><p>One customer, recognised in every store and on both websites.</p><span class="go">Open →</span></div></a><a class="tc" id="door-insight" href="/insight" data-tour><figure><img src="/img/hero-insight.jpg" alt="Reading the week's numbers over coffee" loading="lazy"></figure><div class="tc-b"><span class="stamp">MONDAY · 07:30</span><h3>Insight</h3><p>The questions an owner asks every week, answered before the store opens.</p><span class="go">Open →</span></div></a></div></div>
+      <div class="tg"><h4>Run</h4><div class="tg-c"><a class="tc" id="door-money" href="/money" data-tour><figure><img src="/img/hero-money.jpg" alt="Closing the month" loading="lazy"></figure><div class="tc-b"><span class="stamp">THIS MONTH · TO THE CLOSE</span><h3>Money and books</h3><p>Two businesses, two currencies, one month close, with the books keeping themselves.</p><span class="go">Open →</span></div></a><a class="tc" id="door-overnight" href="/overnight" data-tour><figure><img src="/img/hero-overnight.jpg" alt="A store after closing time" loading="lazy"></figure><div class="tc-b"><span class="stamp">22:00 – 07:00</span><h3>While you sleep</h3><p>What RetailSpec does on its own after the lights go off in every store.</p><span class="go">Open →</span></div></a><a class="tc" id="door-trust" href="/trust" data-tour><figure><img src="/img/hero-trust.jpg" alt="Reviewing who changed what" loading="lazy"></figure><div class="tc-b"><span class="stamp">THE 3 A.M. QUESTIONS</span><h3>Control and trust</h3><p>Who changed this price? What if we lose data? Who can see what? Answered.</p><span class="go">Open →</span></div></a></div></div>
+    </nav>
+  </section>
+
+  <section class="band" id="calm">
+    <div class="eyebrow">Power in reserve</div>
+    <h2>Full power from day one. You decide how much to use.</h2>
+    <p class="story">RetailSpec is built to run a retail group across stores, warehouses, websites and countries. That doesn't mean it asks you to run all of it on day one. It starts tame, with only what your business uses today on the screen, and throttles up in your hands, one switch at a time. You don't need a bigger team to run it, because the system does the heavy lifting.</p>
+    <div class="thr rv" aria-label="From day one to full throttle">
+      <div class="thr-track"><span class="thr-fill"></span><span class="thr-knob"></span></div>
+      <ol class="thr-stops">
+        <li><b>Day one</b><span>Your stores, your website and your stock. The screens show only what you use.</span></li>
+        <li><b>When you're ready</b><span>Trade accounts, email flows, gift cards and rewards. Each one is a switch, not a project.</span></li>
+        <li><b>Full throttle</b><span>Another country, a warehouse, automatic reordering, scheduled orders. Already built, waiting for you.</span></li>
+      </ol>
+    </div>
+    <h3 class="who-h">Who does the work</h3>
+    <div class="who">
+      <div class="rv"><b>Products set themselves up</b><span>Brands in the Brand Library arrive with their photos, descriptions and barcodes, and stay current without your team.</span></div>
+      <div class="rv"><b>The night shift is software</b><span>Reorder alerts, the day's reconciliation and the morning report are ready before the first store opens.</span></div>
+      <div class="rv"><b>Sam drafts, you approve</b><span>Sam, the AI copilot, prepares the answer and the next step. Nothing happens until someone on your team says yes.</span></div>
+      <div class="rv"><b>A team behind yours</b><span>A migration lead moves you in, and one support line answers for everything.</span></div>
+    </div>
+  </section>
+
+  <section class="end closing" id="demo">
+    <div>
+      <div class="eyebrow">See it with your own business in mind</div>
+      <h2>Bring your stores, your brands and your questions.</h2>
+      <p style="color:var(--muted);margin:0 0 18px">We'll walk through RetailSpec with your locations, channels and catalogue in mind, and show you what moving in would look like.</p>
+      <a class="cta" href="/demo">Book a demo</a>
+    </div>
+    <ul aria-label="What a demo covers">
+      <li><b>01</b><span>Your catalogue and brands, in every store and on every website.</span></li>
+      <li><b>02</b><span>The counter, offline and on the map.</span></li>
+      <li><b>03</b><span>Your customers, recognised everywhere.</span></li>
+      <li><b>04</b><span>A move plan, one store at a time.</span></li>
+    </ul>
+  </section>
+
+</main>
+
+<dialog id="bl-intro" class="bl-modal" aria-labelledby="bl-intro-h">
+  <button type="button" class="bl-x" aria-label="Close">×</button>
+  <div class="eyebrow">The Brand Library, from the start</div>
+  <h2 id="bl-intro-h">You sell other companies' products. Someone has to set each one up.</h2>
+  <ol class="bl-steps">
+    <li><b>Who RetailSpec is for</b>RetailSpec is built for businesses that sell products made by many different brands, in their stores, on their websites and to trade customers.</li>
+    <li><b>The work you already know</b>Before a product can sell anywhere, someone on your team sets it up: the name, the photos, the description, the barcode, every size and colour. Then again for the website, then again for the next brand, and again whenever a brand changes something.</li>
+    <li><b>The part nobody sees</b>Every other shop that carries the same brand is doing exactly the same work, by hand, for the same products.</li>
+    <li><b>What RetailSpec does instead</b>We set up each brand's products once, from the brand's own photos, descriptions and barcodes, and keep them current. That shared catalogue is the <strong>Brand Library</strong>.</li>
+    <li><b>What it means for you</b>Turn on a brand you carry and its products arrive ready to sell in every store and on every website. You add your prices and your own words. When you move in, the products you already have are matched to it, and the gaps are filled.</li>
+  </ol>
+  <div class="bl-foot"><a class="cta" href="/brand-library">See the Brand Library</a><button type="button" class="bl-close">Back to the page</button></div>
+</dialog>
+<script>
+(function () {
+  document.querySelectorAll('a[data-modal]').forEach(function (a) {
+    var d = document.getElementById(a.getAttribute('data-modal'));
+    if (!d || !d.showModal) return;
+    a.addEventListener('click', function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+      e.preventDefault(); d.showModal();
+    });
+    d.addEventListener('click', function (e) { if (e.target === d) d.close(); });
+    d.querySelectorAll('.bl-x, .bl-close').forEach(function (b) { b.addEventListener('click', function () { d.close(); }); });
+  });
+})();
+</script>
+
+<script>
+(function () {
+  if (!('IntersectionObserver' in window)) { document.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); }); return; }
+  document.documentElement.classList.add('js-reveal');
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -12% 0px' });
+  document.querySelectorAll('.rv').forEach(function (el, i) { el.style.transitionDelay = (i % 5) * 70 + 'ms'; io.observe(el); });
+})();
+</script>
+
+<section class="pre-f" aria-label="Keep exploring"><div class="pin"><div class="pre-l"><h2>Not convinced yet? Fair enough.</h2><p>Most retailers look around before they talk to anyone. Here are three good places to look next, and the demo is here whenever you want it.</p><a class="site-cta" href="/demo">Book a demo</a></div><div class="pre-g"><a href="/platform"><b>See every tool</b><span>Twelve stories from a real retail day, week and year.</span></a><a href="/moving-in"><b>See how moving works</b><span>Store by store, with our team, and every import can be undone.</span></a><a href="/one-platform"><b>See how it fits together</b><span>One code base that makes every call, with no apps bolted on.</span></a></div></div></section><footer class="site-f"><div class="fin"><div><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><rect x="0" y="0" width="28" height="28" rx="4" fill="#ffffff"/><rect x="36" y="0" width="28" height="28" rx="4" fill="#82AB78"/><rect x="0" y="36" width="28" height="28" rx="4" fill="#82AB78" opacity="0.6"/><rect x="36" y="36" width="28" height="28" rx="4" fill="#ffffff"/></svg>RetailSpec</a><p>One platform for retailers with more than one store, more than one website and more than one brand.</p><a class="site-cta" href="/demo" style="display:inline-block;margin-top:14px">Book a demo</a></div><div><h4>Platform</h4><a href="/platform">All powers</a><a href="/catalogue">Catalogue power</a><a href="/online-store">Selling everywhere</a><a href="/counter">Counter power</a><a href="/stock">Stock and buying</a><a href="/orders">Orders and fulfilment</a><a href="/shipping">Shipping</a><a href="/customers">Knowing your shoppers</a><a href="/insight">Insight</a><a href="/money">Money and books</a><a href="/overnight">While you sleep</a><a href="/trust">Control and trust</a></div><div><h4>Solutions</h4><a href="/multi-store">Multi-store retail</a><a href="/retail-and-trade">Retail and trade</a><a href="/cross-border">Selling across borders</a><a href="/stores-web-warehouse">Stores, web and warehouse</a><a href="/sam">Sam, the AI copilot</a></div><div><h4>Compare</h4><a href="/compare">All comparisons</a><a href="/vs-shopify-plus">vs Shopify Plus</a><a href="/vs-lightspeed">vs Lightspeed</a><a href="/app-cost">What your apps cost</a><a href="/moving-in">Moving to RetailSpec</a></div><div><h4>Company</h4><a href="/about">About</a><a href="/halcourt">Meet Halcourt</a><a href="/one-platform">One platform</a><a href="/hardware">Supported hardware</a><a href="/demo">Book a demo</a></div><div><h4>Help and legal</h4><a href="https://retailspec.com/help">Help center</a><a href="https://retailspec.com/legal">Legal</a><a href="https://retailspec.com/sms">Text messaging</a></div><div class="legal">© 2026 RetailSpec. All rights reserved.</div></div></footer><a class="float-cta" href="/demo" hidden>Book a demo</a><a class="back-tour" href="/#tour" hidden>&larr; Back to the home page</a><script>(()=>{const K="rs-tour";document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("a");if(!a)return;try{a.hasAttribute("data-tour")?sessionStorage.setItem(K,a.id):sessionStorage.removeItem(K)}catch(x){}});let id=null;try{id=sessionStorage.getItem(K)}catch(e){}const home=/\/(index\.html)?$/.test(location.pathname);if(home||!id)return;let r=null;try{r=new URL(document.referrer)}catch(e){}if(!r||r.origin!==location.origin||!/\/(index\.html)?$/.test(r.pathname))return;const b=document.querySelector(".back-tour");if(!b)return;b.href="/#"+id;b.hidden=false;b.addEventListener("click",e=>{if(history.length>1){e.preventDefault();history.back()}})})();</script><script>document.addEventListener("click",e=>{document.querySelectorAll("details.mega[open]").forEach(d=>{if(!d.contains(e.target))d.removeAttribute("open")})});document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll("details.mega[open]").forEach(d=>d.removeAttribute("open"))});(()=>{const b=document.querySelector(".float-cta");if(!b||location.pathname==="/demo")return;const f=()=>{b.hidden=window.scrollY<600};addEventListener("scroll",f,{passive:true});f()})();</script>
+</body>
+</html>

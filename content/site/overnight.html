@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>While You Sleep</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: a store day told in five moments (open → rush → trouble → close → behind the counter). Each moment: timestamp, one story line, three headline powers, the rest folded. The receipt is the motif: thermal paper, perforations, mono type. */
+:root {
+  --bg: #f3f5f0;
+  --ink: #1a2118;
+  --muted: #5b6656;
+  --accent: #3f6b35;
+  --accent-soft: #e2eadc;
+  --paper: #fffef9;
+  --paper-ink: #2a2a26;
+  --card: #ffffff;
+  --rule: #d6dccf;
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --text: "Inter", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #10140f; --ink: #e6ebe2; --muted: #9ba596; --accent: #9cc48f; --accent-soft: #1e2a1b;
+  --paper: #eeeadf; --paper-ink: #24241f; --card: #171c15; --rule: #2a3226; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #10140f; --ink: #e6ebe2; --muted: #9ba596; --accent: #9cc48f; --accent-soft: #1e2a1b;
+  --paper: #eeeadf; --paper-ink: #24241f; --card: #171c15; --rule: #2a3226; color-scheme: dark }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+.top { padding-block: 18px 0; font: 500 13.5px/1 var(--text); }
+.top a { color: var(--muted); text-decoration: none; }
+.top a:hover, .top a:focus-visible { color: var(--accent); }
+body { background: var(--bg); color: var(--ink); font-family: var(--text); line-height: 1.6; }
+.wrap { max-width: 1100px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.eyebrow { font: 600 12px/1 var(--text); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+
+/* hero */
+.hero { padding-block: 48px 40px; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 48px; align-items: center; }
+.hero h1 { font: 700 clamp(34px, 5.4vw, 58px)/1.02 var(--display); letter-spacing: -.015em; margin: 14px 0 18px; text-wrap: balance; }
+.hero p { font-size: 18px; color: var(--muted); max-width: 52ch; margin: 0 0 22px; }
+.feel { display: flex; flex-wrap: wrap; gap: 8px; }
+.feel span { font: 500 13.5px/1 var(--text); padding: 9px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+
+.receipt { background: var(--paper); color: var(--paper-ink); font: 400 13.5px/1.55 var(--mono); padding: 26px 24px 30px; max-width: 340px; justify-self: center; width: 100%;
+  box-shadow: 0 22px 40px rgba(20, 30, 18, .16); transform: rotate(1.6deg); position: relative;
+  -webkit-mask: radial-gradient(circle 6px at 50% 100%, transparent 98%, #000) 0 0 / 16px 100% repeat-x;
+          mask: radial-gradient(circle 6px at 50% 100%, transparent 98%, #000) 0 0 / 16px 100% repeat-x; }
+.receipt .c { text-align: center; }
+.receipt .b { font-weight: 600; }
+.receipt hr { border: 0; border-top: 1.5px dashed currentColor; opacity: .45; margin: 10px 0; }
+.receipt .row { display: flex; justify-content: space-between; gap: 12px; }
+@media (prefers-reduced-motion: no-preference) { .receipt { animation: feed .9s ease-out both; } @keyframes feed { from { transform: translateY(-10px) rotate(1.6deg); } to { transform: rotate(1.6deg); } } }
+
+/* day rail */
+.rail { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(6px); border-block: 1px solid var(--rule); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.rail nav { display: flex; gap: 6px; overflow-x: auto; padding-block: 10px; scrollbar-width: none; }
+.rail a { flex: none; text-decoration: none; color: var(--muted); font: 500 13.5px/1 var(--text); padding: 9px 12px; border-radius: 8px; display: inline-flex; gap: 8px; align-items: baseline; }
+.rail a b { font: 600 12px/1 var(--mono); color: var(--accent); }
+.rail a:hover, .rail a:focus-visible { background: var(--accent-soft); color: var(--ink); outline: none; }
+
+/* moments */
+.moment { padding-block: 64px 8px; scroll-margin-top: 64px; }
+.stamp { font: 600 14px/1 var(--mono); color: var(--accent); display: flex; align-items: center; gap: 12px; }
+.stamp::after { content: ""; flex: 1; border-top: 1.5px dashed var(--rule); }
+.moment h2 { font: 600 clamp(26px, 3.6vw, 38px)/1.1 var(--display); margin: 16px 0 10px; text-wrap: balance; max-width: 22ch; }
+.story { font-size: 17px; color: var(--muted); max-width: 62ch; margin: 0 0 26px; }
+.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.power { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 20px 20px 22px; min-width: 0; }
+.power h3 { font: 600 18px/1.25 var(--display); margin: 0 0 8px; }
+.power p { margin: 0; font-size: 14.5px; color: var(--muted); }
+.power .k { font: 500 11.5px/1 var(--mono); color: var(--accent); letter-spacing: .04em; margin-bottom: 12px; display: block; }
+details { margin-top: 14px; border-top: 1px dashed var(--rule); }
+summary { cursor: pointer; list-style: none; padding: 14px 0; font: 600 14px/1 var(--text); color: var(--accent); display: inline-flex; gap: 8px; align-items: center; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; font: 600 16px/1 var(--mono); width: 16px; }
+details[open] summary::before { content: "−"; }
+summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+.more { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 4px 28px; padding-bottom: 8px; }
+.more div { padding: 8px 0; border-bottom: 1px solid var(--rule); font-size: 14px; color: var(--muted); min-width: 0; }
+.more b { color: var(--ink); font-weight: 600; }
+
+/* close */
+.end { margin-block: 80px 64px; background: var(--card); border: 1px solid var(--rule); border-radius: 16px; padding: 36px clamp(20px, 4vw, 44px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; }
+.end h2 { font: 700 clamp(26px, 3.6vw, 36px)/1.1 var(--display); margin: 10px 0 12px; text-wrap: balance; }
+.end ul { margin: 0; padding: 0; list-style: none; font-size: 15px; }
+.end li { padding: 9px 0; border-bottom: 1px dashed var(--rule); display: flex; gap: 12px; }
+.end li b { font: 600 12.5px/1.6 var(--mono); color: var(--accent); flex: none; width: 48px; }
+.cta { display: inline-block; margin-top: 8px; background: var(--accent); color: var(--bg); text-decoration: none; font: 600 15px/1 var(--text); padding: 14px 20px; border-radius: 10px; }
+.cta:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.next { display: block; margin-top: 18px; color: var(--muted); font-size: 14px; }
+
+@media (max-width: 820px) {
+  .hero { grid-template-columns: 1fr; gap: 32px; }
+  .trio { grid-template-columns: 1fr; }
+  .end { grid-template-columns: 1fr; }
+}
+</style>
+<link rel="stylesheet" href="/site.css">
+</head>
+<body>
+<script>document.documentElement.dataset.page="overnight"</script><header class="site-h"><div class="site-in"><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><rect x="0" y="0" width="28" height="28" rx="4" fill="#111827"/><rect x="36" y="0" width="28" height="28" rx="4" fill="#82AB78"/><rect x="0" y="36" width="28" height="28" rx="4" fill="#82AB78" opacity="0.6"/><rect x="36" y="36" width="28" height="28" rx="4" fill="#111827"/></svg>RetailSpec</a><nav class="site-nav" aria-label="Main"><details class="mega"><summary>Platform</summary><div class="mega-p"><div><h4>Sell</h4><a href="/catalogue">Catalogue power<span>Brands land ready to sell</span></a><a href="/online-store">Selling everywhere<span>Storefronts in any currency</span></a><a href="/counter">Counter power<span>Registers that never stop</span></a></div><div><h4>Operate</h4><a href="/stock">Stock and buying<span>One warehouse, every store</span></a><a href="/orders">Orders and fulfilment<span>Every order leaves right</span></a><a href="/shipping">Shipping<span>Labels, rates, customs</span></a></div><div><h4>Grow</h4><a href="/customers">Knowing your shoppers<span>One customer, everywhere</span></a><a href="/insight">Insight<span>The week before coffee</span></a></div><div><h4>Run</h4><a href="/money">Money and books<span>Month close, done</span></a><a href="/overnight" aria-current=page>While you sleep<span>What runs on its own</span></a><a href="/trust">Control and trust<span>Who changed what</span></a></div><div class="mega-side"><a class="mega-card" href="/one-platform"><b>One platform</b><span>Every store, website and brand on one code base that makes every call.</span></a><a class="mega-card" href="/sam"><b>Sam, the AI copilot</b><span>Drafts the next step from your own numbers. You make the call.</span></a></div><a class="all" href="/platform">See all twelve →</a></div></details><details class="mega"><summary>Solutions</summary><div class="mega-p cards"><a href="/multi-store"><b>Multi-store retail</b><span>Every store runs like your best one.</span></a><a href="/retail-and-trade"><b>Retail and trade</b><span>Shoppers and trade accounts, one system.</span></a><a href="/cross-border"><b>Selling across borders</b><span>A second country, not a second system.</span></a><a href="/stores-web-warehouse"><b>Stores, web and warehouse</b><span>Everyone counting the same stock.</span></a></div></details><a class="nav-flag" href="/brand-library">Brand Library</a><details class="mega"><summary>Why switch</summary><div class="mega-p cards"><a href="/vs-shopify-plus"><b>Moving from Shopify Plus</b><span>What changes, what you gain, and how the move works.</span></a><a href="/vs-lightspeed"><b>Moving from Lightspeed</b><span>One platform for every store and website, side by side.</span></a><a href="/moving-in"><b>How moving in works</b><span>Our team moves you store by store. Every import can be undone.</span></a><a href="/one-platform"><b>One code base</b><span>Every tool built in. No apps bolted on, one bill, one login.</span></a><a href="/halcourt"><b>Meet Halcourt</b><span>One shop that grew into a retail group. Picture your own next stage.</span></a><a href="/compare"><b>All comparisons</b><span>Every comparison in one place, dated and sourced.</span></a><a href="/app-cost"><b>What your apps cost</b><span>Add up the subscriptions you pay for today.</span></a></div></details><a href="/hardware">Hardware</a></nav><a class="site-login" href="{{PLATFORM_ORIGIN}}/login">Log in</a><a class="site-cta" href="/demo">Book a demo</a></div></header><div class="crumb"><a href="/platform">Platform</a> / While you sleep</div>
+
+<header class="wrap hero">
+  <div>
+    <div class="eyebrow">Runs by itself · While you sleep</div>
+    <h1>Four stores, two websites and a winery go quiet. The night shift starts.</h1>
+    <p>When Charleston locks up, San Miguel still has an hour to go and magnigift.com.mx is busy. RetailSpec keeps the night shift across every store and site: it tidies the registers, follows up with shoppers, watches the money, and has the morning's work drafted before Claire Whitaker is up.</p>
+    <div class="feel"><span>Every register tidied after close</span><span>Both websites follow up</span><span>Nothing sent without you</span></div>
+  </div>
+  <figure class="ph photo" data-ratio="4:5"><img src="/img/hero-overnight.jpg" alt="The store at night after closing, the register screen glowing on the counter" loading="lazy"></figure><div class="receipt" aria-label="An illustrated overnight log for Halcourt Holdings">
+    <div class="c b">HALCOURT HOLDINGS</div>
+    <div class="c">Overnight log · Tue → Wed · ET</div>
+    <hr>
+    <div class="row"><span>22:04 Registers, 3 US stores</span><span>2 voided</span></div>
+    <div class="row"><span>23:04 San Miguel registers</span><span>22:04 CST</span></div>
+    <div class="row"><span>23:30 Cart reminders</span><span>19</span></div>
+    <div class="row"><span>00:00 Gift cards sent</span><span>6</span></div>
+    <div class="row"><span>01:15 Back-in-stock</span><span>41</span></div>
+    <div class="row"><span>02:20 Wine club dispute</span><span>1</span></div>
+    <div class="row"><span>04:00 Rates USD/MXN</span><span>OK</span></div>
+    <div class="row"><span>05:10 New items, Spanish</span><span>38</span></div>
+    <hr>
+    <div class="row b"><span>NEEDS YOU</span><span>5</span></div>
+    <hr>
+    <div class="c">** SAM'S DRAFTS READY 06:30 **</div>
+    <div class="c">Magnigift · Cielo Verde Cellars</div>
+    <div class="c">Good morning, Claire</div>
+  </div>
+</header>
+
+<div class="rail"><div class="wrap"><nav aria-label="A night at the store">
+  <a href="#lock"><b>22:00</b>Locking up</a>
+  <a href="#midnight"><b>00:00</b>Midnight shoppers</a>
+  <a href="#quiet"><b>02:00</b>The quiet hours</a>
+  <a href="#world"><b>04:00</b>The world wakes</a>
+  <a href="#morning"><b>06:00</b>Before you're up</a>
+</nav></div></div>
+
+<main class="wrap">
+  <section class="moment" id="lock">
+    <div class="stamp">22:00 · LOCKING UP</div>
+    <h2>Every register in every store, closed out clean.</h2>
+    <p class="story">A sale was parked at Register 2 in Savannah and never paid. A checkout on magnigift.com was started and dropped. San Miguel closes an hour later on its own clock and gets the same care. RetailSpec clears them all, puts the stock back on sale, and closes out what's long finished.</p>
+    <div class="trio">
+      <div class="power"><span class="k">REGISTER CLEAN-UP</span><h3>Abandoned register sales voided</h3><p>A register sale left unpaid for an hour is voided and any payments on it are reversed.</p></div>
+      <div class="power"><span class="k">STOCK HOLDS</span><h3>Held stock lets go</h3><p>Stock held by an unpaid checkout goes back on sale after two hours, so nothing sits locked up overnight.</p></div>
+      <div class="power"><span class="k">AUTO-CLOSE</span><h3>Old orders wrapped up</h3><p>Orders shipped long ago are marked delivered, and quiet conversations close themselves.</p></div>
+    </div>
+    <details><summary>1 more safe habit</summary><div class="more">
+      <div><b>Test orders stay in-house.</b> Emails about test orders go only to your staff, never to shoppers.</div>
+    </div></details>
+  </section>
+
+  <section class="moment" id="midnight">
+    <div class="stamp">00:00 · MIDNIGHT SHOPPERS</div>
+    <h2>Both websites keep selling, and keep following up.</h2>
+    <p class="story">An interior designer left a cart on magnigift.com at 23:10. A gift card was bought weeks ago for a birthday that starts at midnight. The sage throw is back in stock at the Charleston warehouse. Each person hears about it at the right moment.</p>
+    <div class="trio">
+      <div class="power"><span class="k">CART REMINDERS</span><h3>Gentle cart reminders</h3><p>Up to three reminders, with the cart repriced to today. They stop the moment the shopper orders.</p></div>
+      <div class="power"><span class="k">BACK IN STOCK</span><h3>"Notify me" that always fires</h3><p>The email goes out however the stock came back: a delivery, a return or a recount.</p></div>
+      <div class="power"><span class="k">GIFT CARDS</span><h3>Delivered on the day</h3><p>A gift card bought for a later date is emailed on that date, without anyone pressing send.</p></div>
+    </div>
+    <details><summary>3 more things that run on schedule</summary><div class="more">
+      <div><b>Subscription orders.</b> Repeat orders create and charge themselves after a heads-up; declined cards retry.</div>
+      <div><b>Points expiry.</b> Unused points expire after a warning, and any purchase resets the clock.</div>
+      <div><b>Registry completion discount.</b> After the event, the registrant gets your discount on what's left, no code needed.</div>
+    </div></details>
+  </section>
+
+  <section class="moment" id="quiet">
+    <div class="stamp">02:00 · THE QUIET HOURS</div>
+    <h2>The money and the good name of two businesses, watched.</h2>
+    <p class="story">A dispute arrives on a Cielo Verde wine club charge. A Magnigift payout bounces. A campaign to the trade list starts hitting bad addresses. Each one is caught and sent to the right person.</p>
+    <div class="trio">
+      <div class="power"><span class="k">THE BELL</span><h3>Disputes and payouts flagged</h3><p>Disputes with deadlines, failed payouts and refunds made outside RetailSpec reach the right people.</p></div>
+      <div class="power"><span class="k">CAMPAIGN SAFETY HOLD</span><h3>Campaigns pause themselves</h3><p>If bounces or complaints spike, the campaign pauses to protect your sender reputation.</p></div>
+      <div class="power"><span class="k">NO DOUBLE-PROCESSING</span><h3>Everything happens once</h3><p>Payment events, postings to your books and incoming email are checked for duplicates and retried if they fail.</p></div>
+    </div>
+    <details><summary>1 more safeguard</summary><div class="more">
+      <div><b>Bounces and complaints.</b> A bounced order email rings the bell; a spam complaint unsubscribes that address.</div>
+    </div></details>
+  </section>
+
+  <section class="moment" id="world">
+    <div class="stamp">04:00 · THE WORLD WAKES</div>
+    <h2>Mexico wakes up to a store in Spanish and in pesos.</h2>
+    <p class="story">Before San Miguel opens, the products added to magnigift.com yesterday are already in Spanish on magnigift.com.mx. Peso prices sit on fresh exchange rates, and the new brand import finished while every browser was closed.</p>
+    <div class="trio">
+      <div class="power"><span class="k">TRANSLATIONS</span><h3>Every language, kept current</h3><p>Product and site text is translated into each storefront language, the most-seen pages first.</p></div>
+      <div class="power"><span class="k">EXCHANGE RATES</span><h3>Fresh rates every six hours</h3><p>Reference rates come in four times a day, so foreign prices stay honest.</p></div>
+      <div class="power"><span class="k">WALLETS</span><h3>Apple Pay and Google Pay, ready</h3><p>Wallet payments register on each domain the moment it goes live.</p></div>
+    </div>
+    <details><summary>1 more overnight job</summary><div class="more">
+      <div><b>Hands-off catalogue imports.</b> Long brand imports keep going with no browser tab open, and email you when done.</div>
+    </div></details>
+  </section>
+
+  <section class="moment" id="morning">
+    <div class="stamp">06:00 · BEFORE YOU'RE UP</div>
+    <h2>The morning's work for four stores and a winery, drafted and waiting.</h2>
+    <p class="story">By the time Claire opens her laptop, Sam has drafted reorders for the Charleston warehouse and replies to reviews from both businesses. Everything that needs her or her store managers is on one list.</p>
+    <div class="trio">
+      <div class="power"><span class="k">SAM · AI-POWERED</span><h3>Sam's morning agents</h3><p>Sam drafts reorder POs, review replies, a weekly "loved but not bought" offer and a briefing. Nothing goes out until you approve it.</p></div>
+      <div class="power"><span class="k">NEEDS ATTENTION</span><h3>One list for the day</h3><p>Unpaid orders, disputes, carrier problems, returns, bills due and more, each decided right where it sits.</p></div>
+      <div class="power"><span class="k">REVIEWS</span><h3>Review requests on autopilot</h3><p>One email after shipping with a review link that needs no account.</p></div>
+    </div>
+    <details><summary>2 more morning messages</summary><div class="more">
+      <div><b>Favorites digest.</b> At most one email a day when a shopper's favorite drops in price, comes back or runs low.</div>
+      <div><b>Tax filing reminders.</b> A reminder before each filing is due, and another if it's overdue.</div>
+    </div></details>
+  </section>
+
+  <section class="end" id="demo">
+    <div>
+      <div class="eyebrow">By opening time</div>
+      <h2>Four stores, two websites and a winery worked all night. Claire slept through it.</h2>
+      <p style="color:var(--muted);margin:0 0 18px">That's the night shift RetailSpec keeps for a business that never fully closes, across every location and both sides of the border.</p>
+      <a class="cta" href="/demo">Book a demo</a>
+      <a class="next" href="/trust">Next: Control and trust →</a>
+    </div>
+    <ul aria-label="The night in review">
+      <li><b>22:00</b><span>Unpaid sales cleared in every store, San Miguel on its own clock.</span></li>
+      <li><b>00:00</b><span>Carts, gift cards and restocks followed up on both websites.</span></li>
+      <li><b>02:00</b><span>A wine club dispute flagged, a risky campaign paused.</span></li>
+      <li><b>04:00</b><span>Spanish text and peso prices ready for magnigift.com.mx.</span></li>
+      <li><b>07:00</b><span>Sam's drafts and one short list were waiting for Claire.</span></li>
+    </ul>
+  </section>
+</main>
+<section class="pre-f" aria-label="Keep exploring"><div class="pin"><div class="pre-l"><h2>Not convinced yet? Fair enough.</h2><p>Most retailers look around before they talk to anyone. Here are three good places to look next, and the demo is here whenever you want it.</p><a class="site-cta" href="/demo">Book a demo</a></div><div class="pre-g"><a href="/platform"><b>See every tool</b><span>Twelve stories from a real retail day, week and year.</span></a><a href="/moving-in"><b>See how moving works</b><span>Store by store, with our team, and every import can be undone.</span></a><a href="/one-platform"><b>See how it fits together</b><span>One code base that makes every call, with no apps bolted on.</span></a></div></div></section><footer class="site-f"><div class="fin"><div><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><rect x="0" y="0" width="28" height="28" rx="4" fill="#ffffff"/><rect x="36" y="0" width="28" height="28" rx="4" fill="#82AB78"/><rect x="0" y="36" width="28" height="28" rx="4" fill="#82AB78" opacity="0.6"/><rect x="36" y="36" width="28" height="28" rx="4" fill="#ffffff"/></svg>RetailSpec</a><p>One platform for retailers with more than one store, more than one website and more than one brand.</p><a class="site-cta" href="/demo" style="display:inline-block;margin-top:14px">Book a demo</a></div><div><h4>Platform</h4><a href="/platform">All powers</a><a href="/catalogue">Catalogue power</a><a href="/online-store">Selling everywhere</a><a href="/counter">Counter power</a><a href="/stock">Stock and buying</a><a href="/orders">Orders and fulfilment</a><a href="/shipping">Shipping</a><a href="/customers">Knowing your shoppers</a><a href="/insight">Insight</a><a href="/money">Money and books</a><a href="/overnight">While you sleep</a><a href="/trust">Control and trust</a></div><div><h4>Solutions</h4><a href="/multi-store">Multi-store retail</a><a href="/retail-and-trade">Retail and trade</a><a href="/cross-border">Selling across borders</a><a href="/stores-web-warehouse">Stores, web and warehouse</a><a href="/sam">Sam, the AI copilot</a></div><div><h4>Compare</h4><a href="/compare">All comparisons</a><a href="/vs-shopify-plus">vs Shopify Plus</a><a href="/vs-lightspeed">vs Lightspeed</a><a href="/app-cost">What your apps cost</a><a href="/moving-in">Moving to RetailSpec</a></div><div><h4>Company</h4><a href="/about">About</a><a href="/halcourt">Meet Halcourt</a><a href="/one-platform">One platform</a><a href="/hardware">Supported hardware</a><a href="/demo">Book a demo</a></div><div><h4>Help and legal</h4><a href="https://retailspec.com/help">Help center</a><a href="https://retailspec.com/legal">Legal</a><a href="https://retailspec.com/sms">Text messaging</a></div><div class="legal">© 2026 RetailSpec. All rights reserved.</div></div></footer><a class="float-cta" href="/demo" hidden>Book a demo</a><a class="back-tour" href="/#tour" hidden>&larr; Back to the home page</a><script>(()=>{const K="rs-tour";document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("a");if(!a)return;try{a.hasAttribute("data-tour")?sessionStorage.setItem(K,a.id):sessionStorage.removeItem(K)}catch(x){}});let id=null;try{id=sessionStorage.getItem(K)}catch(e){}const home=/\/(index\.html)?$/.test(location.pathname);if(home||!id)return;let r=null;try{r=new URL(document.referrer)}catch(e){}if(!r||r.origin!==location.origin||!/\/(index\.html)?$/.test(r.pathname))return;const b=document.querySelector(".back-tour");if(!b)return;b.href="/#"+id;b.hidden=false;b.addEventListener("click",e=>{if(history.length>1){e.preventDefault();history.back()}})})();</script><script>document.addEventListener("click",e=>{document.querySelectorAll("details.mega[open]").forEach(d=>{if(!d.contains(e.target))d.removeAttribute("open")})});document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll("details.mega[open]").forEach(d=>d.removeAttribute("open"))});(()=>{const b=document.querySelector(".float-cta");if(!b||location.pathname==="/demo")return;const f=()=>{b.hidden=window.scrollY<600};addEventListener("scroll",f,{passive:true});f()})();</script>
+</body>
+</html>

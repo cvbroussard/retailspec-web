@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>One Code Base</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: one radial diagram (code base → integration ring → remote services), then a two-up contrast: we call out vs an app calls in. */
+:root {
+  --bg: #f4f6f1;
+  --ink: #1b2219;
+  --muted: #5d6858;
+  --core: #2e4a2b;
+  --core-ink: #f2f6ef;
+  --ring: #82AB78;
+  --ring-ink: #13200f;
+  --remote: #ffffff;
+  --remote-line: #a3ac9d;
+  --call: #3f6b35;
+  --alien: #b5643a;
+  --card: #ffffff;
+  --rule: #d8ddd2;
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --text: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #11150f; --ink: #e7ece3; --muted: #9aa594; --core: #34552f; --core-ink: #f2f6ef;
+  --ring: #7f9a78; --ring-ink: #0d160b; --remote: #1a2017; --remote-line: #56614f; --call: #9cc48f;
+  --alien: #e08a5c; --card: #181d16; --rule: #2b3327; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #11150f; --ink: #e7ece3; --muted: #9aa594; --core: #34552f; --core-ink: #f2f6ef;
+  --ring: #7f9a78; --ring-ink: #0d160b; --remote: #1a2017; --remote-line: #56614f; --call: #9cc48f;
+  --alien: #e08a5c; --card: #181d16; --rule: #2b3327; color-scheme: dark }
+
+body { background: var(--bg); color: var(--ink); font-family: var(--text); line-height: 1.55; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-block: 40px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.eyebrow { font: 600 12px/1 var(--text); letter-spacing: .14em; text-transform: uppercase; color: var(--call); }
+h1 { font: 700 clamp(30px, 5vw, 50px)/1.05 var(--display); margin: 10px 0 12px; text-wrap: balance; letter-spacing: -.01em; }
+h2 { font: 600 clamp(22px, 3vw, 30px)/1.15 var(--display); margin: 0 0 8px; text-wrap: balance; }
+h3 { font: 600 17px/1.25 var(--display); margin: 0 0 6px; }
+.lede { max-width: 64ch; color: var(--muted); font-size: 17px; margin: 0; }
+.diagram { margin: 28px 0 12px; overflow-x: auto; }
+.diagram svg { display: block; width: 100%; min-width: 640px; height: auto; }
+.key { display: flex; flex-wrap: wrap; gap: 10px 26px; font-size: 13px; color: var(--muted); margin: 0 0 40px; }
+.key span { display: inline-flex; align-items: center; gap: 8px; }
+.sw { width: 18px; height: 12px; border-radius: 3px; display: inline-block; }
+.groups { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin: 14px 0 56px; }
+.g { background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; min-width: 0; }
+.g p { margin: 0; font-size: 13.5px; color: var(--muted); }
+.g .n { font: 600 11px/1 var(--text); letter-spacing: .1em; text-transform: uppercase; color: var(--call); margin-bottom: 6px; }
+.contrast { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-top: 16px; }
+.side { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 20px; min-width: 0; }
+.side svg { width: 100%; height: auto; display: block; margin: 6px 0 14px; }
+.side ul { margin: 0; padding-left: 18px; font-size: 14.5px; }
+.side li + li { margin-top: 6px; }
+.tag { display: inline-block; font: 600 11px/1 var(--text); letter-spacing: .1em; text-transform: uppercase; padding: 5px 8px; border-radius: 4px; margin-bottom: 10px; }
+.tag.us { background: color-mix(in srgb, var(--call) 16%, transparent); color: var(--call); }
+.tag.them { background: color-mix(in srgb, var(--alien) 16%, transparent); color: var(--alien); }
+.note { margin-top: 28px; max-width: 70ch; font-size: 14.5px; color: var(--muted); border-left: 3px solid var(--ring); padding-left: 14px; }
+svg text { font-family: var(--text); }
+html, body { margin: 0; }
+</style>
+<link rel="stylesheet" href="/site.css">
+</head>
+<body>
+<script>document.documentElement.dataset.page="one-platform"</script><header class="site-h"><div class="site-in"><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><rect x="0" y="0" width="28" height="28" rx="4" fill="#111827"/><rect x="36" y="0" width="28" height="28" rx="4" fill="#82AB78"/><rect x="0" y="36" width="28" height="28" rx="4" fill="#82AB78" opacity="0.6"/><rect x="36" y="36" width="28" height="28" rx="4" fill="#111827"/></svg>RetailSpec</a><nav class="site-nav" aria-label="Main"><details class="mega"><summary>Platform</summary><div class="mega-p"><div><h4>Sell</h4><a href="/catalogue">Catalogue power<span>Brands land ready to sell</span></a><a href="/online-store">Selling everywhere<span>Storefronts in any currency</span></a><a href="/counter">Counter power<span>Registers that never stop</span></a></div><div><h4>Operate</h4><a href="/stock">Stock and buying<span>One warehouse, every store</span></a><a href="/orders">Orders and fulfilment<span>Every order leaves right</span></a><a href="/shipping">Shipping<span>Labels, rates, customs</span></a></div><div><h4>Grow</h4><a href="/customers">Knowing your shoppers<span>One customer, everywhere</span></a><a href="/insight">Insight<span>The week before coffee</span></a></div><div><h4>Run</h4><a href="/money">Money and books<span>Month close, done</span></a><a href="/overnight">While you sleep<span>What runs on its own</span></a><a href="/trust">Control and trust<span>Who changed what</span></a></div><div class="mega-side"><a class="mega-card" href="/one-platform"><b>One platform</b><span>Every store, website and brand on one code base that makes every call.</span></a><a class="mega-card" href="/sam"><b>Sam, the AI copilot</b><span>Drafts the next step from your own numbers. You make the call.</span></a></div><a class="all" href="/platform">See all twelve →</a></div></details><details class="mega"><summary>Solutions</summary><div class="mega-p cards"><a href="/multi-store"><b>Multi-store retail</b><span>Every store runs like your best one.</span></a><a href="/retail-and-trade"><b>Retail and trade</b><span>Shoppers and trade accounts, one system.</span></a><a href="/cross-border"><b>Selling across borders</b><span>A second country, not a second system.</span></a><a href="/stores-web-warehouse"><b>Stores, web and warehouse</b><span>Everyone counting the same stock.</span></a></div></details><a class="nav-flag" href="/brand-library">Brand Library</a><details class="mega"><summary>Why switch</summary><div class="mega-p cards"><a href="/vs-shopify-plus"><b>Moving from Shopify Plus</b><span>What changes, what you gain, and how the move works.</span></a><a href="/vs-lightspeed"><b>Moving from Lightspeed</b><span>One platform for every store and website, side by side.</span></a><a href="/moving-in"><b>How moving in works</b><span>Our team moves you store by store. Every import can be undone.</span></a><a href="/one-platform" aria-current=page><b>One code base</b><span>Every tool built in. No apps bolted on, one bill, one login.</span></a><a href="/halcourt"><b>Meet Halcourt</b><span>One shop that grew into a retail group. Picture your own next stage.</span></a><a href="/compare"><b>All comparisons</b><span>Every comparison in one place, dated and sourced.</span></a><a href="/app-cost"><b>What your apps cost</b><span>Add up the subscriptions you pay for today.</span></a></div></details><a href="/hardware">Hardware</a></nav><a class="site-login" href="{{PLATFORM_ORIGIN}}/login">Log in</a><a class="site-cta" href="/demo">Book a demo</a></div></header>
+
+
+<div class="wrap">
+  <header class="hero-band"><div class="eyebrow">RetailSpec · unified platform</div>
+  <h1>One code base. It makes every call.</h1>
+  <p class="lede">Everything RetailSpec does is one code base. The integrations that reach payment networks, carriers, accounting systems and AI models are written, owned and run inside it. The outside services sit at the end of the line. They answer our calls; they don't run your store.</p></header>
+
+  <div class="diagram" role="img" aria-label="Diagram: the RetailSpec code base at the centre, wrapped by an integration ring that is part of it. Lines run outward from the ring to eleven groups of outside services.">
+    <svg id="map" viewBox="0 0 1100 1100" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+  <div class="key">
+    <span><i class="sw" style="background:var(--core)"></i>RetailSpec code base</span>
+    <span><i class="sw" style="background:var(--ring)"></i>Integration layer: part of the code base</span>
+    <span><i class="sw" style="background:var(--remote);border:1.5px dashed var(--remote-line)"></i>Outside service (remote)</span>
+    <span><svg width="34" height="12" aria-hidden="true"><line x1="2" y1="6" x2="26" y2="6" stroke="var(--call)" stroke-width="2"/><path d="M26 2 L33 6 L26 10 Z" fill="var(--call)"/></svg>RetailSpec makes the call</span>
+  </div>
+
+  <h2>Class A integrations</h2>
+  <p class="lede">Every connection below is in the RetailSpec credentials registry and is called from our own code.</p>
+  <div class="groups" id="groups"></div>
+
+  <h2>Who makes the call is the difference</h2>
+  <p class="lede">An integration and a bolted-on app can look alike on a feature list. Their wiring runs in opposite directions.</p>
+  <div class="contrast">
+    <div class="side">
+      <span class="tag us">RetailSpec integration</span>
+      <h3>Our code calls out</h3>
+      <svg viewBox="0 0 420 170" aria-hidden="true">
+        <circle cx="105" cy="85" r="72" fill="var(--ring)"/>
+        <circle cx="105" cy="85" r="52" fill="var(--core)"/>
+        <text x="105" y="81" text-anchor="middle" font-size="13" font-weight="600" fill="var(--core-ink)">RetailSpec</text>
+        <text x="105" y="97" text-anchor="middle" font-size="11" fill="var(--core-ink)" opacity=".85">code base</text>
+        <line x1="178" y1="85" x2="290" y2="85" stroke="var(--call)" stroke-width="3"/>
+        <path d="M290 77 L305 85 L290 93 Z" fill="var(--call)"/>
+        <text x="236" y="72" text-anchor="middle" font-size="11.5" fill="var(--call)" font-weight="600">our request</text>
+        <rect x="308" y="55" width="104" height="60" rx="10" fill="var(--remote)" stroke="var(--remote-line)" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <text x="360" y="82" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)">Stripe,</text>
+        <text x="360" y="99" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)">QuickBooks…</text>
+      </svg>
+      <ul>
+        <li>The logic lives in RetailSpec. The outside service only answers.</li>
+        <li>Your data stays in your own RetailSpec database. Nothing is copied to a third party's app.</li>
+        <li>One login, one support line, one bill.</li>
+        <li>When we update RetailSpec, the integration is updated and tested with it.</li>
+        <li>Keys are sealed in our encrypted vault, and every AI call is metered in one ledger.</li>
+      </ul>
+    </div>
+    <div class="side">
+      <span class="tag them">Bolted-on app</span>
+      <h3>Someone else's code calls in</h3>
+      <svg viewBox="0 0 420 170" aria-hidden="true">
+        <rect x="18" y="35" width="150" height="100" rx="12" fill="var(--card)" stroke="var(--muted)" stroke-width="1.5"/>
+        <text x="93" y="81" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink)">Your store</text>
+        <text x="93" y="98" text-anchor="middle" font-size="11" fill="var(--muted)">platform</text>
+        <line x1="296" y1="85" x2="186" y2="85" stroke="var(--alien)" stroke-width="3"/>
+        <path d="M186 77 L171 85 L186 93 Z" fill="var(--alien)"/>
+        <text x="236" y="72" text-anchor="middle" font-size="11.5" fill="var(--alien)" font-weight="600">app reaches in</text>
+        <rect x="298" y="40" width="114" height="90" rx="10" fill="var(--remote)" stroke="var(--alien)" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <text x="355" y="72" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)">The app</text>
+        <text x="355" y="90" text-anchor="middle" font-size="10.5" fill="var(--muted)">its own server</text>
+        <text x="355" y="105" text-anchor="middle" font-size="10.5" fill="var(--muted)">its own database</text>
+        <text x="355" y="120" text-anchor="middle" font-size="10.5" fill="var(--muted)">its own bill</text>
+      </svg>
+      <ul>
+        <li>The logic lives in another company's code base, outside your platform.</li>
+        <li>It reads your store through an access key and keeps its own copy of your customers and orders.</li>
+        <li>Separate subscription, separate login, separate support queue.</li>
+        <li>A platform update can break it, and neither vendor owns the fix.</li>
+        <li>Every app you add is another company with access to your data.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="note">Outside services can also notify us when something happens on their side, such as a payment settling or a parcel being scanned. That notice lands in the RetailSpec integration layer, which checks its signature, and our code decides what happens next.</p>
+</div>
+
+<script>
+const GROUPS = [
+  { name: "AI models", members: ["Anthropic Claude", "OpenAI", "Google Gemini", "Kling AI", "Jina AI"], does: "Sam, the gift concierge, product writing, translation, alt text, image and video." },
+  { name: "Accounting & ERP", members: ["QuickBooks Online", "Xero", "Business Central", "NetSuite"], does: "Daily journals, bills with their documents, payouts, cost of goods." },
+  { name: "Payments", members: ["Stripe", "Stripe Terminal", "Stripe Radar", "Stripe Tax"], does: "Online and in-store payments, card readers, fraud screening, payouts, disputes." },
+  { name: "Shipping", members: ["EasyPost", "USPS · UPS", "FedEx · DHL"], does: "Live rates, labels, address checks, tracking, return labels, customs." },
+  { name: "Email & text", members: ["Amazon SES", "Twilio"], does: "Order emails, campaigns, inbound replies and documents, text messages." },
+  { name: "Tax & currency", members: ["TaxJar", "Avalara", "EU VIES", "ECB rates"], does: "Sales tax engines, VAT number checks, live exchange rates." },
+  { name: "Google", members: ["Business Profile", "Merchant feeds", "Local inventory", "PageSpeed"], does: "Shelf stock in search, product feeds, store profile, storefront grading." },
+  { name: "Cloud infrastructure", members: ["Cloudflare CDN & storage", "Cloudflare DNS & calls", "Managed database service", "Web hosting service"], does: "A private database per merchant, hosting, images and files, one-trip DNS, support calls." },
+  { name: "Addresses", members: ["OpenStreetMap", "Google address data"], does: "Address look-up and each country's own address format." },
+  { name: "Social & ads", members: ["Meta", "TikTok", "Pinterest", "YouTube"], does: "Pixels and purchase tracking behind cookie consent, social publishing." },
+];
+
+const NS = "http://www.w3.org/2000/svg";
+const svg = document.getElementById("map");
+const C = 550, CORE = 178, RING = 250, ORBIT = 432, BW = 196;
+const el = (tag, attrs, parent = svg) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+const txt = (x, y, s, attrs, parent) => { const t = el("text", { x, y, ...attrs }, parent); t.textContent = s; return t; };
+
+const defs = el("defs", {});
+const arrow = el("marker", { id: "arr", viewBox: "0 0 10 10", refX: "9", refY: "5", markerWidth: "7", markerHeight: "7", orient: "auto-start-reverse" }, defs);
+el("path", { d: "M0 0 L10 5 L0 10 Z", fill: "var(--call)" }, arrow);
+const glow = el("radialGradient", { id: "glow" }, defs);
+el("stop", { offset: "60%", "stop-color": "var(--ring)", "stop-opacity": ".35" }, glow);
+el("stop", { offset: "100%", "stop-color": "var(--ring)", "stop-opacity": "0" }, glow);
+el("path", { id: "ringpath", d: `M ${C} ${C - 222} a 222 222 0 1 1 -0.01 0` }, defs);
+
+// soft halo, then the ring (part of the code base), then the core
+el("circle", { cx: C, cy: C, r: RING + 60, fill: "url(#glow)" });
+
+// connectors first, so the ring and nodes sit on top
+const nodes = GROUPS.map((g, i) => {
+  const a = (-90 + i * 360 / GROUPS.length) * Math.PI / 180;
+  const h = 46 + g.members.length * 19;
+  return { g, a, x: C + ORBIT * Math.cos(a), y: C + ORBIT * Math.sin(a), h };
+});
+for (const n of nodes) {
+  const sx = C + (RING - 6) * Math.cos(n.a), sy = C + (RING - 6) * Math.sin(n.a);
+  // end where the line meets the node's box edge
+  const dx = n.x - sx, dy = n.y - sy;
+  const t = Math.min((BW / 2 + 6) / Math.abs(dx || 1e-6), (n.h / 2 + 6) / Math.abs(dy || 1e-6));
+  const ex = n.x - dx * Math.min(t, 1), ey = n.y - dy * Math.min(t, 1);
+  el("line", { x1: sx, y1: sy, x2: ex, y2: ey, stroke: "var(--call)", "stroke-width": 2.4, "marker-end": "url(#arr)" });
+  // the port: a socket built into the ring
+  el("circle", { cx: sx, cy: sy, r: 7, fill: "var(--call)", stroke: "var(--ring)", "stroke-width": 3 });
+}
+
+el("circle", { cx: C, cy: C, r: RING, fill: "var(--ring)" });
+const rt = el("text", { "font-size": 13.5, "font-weight": 600, "letter-spacing": "3", fill: "var(--ring-ink)" });
+const tp = el("textPath", { href: "#ringpath", startOffset: "0" }, rt);
+tp.textContent = "API INTEGRATIONS  ·  BUILT INTO THE CODE BASE  ·  API INTEGRATIONS  ·  BUILT INTO THE CODE BASE  ·  ".repeat(1);
+
+// core "cloud": a circle with a scalloped edge
+const bumps = 22, cloud = [];
+for (let i = 0; i <= bumps; i++) {
+  const a0 = i / bumps * Math.PI * 2;
+  const x = C + CORE * Math.cos(a0), y = C + CORE * Math.sin(a0);
+  cloud.push(i === 0 ? `M ${x.toFixed(1)} ${y.toFixed(1)}` : `A 30 30 0 0 1 ${x.toFixed(1)} ${y.toFixed(1)}`);
+}
+el("path", { d: cloud.join(" ") + " Z", fill: "var(--core)" });
+txt(C, C - 78, "RETAILSPEC", { "text-anchor": "middle", "font-size": 13, "letter-spacing": "4", "font-weight": 600, fill: "var(--core-ink)", opacity: ".8" });
+txt(C, C - 46, "One code base", { "text-anchor": "middle", "font-size": 30, "font-weight": 700, fill: "var(--core-ink)", style: "font-family: var(--display)" });
+const mods = [["Catalogue", "Storefront", "POS"], ["Orders", "Inventory", "Buying"], ["Customers", "Marketing", "Books"], ["Reports", "Shipping", "Sam"]];
+mods.forEach((row, r) => txt(C, C + r * 26, row.join("  ·  "), { "text-anchor": "middle", "font-size": 15, fill: "var(--core-ink)", opacity: ".92" }));
+txt(C, C + 118, "one database per merchant", { "text-anchor": "middle", "font-size": 12, "font-style": "italic", fill: "var(--core-ink)", opacity: ".7" });
+
+// remote services: dashed, set apart, at the end of the line
+for (const n of nodes) {
+  const gx = n.x - BW / 2, gy = n.y - n.h / 2;
+  el("rect", { x: gx, y: gy, width: BW, height: n.h, rx: 12, fill: "var(--remote)", stroke: "var(--remote-line)", "stroke-width": 1.6, "stroke-dasharray": "6 5" });
+  txt(gx + 16, gy + 26, n.g.name.toUpperCase(), { "font-size": 12, "font-weight": 600, "letter-spacing": "1.5", fill: "var(--muted)" });
+  n.g.members.forEach((m, j) => txt(gx + 16, gy + 50 + j * 19, m, { "font-size": 15, "font-weight": 500, fill: "var(--ink)" }));
+}
+
+// the readable list under the diagram
+const host = document.getElementById("groups");
+GROUPS.forEach((g) => {
+  const d = document.createElement("div"); d.className = "g";
+  d.innerHTML = `<div class="n"></div><h3></h3><p></p>`;
+  d.querySelector(".n").textContent = g.name;
+  d.querySelector("h3").textContent = g.members.join(", ");
+  d.querySelector("p").textContent = g.does;
+  host.appendChild(d);
+});
+</script>
+
+<section class="pre-f" aria-label="Keep exploring"><div class="pin"><div class="pre-l"><h2>Not convinced yet? Fair enough.</h2><p>Most retailers look around before they talk to anyone. Here are three good places to look next, and the demo is here whenever you want it.</p><a class="site-cta" href="/demo">Book a demo</a></div><div class="pre-g"><a href="/platform"><b>See every tool</b><span>Twelve stories from a real retail day, week and year.</span></a><a href="/moving-in"><b>See how moving works</b><span>Store by store, with our team, and every import can be undone.</span></a><a href="/one-platform"><b>See how it fits together</b><span>One code base that makes every call, with no apps bolted on.</span></a></div></div></section><footer class="site-f"><div class="fin"><div><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><rect x="0" y="0" width="28" height="28" rx="4" fill="#ffffff"/><rect x="36" y="0" width="28" height="28" rx="4" fill="#82AB78"/><rect x="0" y="36" width="28" height="28" rx="4" fill="#82AB78" opacity="0.6"/><rect x="36" y="36" width="28" height="28" rx="4" fill="#ffffff"/></svg>RetailSpec</a><p>One platform for retailers with more than one store, more than one website and more than one brand.</p><a class="site-cta" href="/demo" style="display:inline-block;margin-top:14px">Book a demo</a></div><div><h4>Platform</h4><a href="/platform">All powers</a><a href="/catalogue">Catalogue power</a><a href="/online-store">Selling everywhere</a><a href="/counter">Counter power</a><a href="/stock">Stock and buying</a><a href="/orders">Orders and fulfilment</a><a href="/shipping">Shipping</a><a href="/customers">Knowing your shoppers</a><a href="/insight">Insight</a><a href="/money">Money and books</a><a href="/overnight">While you sleep</a><a href="/trust">Control and trust</a></div><div><h4>Solutions</h4><a href="/multi-store">Multi-store retail</a><a href="/retail-and-trade">Retail and trade</a><a href="/cross-border">Selling across borders</a><a href="/stores-web-warehouse">Stores, web and warehouse</a><a href="/sam">Sam, the AI copilot</a></div><div><h4>Compare</h4><a href="/compare">All comparisons</a><a href="/vs-shopify-plus">vs Shopify Plus</a><a href="/vs-lightspeed">vs Lightspeed</a><a href="/app-cost">What your apps cost</a><a href="/moving-in">Moving to RetailSpec</a></div><div><h4>Company</h4><a href="/about">About</a><a href="/halcourt">Meet Halcourt</a><a href="/one-platform">One platform</a><a href="/hardware">Supported hardware</a><a href="/demo">Book a demo</a></div><div><h4>Help and legal</h4><a href="https://retailspec.com/help">Help center</a><a href="https://retailspec.com/legal">Legal</a><a href="https://retailspec.com/sms">Text messaging</a></div><div class="legal">© 2026 RetailSpec. All rights reserved.</div></div></footer><a class="float-cta" href="/demo" hidden>Book a demo</a><a class="back-tour" href="/#tour" hidden>&larr; Back to the home page</a><script>(()=>{const K="rs-tour";document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("a");if(!a)return;try{a.hasAttribute("data-tour")?sessionStorage.setItem(K,a.id):sessionStorage.removeItem(K)}catch(x){}});let id=null;try{id=sessionStorage.getItem(K)}catch(e){}const home=/\/(index\.html)?$/.test(location.pathname);if(home||!id)return;let r=null;try{r=new URL(document.referrer)}catch(e){}if(!r||r.origin!==location.origin||!/\/(index\.html)?$/.test(r.pathname))return;const b=document.querySelector(".back-tour");if(!b)return;b.href="/#"+id;b.hidden=false;b.addEventListener("click",e=>{if(history.length>1){e.preventDefault();history.back()}})})();</script><script>document.addEventListener("click",e=>{document.querySelectorAll("details.mega[open]").forEach(d=>{if(!d.contains(e.target))d.removeAttribute("open")})});document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll("details.mega[open]").forEach(d=>d.removeAttribute("open"))});(()=>{const b=document.querySelector(".float-cta");if(!b||location.pathname==="/demo")return;const f=()=>{b.hidden=window.scrollY<600};addEventListener("scroll",f,{passive:true});f()})();</script>
+</body>
+</html>

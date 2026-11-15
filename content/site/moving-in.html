@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Moving In</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: a store day told in five moments (open → rush → trouble → close → behind the counter). Each moment: timestamp, one story line, three headline powers, the rest folded. The receipt is the motif: thermal paper, perforations, mono type. */
+:root {
+  --bg: #f3f5f0;
+  --ink: #1a2118;
+  --muted: #5b6656;
+  --accent: #3f6b35;
+  --accent-soft: #e2eadc;
+  --paper: #fffef9;
+  --paper-ink: #2a2a26;
+  --card: #ffffff;
+  --rule: #d6dccf;
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --text: "Inter", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #10140f; --ink: #e6ebe2; --muted: #9ba596; --accent: #9cc48f; --accent-soft: #1e2a1b;
+  --paper: #eeeadf; --paper-ink: #24241f; --card: #171c15; --rule: #2a3226; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #10140f; --ink: #e6ebe2; --muted: #9ba596; --accent: #9cc48f; --accent-soft: #1e2a1b;
+  --paper: #eeeadf; --paper-ink: #24241f; --card: #171c15; --rule: #2a3226; color-scheme: dark }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+.top { padding-block: 18px 0; font: 500 13.5px/1 var(--text); }
+.top a { color: var(--muted); text-decoration: none; }
+.top a:hover, .top a:focus-visible { color: var(--accent); }
+body { background: var(--bg); color: var(--ink); font-family: var(--text); line-height: 1.6; }
+.wrap { max-width: 1100px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.eyebrow { font: 600 12px/1 var(--text); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+
+/* hero */
+.hero { padding-block: 48px 40px; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 48px; align-items: center; }
+.hero h1 { font: 700 clamp(34px, 5.4vw, 58px)/1.02 var(--display); letter-spacing: -.015em; margin: 14px 0 18px; text-wrap: balance; }
+.hero p { font-size: 18px; color: var(--muted); max-width: 52ch; margin: 0 0 22px; }
+.feel { display: flex; flex-wrap: wrap; gap: 8px; }
+.feel span { font: 500 13.5px/1 var(--text); padding: 9px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+
+.receipt { background: var(--paper); color: var(--paper-ink); font: 400 13.5px/1.55 var(--mono); padding: 26px 24px 30px; max-width: 340px; justify-self: center; width: 100%;
+  box-shadow: 0 22px 40px rgba(20, 30, 18, .16); transform: rotate(1.6deg); position: relative;
+  -webkit-mask: radial-gradient(circle 6px at 50% 100%, transparent 98%, #000) 0 0 / 16px 100% repeat-x;
+          mask: radial-gradient(circle 6px at 50% 100%, transparent 98%, #000) 0 0 / 16px 100% repeat-x; }
+.receipt .c { text-align: center; }
+.receipt .b { font-weight: 600; }
+.receipt hr { border: 0; border-top: 1.5px dashed currentColor; opacity: .45; margin: 10px 0; }
+.receipt .row { display: flex; justify-content: space-between; gap: 12px; }
+@media (prefers-reduced-motion: no-preference) { .receipt { animation: feed .9s ease-out both; } @keyframes feed { from { transform: translateY(-10px) rotate(1.6deg); } to { transform: rotate(1.6deg); } } }
+
+/* day rail */
+.rail { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(6px); border-block: 1px solid var(--rule); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.rail nav { display: flex; gap: 6px; overflow-x: auto; padding-block: 10px; scrollbar-width: none; }
+.rail a { flex: none; text-decoration: none; color: var(--muted); font: 500 13.5px/1 var(--text); padding: 9px 12px; border-radius: 8px; display: inline-flex; gap: 8px; align-items: baseline; }
+.rail a b { font: 600 12px/1 var(--mono); color: var(--accent); }
+.rail a:hover, .rail a:focus-visible { background: var(--accent-soft); color: var(--ink); outline: none; }
+
+/* moments */
+.moment { padding-block: 64px 8px; scroll-margin-top: 64px; }
+.stamp { font: 600 14px/1 var(--mono); color: var(--accent); display: flex; align-items: center; gap: 12px; }
+.stamp::after { content: ""; flex: 1; border-top: 1.5px dashed var(--rule); }
+.moment h2 { font: 600 clamp(26px, 3.6vw, 38px)/1.1 var(--display); margin: 16px 0 10px; text-wrap: balance; max-width: 22ch; }
+.story { font-size: 17px; color: var(--muted); max-width: 62ch; margin: 0 0 26px; }
+.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.power { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 20px 20px 22px; min-width: 0; }
+.power h3 { font: 600 18px/1.25 var(--display); margin: 0 0 8px; }
+.power p { margin: 0; font-size: 14.5px; color: var(--muted); }
+.power .k { font: 500 11.5px/1 var(--mono); color: var(--accent); letter-spacing: .04em; margin-bottom: 12px; display: block; }
+details { margin-top: 14px; border-top: 1px dashed var(--rule); }
+summary { cursor: pointer; list-style: none; padding: 14px 0; font: 600 14px/1 var(--text); color: var(--accent); display: inline-flex; gap: 8px; align-items: center; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; font: 600 16px/1 var(--mono); width: 16px; }
+details[open] summary::before { content: "−"; }
+summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+.more { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 4px 28px; padding-bottom: 8px; }
+.more div { padding: 8px 0; border-bottom: 1px solid var(--rule); font-size: 14px; color: var(--muted); min-width: 0; }
+.more b { color: var(--ink); font-weight: 600; }
+
+/* close */
+.end { margin-block: 80px 64px; background: var(--card); border: 1px solid var(--rule); border-radius: 16px; padding: 36px clamp(20px, 4vw, 44px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; }
+.end h2 { font: 700 clamp(26px, 3.6vw, 36px)/1.1 var(--display); margin: 10px 0 12px; text-wrap: balance; }
+.end ul { margin: 0; padding: 0; list-style: none; font-size: 15px; }
+.end li { padding: 9px 0; border-bottom: 1px dashed var(--rule); display: flex; gap: 12px; }
+.end li b { font: 600 12.5px/1.6 var(--mono); color: var(--accent); flex: none; width: 48px; }
+.cta { display: inline-block; margin-top: 8px; background: var(--accent); color: var(--bg); text-decoration: none; font: 600 15px/1 var(--text); padding: 14px 20px; border-radius: 10px; }
+.cta:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.next { display: block; margin-top: 18px; color: var(--muted); font-size: 14px; }
+
+@media (max-width: 820px) {
+  .hero { grid-template-columns: 1fr; gap: 32px; }
+  .trio { grid-template-columns: 1fr; }
+  .end { grid-template-columns: 1fr; }
+}
+</style>
+<link rel="stylesheet" href="/site.css">
+</head>
+<body>
+<script>document.documentElement.dataset.page="moving-in"</script><header class="site-h"><div class="site-in"><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><rect x="0" y="0" width="28" height="28" rx="4" fill="#111827"/><rect x="36" y="0" width="28" height="28" rx="4" fill="#82AB78"/><rect x="0" y="36" width="28" height="28" rx="4" fill="#82AB78" opacity="0.6"/><rect x="36" y="36" width="28" height="28" rx="4" fill="#111827"/></svg>RetailSpec</a><nav class="site-nav" aria-label="Main"><details class="mega"><summary>Platform</summary><div class="mega-p"><div><h4>Sell</h4><a href="/catalogue">Catalogue power<span>Brands land ready to sell</span></a><a href="/online-store">Selling everywhere<span>Storefronts in any currency</span></a><a href="/counter">Counter power<span>Registers that never stop</span></a></div><div><h4>Operate</h4><a href="/stock">Stock and buying<span>One warehouse, every store</span></a><a href="/orders">Orders and fulfilment<span>Every order leaves right</span></a><a href="/shipping">Shipping<span>Labels, rates, customs</span></a></div><div><h4>Grow</h4><a href="/customers">Knowing your shoppers<span>One customer, everywhere</span></a><a href="/insight">Insight<span>The week before coffee</span></a></div><div><h4>Run</h4><a href="/money">Money and books<span>Month close, done</span></a><a href="/overnight">While you sleep<span>What runs on its own</span></a><a href="/trust">Control and trust<span>Who changed what</span></a></div><div class="mega-side"><a class="mega-card" href="/one-platform"><b>One platform</b><span>Every store, website and brand on one code base that makes every call.</span></a><a class="mega-card" href="/sam"><b>Sam, the AI copilot</b><span>Drafts the next step from your own numbers. You make the call.</span></a></div><a class="all" href="/platform">See all twelve →</a></div></details><details class="mega"><summary>Solutions</summary><div class="mega-p cards"><a href="/multi-store"><b>Multi-store retail</b><span>Every store runs like your best one.</span></a><a href="/retail-and-trade"><b>Retail and trade</b><span>Shoppers and trade accounts, one system.</span></a><a href="/cross-border"><b>Selling across borders</b><span>A second country, not a second system.</span></a><a href="/stores-web-warehouse"><b>Stores, web and warehouse</b><span>Everyone counting the same stock.</span></a></div></details><a class="nav-flag" href="/brand-library">Brand Library</a><details class="mega"><summary>Why switch</summary><div class="mega-p cards"><a href="/vs-shopify-plus"><b>Moving from Shopify Plus</b><span>What changes, what you gain, and how the move works.</span></a><a href="/vs-lightspeed"><b>Moving from Lightspeed</b><span>One platform for every store and website, side by side.</span></a><a href="/moving-in" aria-current=page><b>How moving in works</b><span>Our team moves you store by store. Every import can be undone.</span></a><a href="/one-platform"><b>One code base</b><span>Every tool built in. No apps bolted on, one bill, one login.</span></a><a href="/halcourt"><b>Meet Halcourt</b><span>One shop that grew into a retail group. Picture your own next stage.</span></a><a href="/compare"><b>All comparisons</b><span>Every comparison in one place, dated and sourced.</span></a><a href="/app-cost"><b>What your apps cost</b><span>Add up the subscriptions you pay for today.</span></a></div></details><a href="/hardware">Hardware</a></nav><a class="site-login" href="{{PLATFORM_ORIGIN}}/login">Log in</a><a class="site-cta" href="/demo">Book a demo</a></div></header>
+
+<header class="wrap hero">
+  <div>
+    <div class="eyebrow">Moving in · RetailSpec</div>
+    <h1>Four stores. Two websites. Fourteen years of history. Moved store by store, without closing a day.</h1>
+    <p>Magnigift has years of customers, products and sales across Charleston, Savannah, Asheville, San Miguel and two websites. None of it should be left behind. RetailSpec brings the history in, runs beside the old registers while each store's team settles in, and takes over one store at a time, when that store is ready.</p>
+    <div class="feel"><span>Your history comes with you</span><span>Old registers keep ringing</span><span>One store at a time</span></div>
+  </div>
+  <figure class="ph photo" data-ratio="4:5"><img src="/img/hero-moving-in.jpg" alt="The San Miguel manager unpacking a new register at the counter" loading="lazy"></figure><div class="receipt" aria-label="An illustrated moving checklist from Halcourt Holdings">
+    <div class="c b">HALCOURT HOLDINGS · MAGNIGIFT</div>
+    <div class="c">Go-live checklist · Nadia</div>
+    <hr>
+    <div class="row"><span>[x] Sample store tried</span><span>Day 1</span></div>
+    <div class="row"><span>[x] Products imported</span><span>Day 3</span></div>
+    <div class="row"><span>[x] Clover history, 4 stores</span><span>Day 4</span></div>
+    <div class="row"><span>[x] Customers matched</span><span>Day 5</span></div>
+    <div class="row"><span>[x] magnigift.com pointed</span><span>Day 12</span></div>
+    <div class="row"><span>[x] .com.mx pointed</span><span>Day 13</span></div>
+    <div class="row"><span>[x] Old links redirect</span><span>Day 13</span></div>
+    <div class="row"><span>[x] Charleston live</span><span>Day 18</span></div>
+    <div class="row"><span>[x] Savannah live</span><span>Day 25</span></div>
+    <div class="row"><span>[x] Asheville live</span><span>Day 32</span></div>
+    <div class="row"><span>[x] San Miguel live</span><span>Day 40</span></div>
+    <hr>
+    <div class="row b"><span>[x] WE'RE LIVE</span><span>Day 45</span></div>
+    <hr>
+    <div class="c">** LAST OLD REGISTER UNPLUGGED **</div>
+  </div>
+</header>
+
+<div class="rail"><div class="wrap"><nav aria-label="The first 45 days">
+  <a href="#thinking"><b>Day 1</b>Thinking it over</a>
+  <a href="#history"><b>Day 3</b>Bringing your history</a>
+  <a href="#website"><b>Day 12</b>The website moves</a>
+  <a href="#sidebyside"><b>Day 18</b>Side by side</a>
+</nav></div></div>
+
+<main class="wrap">
+  <section class="moment" id="thinking">
+    <div class="stamp">DAY 1 · THINKING IT OVER</div>
+    <h2>"We're thinking of switching." Try it before you move a single store.</h2>
+    <p class="story">Nadia Brooks, Halcourt's operations lead, opens the new account and finds it already stocked with sample products and orders. She rings up a test sale, prints a receipt, and asks our team to bring Magnigift's real catalogue across, every brand included.</p>
+    <div class="trio">
+      <div class="power"><span class="k">SAMPLE STORE</span><h3>A store full of examples</h3><p>Your new store opens with sample data, so you can click through real-looking orders and products from the first minute.</p></div>
+      <div class="power"><span class="k">WE'LL IMPORT IT FOR YOU</span><h3>Ask, and we'll move it</h3><p>Ask, and our team runs the import inside your own console, where you can see every step.</p></div>
+      <div class="power"><span class="k">LEAVE WITH YOUR DATA</span><h3>The door is always open</h3><p>Everything you own downloads as plain spreadsheets in one zip file, any time you like.</p></div>
+    </div>
+    <details><summary>2 more things about the sample store</summary><div class="more">
+      <div><b>Kept out of the books.</b> Sample data never shows up in your reports or your accounting.</div>
+      <div><b>Gone in one click.</b> One button clears the samples when your real data is in.</div>
+    </div></details>
+  </section>
+
+  <section class="moment" id="history">
+    <div class="stamp">DAY 3 · BRINGING YOUR HISTORY</div>
+    <h2>Fourteen years of customers from four stores and two websites arrive, already linked up.</h2>
+    <p class="story">Magnigift's four stores sold on Clover and both websites ran on Shopify. All of it comes in from one page. By the afternoon, Maria Alvarez's purchases in Savannah and her orders on magnigift.com sit on a single customer record.</p>
+    <div class="trio">
+      <div class="power"><span class="k">IMPORT HUB</span><h3>One page for every source</h3><p>Bring in your history from Shopify, WooCommerce, Clover, Square or a spreadsheet, all from the same page.</p></div>
+      <div class="power"><span class="k">CLOVER AND SQUARE HISTORY</span><h3>Past sales come with you</h3><p>Past sales, refunds and customers, card details included, arrive as history you can read and report on.</p></div>
+      <div class="power"><span class="k">AUTOMATIC MATCHING</span><h3>Old sales find their place</h3><p>Old sales link to your products by barcode or SKU, and to your customers by email, phone or card.</p></div>
+    </div>
+    <details><summary>2 more ways imports stay safe</summary><div class="more">
+      <div><b>Undo an import.</b> Take an import back cleanly, as long as nobody has worked on it yet.</div>
+      <div><b>Read-only, one way.</b> Imports only read from your old system. Nothing is ever written back to it.</div>
+    </div></details>
+  </section>
+
+  <section class="moment" id="website">
+    <div class="stamp">DAY 12 · THE WEBSITE MOVES</div>
+    <h2>Both addresses stay the same. So do the search rankings.</h2>
+    <p class="story">Nadia points magnigift.com and magnigift.com.mx at RetailSpec, one visit each. Years of links in old emails and search results keep working on both sites, and the checklist ticks off each step by itself.</p>
+    <div class="trio">
+      <div class="power"><span class="k">ONE DNS TRIP</span><h3>Point your domain once</h3><p>One set of settings to copy into your domain provider, in a single visit, with nothing to come back for.</p></div>
+      <div class="power"><span class="k">OLD LINKS REDIRECT</span><h3>Every old link still lands</h3><p>Old Shopify-style addresses send visitors to the right new page, so your search rankings carry over.</p></div>
+      <div class="power"><span class="k">GO-LIVE CHECKLIST</span><h3>A list that ticks itself</h3><p>Every switch-over step in one list. Steps RetailSpec can check, it ticks for you, ending in "We're live".</p></div>
+    </div>
+    <details><summary>2 more website tools</summary><div class="more">
+      <div><b>Redirects manager.</b> See every redirect and how many visitors each one has caught.</div>
+      <div><b>Automatic connection.</b> Connecting your domain automatically at GoDaddy, Cloudflare and others is on the way.</div>
+    </div></details>
+  </section>
+
+  <section class="moment" id="sidebyside">
+    <div class="stamp">DAY 18 · SIDE BY SIDE</div>
+    <h2>The old registers keep ringing while the new ones take over, store by store.</h2>
+    <p class="story">Charleston moves to RetailSpec first. Savannah, Asheville and San Miguel stay on Clover until their teams are ready, and Lucía's team in San Miguel learns the new screen in Spanish. Each morning, sales from the old registers come across as history.</p>
+    <div class="trio">
+      <div class="power"><span class="k">RUN SIDE BY SIDE</span><h3>Nothing switches overnight</h3><p>Keep your old register running while RetailSpec takes over the counter, usually on hardware you already own. <a href="/hardware#byoh">Bring your own hardware →</a></p></div>
+      <div class="power"><span class="k">ONE REGISTER AT A TIME</span><h3>Move at your team's pace</h3><p>Switch one register when its cashier is ready, then the next, until the last old one is unplugged.</p></div>
+      <div class="power"><span class="k">CHECK BEFORE YOU IMPORT</span><h3>See what's new first</h3><p>Before each pull, see what's new since the last one. Nothing lands until you've looked.</p></div>
+    </div>
+    <details><summary>2 more things that make the overlap easy</summary><div class="more">
+      <div><b>Daily history pulls.</b> Sales rung on the old register come in as history, matched to products and customers after they land.</div>
+      <div><b>A checkpoint first.</b> RetailSpec takes a safe restore point before every import.</div>
+    </div></details>
+  </section>
+
+  <section class="end" id="demo">
+    <div>
+      <div class="eyebrow">By day 45</div>
+      <h2>The last old register in the last store was unplugged, and the history never left.</h2>
+      <p style="color:var(--muted);margin:0 0 18px">That's how established multi-store retailers move to RetailSpec: carefully, one store at a time, with everything they've built.</p>
+      <a class="cta" href="/demo">Book a demo</a>
+      <a class="next" href="/platform">Next: All powers →</a>
+    </div>
+    <ul aria-label="The first 45 days in review">
+      <li><b>Day 1</b><span>Nadia tried a full sample store and knew Halcourt could always leave.</span></li>
+      <li><b>Day 3</b><span>Years of sales from four stores and two websites arrived, already matched.</span></li>
+      <li><b>Day 12</b><span>Both domains moved and every old link still worked.</span></li>
+      <li><b>Day 18</b><span>Charleston went live while three stores kept ringing on Clover.</span></li>
+      <li><b>Day 45</b><span>"We're live." San Miguel's old register was the last one unplugged.</span></li>
+    </ul>
+  </section>
+</main>
+<section class="pre-f" aria-label="Keep exploring"><div class="pin"><div class="pre-l"><h2>Not convinced yet? Fair enough.</h2><p>Most retailers look around before they talk to anyone. Here are three good places to look next, and the demo is here whenever you want it.</p><a class="site-cta" href="/demo">Book a demo</a></div><div class="pre-g"><a href="/platform"><b>See every tool</b><span>Twelve stories from a real retail day, week and year.</span></a><a href="/moving-in"><b>See how moving works</b><span>Store by store, with our team, and every import can be undone.</span></a><a href="/one-platform"><b>See how it fits together</b><span>One code base that makes every call, with no apps bolted on.</span></a></div></div></section><footer class="site-f"><div class="fin"><div><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><rect x="0" y="0" width="28" height="28" rx="4" fill="#ffffff"/><rect x="36" y="0" width="28" height="28" rx="4" fill="#82AB78"/><rect x="0" y="36" width="28" height="28" rx="4" fill="#82AB78" opacity="0.6"/><rect x="36" y="36" width="28" height="28" rx="4" fill="#ffffff"/></svg>RetailSpec</a><p>One platform for retailers with more than one store, more than one website and more than one brand.</p><a class="site-cta" href="/demo" style="display:inline-block;margin-top:14px">Book a demo</a></div><div><h4>Platform</h4><a href="/platform">All powers</a><a href="/catalogue">Catalogue power</a><a href="/online-store">Selling everywhere</a><a href="/counter">Counter power</a><a href="/stock">Stock and buying</a><a href="/orders">Orders and fulfilment</a><a href="/shipping">Shipping</a><a href="/customers">Knowing your shoppers</a><a href="/insight">Insight</a><a href="/money">Money and books</a><a href="/overnight">While you sleep</a><a href="/trust">Control and trust</a></div><div><h4>Solutions</h4><a href="/multi-store">Multi-store retail</a><a href="/retail-and-trade">Retail and trade</a><a href="/cross-border">Selling across borders</a><a href="/stores-web-warehouse">Stores, web and warehouse</a><a href="/sam">Sam, the AI copilot</a></div><div><h4>Compare</h4><a href="/compare">All comparisons</a><a href="/vs-shopify-plus">vs Shopify Plus</a><a href="/vs-lightspeed">vs Lightspeed</a><a href="/app-cost">What your apps cost</a><a href="/moving-in">Moving to RetailSpec</a></div><div><h4>Company</h4><a href="/about">About</a><a href="/halcourt">Meet Halcourt</a><a href="/one-platform">One platform</a><a href="/hardware">Supported hardware</a><a href="/demo">Book a demo</a></div><div><h4>Help and legal</h4><a href="https://retailspec.com/help">Help center</a><a href="https://retailspec.com/legal">Legal</a><a href="https://retailspec.com/sms">Text messaging</a></div><div class="legal">© 2026 RetailSpec. All rights reserved.</div></div></footer><a class="float-cta" href="/demo" hidden>Book a demo</a><a class="back-tour" href="/#tour" hidden>&larr; Back to the home page</a><script>(()=>{const K="rs-tour";document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("a");if(!a)return;try{a.hasAttribute("data-tour")?sessionStorage.setItem(K,a.id):sessionStorage.removeItem(K)}catch(x){}});let id=null;try{id=sessionStorage.getItem(K)}catch(e){}const home=/\/(index\.html)?$/.test(location.pathname);if(home||!id)return;let r=null;try{r=new URL(document.referrer)}catch(e){}if(!r||r.origin!==location.origin||!/\/(index\.html)?$/.test(r.pathname))return;const b=document.querySelector(".back-tour");if(!b)return;b.href="/#"+id;b.hidden=false;b.addEventListener("click",e=>{if(history.length>1){e.preventDefault();history.back()}})})();</script><script>document.addEventListener("click",e=>{document.querySelectorAll("details.mega[open]").forEach(d=>{if(!d.contains(e.target))d.removeAttribute("open")})});document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll("details.mega[open]").forEach(d=>d.removeAttribute("open"))});(()=>{const b=document.querySelector(".float-cta");if(!b||location.pathname==="/demo")return;const f=()=>{b.hidden=window.scrollY<600};addEventListener("scroll",f,{passive:true});f()})();</script>
+</body>
+</html>

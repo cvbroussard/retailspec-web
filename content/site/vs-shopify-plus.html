@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RetailSpec vs Shopify Plus</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: a store day told in five moments (open → rush → trouble → close → behind the counter). Each moment: timestamp, one story line, three headline powers, the rest folded. The receipt is the motif: thermal paper, perforations, mono type. */
+:root {
+  --bg: #f3f5f0;
+  --ink: #1a2118;
+  --muted: #5b6656;
+  --accent: #3f6b35;
+  --accent-soft: #e2eadc;
+  --paper: #fffef9;
+  --paper-ink: #2a2a26;
+  --card: #ffffff;
+  --rule: #d6dccf;
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --text: "Inter", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #10140f; --ink: #e6ebe2; --muted: #9ba596; --accent: #9cc48f; --accent-soft: #1e2a1b;
+  --paper: #eeeadf; --paper-ink: #24241f; --card: #171c15; --rule: #2a3226; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #10140f; --ink: #e6ebe2; --muted: #9ba596; --accent: #9cc48f; --accent-soft: #1e2a1b;
+  --paper: #eeeadf; --paper-ink: #24241f; --card: #171c15; --rule: #2a3226; color-scheme: dark }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+.top { padding-block: 18px 0; font: 500 13.5px/1 var(--text); }
+.top a { color: var(--muted); text-decoration: none; }
+.top a:hover, .top a:focus-visible { color: var(--accent); }
+body { background: var(--bg); color: var(--ink); font-family: var(--text); line-height: 1.6; }
+.wrap { max-width: 1100px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.eyebrow { font: 600 12px/1 var(--text); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+
+/* hero */
+.hero { padding-block: 48px 40px; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 48px; align-items: center; }
+.hero h1 { font: 700 clamp(34px, 5.4vw, 58px)/1.02 var(--display); letter-spacing: -.015em; margin: 14px 0 18px; text-wrap: balance; }
+.hero p { font-size: 18px; color: var(--muted); max-width: 52ch; margin: 0 0 22px; }
+.feel { display: flex; flex-wrap: wrap; gap: 8px; }
+.feel span { font: 500 13.5px/1 var(--text); padding: 9px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+
+.receipt { background: var(--paper); color: var(--paper-ink); font: 400 13.5px/1.55 var(--mono); padding: 26px 24px 30px; max-width: 340px; justify-self: center; width: 100%;
+  box-shadow: 0 22px 40px rgba(20, 30, 18, .16); transform: rotate(1.6deg); position: relative;
+  -webkit-mask: radial-gradient(circle 6px at 50% 100%, transparent 98%, #000) 0 0 / 16px 100% repeat-x;
+          mask: radial-gradient(circle 6px at 50% 100%, transparent 98%, #000) 0 0 / 16px 100% repeat-x; }
+.receipt .c { text-align: center; }
+.receipt .b { font-weight: 600; }
+.receipt hr { border: 0; border-top: 1.5px dashed currentColor; opacity: .45; margin: 10px 0; }
+.receipt .row { display: flex; justify-content: space-between; gap: 12px; }
+@media (prefers-reduced-motion: no-preference) { .receipt { animation: feed .9s ease-out both; } @keyframes feed { from { transform: translateY(-10px) rotate(1.6deg); } to { transform: rotate(1.6deg); } } }
+
+/* day rail */
+.rail { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(6px); border-block: 1px solid var(--rule); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.rail nav { display: flex; gap: 6px; overflow-x: auto; padding-block: 10px; scrollbar-width: none; }
+.rail a { flex: none; text-decoration: none; color: var(--muted); font: 500 13.5px/1 var(--text); padding: 9px 12px; border-radius: 8px; display: inline-flex; gap: 8px; align-items: baseline; }
+.rail a b { font: 600 12px/1 var(--mono); color: var(--accent); }
+.rail a:hover, .rail a:focus-visible { background: var(--accent-soft); color: var(--ink); outline: none; }
+
+/* moments */
+.moment { padding-block: 64px 8px; scroll-margin-top: 64px; }
+.stamp { font: 600 14px/1 var(--mono); color: var(--accent); display: flex; align-items: center; gap: 12px; }
+.stamp::after { content: ""; flex: 1; border-top: 1.5px dashed var(--rule); }
+.moment h2 { font: 600 clamp(26px, 3.6vw, 38px)/1.1 var(--display); margin: 16px 0 10px; text-wrap: balance; max-width: 22ch; }
+.story { font-size: 17px; color: var(--muted); max-width: 62ch; margin: 0 0 26px; }
+.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.power { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 20px 20px 22px; min-width: 0; }
+.power h3 { font: 600 18px/1.25 var(--display); margin: 0 0 8px; }
+.power p { margin: 0; font-size: 14.5px; color: var(--muted); }
+.power .k { font: 500 11.5px/1 var(--mono); color: var(--accent); letter-spacing: .04em; margin-bottom: 12px; display: block; }
+details { margin-top: 14px; border-top: 1px dashed var(--rule); }
+summary { cursor: pointer; list-style: none; padding: 14px 0; font: 600 14px/1 var(--text); color: var(--accent); display: inline-flex; gap: 8px; align-items: center; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; font: 600 16px/1 var(--mono); width: 16px; }
+details[open] summary::before { content: "−"; }
+summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+.more { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 4px 28px; padding-bottom: 8px; }
+.more div { padding: 8px 0; border-bottom: 1px solid var(--rule); font-size: 14px; color: var(--muted); min-width: 0; }
+.more b { color: var(--ink); font-weight: 600; }
+
+/* close */
+.end { margin-block: 80px 64px; background: var(--card); border: 1px solid var(--rule); border-radius: 16px; padding: 36px clamp(20px, 4vw, 44px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; }
+.end h2 { font: 700 clamp(26px, 3.6vw, 36px)/1.1 var(--display); margin: 10px 0 12px; text-wrap: balance; }
+.end ul { margin: 0; padding: 0; list-style: none; font-size: 15px; }
+.end li { padding: 9px 0; border-bottom: 1px dashed var(--rule); display: flex; gap: 12px; }
+.end li b { font: 600 12.5px/1.6 var(--mono); color: var(--accent); flex: none; width: 48px; }
+.cta { display: inline-block; margin-top: 8px; background: var(--accent); color: var(--bg); text-decoration: none; font: 600 15px/1 var(--text); padding: 14px 20px; border-radius: 10px; }
+.cta:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.next { display: block; margin-top: 18px; color: var(--muted); font-size: 14px; }
+
+@media (max-width: 820px) {
+  .hero { grid-template-columns: 1fr; gap: 32px; }
+  .trio { grid-template-columns: 1fr; }
+  .end { grid-template-columns: 1fr; }
+}
+
+/* vs-shopify-plus page */
+.vs-hero { padding-block: 48px 24px; max-width: 820px; }
+.vs-hero h1 { font: 700 clamp(32px, 5vw, 52px)/1.05 var(--display); letter-spacing: -.015em; margin: 14px 0 18px; text-wrap: balance; }
+.vs-hero p { font-size: 18px; color: var(--muted); max-width: 62ch; margin: 0 0 16px; }
+.asof { font: 500 12.5px/1.5 var(--mono); color: var(--muted); }
+.asof b { color: var(--accent); font-weight: 600; }
+.vs-sec { padding-block: 48px 8px; }
+.vs-sec h2 { font: 600 clamp(24px, 3.4vw, 34px)/1.1 var(--display); margin: 12px 0 10px; text-wrap: balance; }
+.vs-sec > p { font-size: 16px; color: var(--muted); max-width: 66ch; margin: 0 0 22px; }
+.fit { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.fit .power p a, .vs-sec > p a, .tbl a, .apps a { color: var(--accent); }
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 12px; background: var(--card); }
+.tbl { border-collapse: collapse; width: 100%; min-width: 760px; font-size: 14.5px; }
+.tbl th, .tbl td { text-align: left; vertical-align: top; padding: 14px 16px; border-bottom: 1px solid var(--rule); }
+.tbl tbody tr:last-child th, .tbl tbody tr:last-child td { border-bottom: 0; }
+.tbl thead th { font: 600 12px/1.3 var(--text); letter-spacing: .1em; text-transform: uppercase; color: var(--accent); background: var(--accent-soft); }
+.tbl tbody th { font: 600 15px/1.35 var(--display); width: 20%; }
+.tbl td { color: var(--muted); width: 40%; }
+.tbl td p { margin: 0 0 6px; }
+.src { font: 500 11.5px/1 var(--mono); text-decoration: none; white-space: nowrap; }
+.src:hover, .src:focus-visible { text-decoration: underline; }
+.apps { margin: 0; padding: 0; list-style: none; max-width: 76ch; }
+.apps li { padding: 12px 0; border-bottom: 1px dashed var(--rule); font-size: 15px; color: var(--muted); }
+.apps li b { color: var(--ink); font-weight: 600; }
+.sources ol { margin: 0; padding-left: 22px; font: 400 13px/1.6 var(--mono); color: var(--muted); }
+.sources li { padding: 4px 0; overflow-wrap: anywhere; }
+.sources a { color: var(--accent); }
+.note { font-size: 13.5px; color: var(--muted); max-width: 76ch; margin-top: 14px; }
+@media (max-width: 820px) { .fit { grid-template-columns: 1fr; } }
+</style>
+<link rel="stylesheet" href="/site.css">
+</head>
+<body>
+<script>document.documentElement.dataset.page="vs-shopify-plus"</script><header class="site-h"><div class="site-in"><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><rect x="0" y="0" width="28" height="28" rx="4" fill="#111827"/><rect x="36" y="0" width="28" height="28" rx="4" fill="#82AB78"/><rect x="0" y="36" width="28" height="28" rx="4" fill="#82AB78" opacity="0.6"/><rect x="36" y="36" width="28" height="28" rx="4" fill="#111827"/></svg>RetailSpec</a><nav class="site-nav" aria-label="Main"><details class="mega"><summary>Platform</summary><div class="mega-p"><div><h4>Sell</h4><a href="/catalogue">Catalogue power<span>Brands land ready to sell</span></a><a href="/online-store">Selling everywhere<span>Storefronts in any currency</span></a><a href="/counter">Counter power<span>Registers that never stop</span></a></div><div><h4>Operate</h4><a href="/stock">Stock and buying<span>One warehouse, every store</span></a><a href="/orders">Orders and fulfilment<span>Every order leaves right</span></a><a href="/shipping">Shipping<span>Labels, rates, customs</span></a></div><div><h4>Grow</h4><a href="/customers">Knowing your shoppers<span>One customer, everywhere</span></a><a href="/insight">Insight<span>The week before coffee</span></a></div><div><h4>Run</h4><a href="/money">Money and books<span>Month close, done</span></a><a href="/overnight">While you sleep<span>What runs on its own</span></a><a href="/trust">Control and trust<span>Who changed what</span></a></div><div class="mega-side"><a class="mega-card" href="/one-platform"><b>One platform</b><span>Every store, website and brand on one code base that makes every call.</span></a><a class="mega-card" href="/sam"><b>Sam, the AI copilot</b><span>Drafts the next step from your own numbers. You make the call.</span></a></div><a class="all" href="/platform">See all twelve →</a></div></details><details class="mega"><summary>Solutions</summary><div class="mega-p cards"><a href="/multi-store"><b>Multi-store retail</b><span>Every store runs like your best one.</span></a><a href="/retail-and-trade"><b>Retail and trade</b><span>Shoppers and trade accounts, one system.</span></a><a href="/cross-border"><b>Selling across borders</b><span>A second country, not a second system.</span></a><a href="/stores-web-warehouse"><b>Stores, web and warehouse</b><span>Everyone counting the same stock.</span></a></div></details><a class="nav-flag" href="/brand-library">Brand Library</a><details class="mega"><summary>Why switch</summary><div class="mega-p cards"><a href="/vs-shopify-plus" aria-current=page><b>Moving from Shopify Plus</b><span>What changes, what you gain, and how the move works.</span></a><a href="/vs-lightspeed"><b>Moving from Lightspeed</b><span>One platform for every store and website, side by side.</span></a><a href="/moving-in"><b>How moving in works</b><span>Our team moves you store by store. Every import can be undone.</span></a><a href="/one-platform"><b>One code base</b><span>Every tool built in. No apps bolted on, one bill, one login.</span></a><a href="/halcourt"><b>Meet Halcourt</b><span>One shop that grew into a retail group. Picture your own next stage.</span></a><a href="/compare"><b>All comparisons</b><span>Every comparison in one place, dated and sourced.</span></a><a href="/app-cost"><b>What your apps cost</b><span>Add up the subscriptions you pay for today.</span></a></div></details><a href="/hardware">Hardware</a></nav><a class="site-login" href="{{PLATFORM_ORIGIN}}/login">Log in</a><a class="site-cta" href="/demo">Book a demo</a></div></header>
+<header class="wrap vs-hero">
+  <div class="eyebrow">Compare</div>
+  <h1>Your stores have grown. So has the list of apps around your Shopify store.</h1>
+  <p>Many retailers start on Shopify and do well there. Then the business adds a second and a fifth store, a few hundred brands, a site in another country and a trade program. Each step brings another app, another bill and another place where stock or customers can drift apart. This page sets Shopify Plus and RetailSpec side by side for that situation. Every Shopify statement links to Shopify's own pages.</p>
+  <p class="asof"><b>As of November 2026.</b> Shopify details checked on Shopify's public pages on 14 November 2026. Plans and features change, so check the linked pages for the latest.</p>
+</header><div class="ph-wide"><figure class="ph photo" data-ratio="21:9"><img src="/img/hero-vs-shopify-plus.jpg" alt="The Savannah store in golden light, an associate helping a customer at the counter" loading="lazy"></figure></div>
+
+<main class="wrap">
+  <section class="vs-sec" id="stay">
+    <div class="eyebrow">Be fair first</div>
+    <h2>Who should stay with Shopify Plus</h2>
+    <p>Shopify Plus is a strong platform. For some businesses it is the right home, and moving would cost more than it returns.</p>
+    <div class="fit">
+      <div class="power"><span class="k">OWN-BRAND, ONLINE FIRST</span><h3>Brands selling mostly their own products online</h3><p>If you make what you sell and most sales happen on your website, you don't need a catalogue of other brands or deep store operations. Shopify is built around that model.</p></div>
+      <div class="power"><span class="k">APP ECOSYSTEM</span><h3>Teams invested in Shopify apps and themes</h3><p>If your team, your agency and your workflows are built on apps from the Shopify App Store and a custom theme, that investment has real value. Rebuilding it takes time.</p></div>
+      <div class="power"><span class="k">CHANNEL REACH</span><h3>Merchants who rely on Shopify's sales channels</h3><p>If a large share of your sales comes through channels you manage from the Shopify admin, or you sell other brands' products through Shopify Collective <a class="src" href="https://help.shopify.com/en/manual/online-sales-channels/shopify-collective/retailers" aria-label="Source 7">[7]</a>, staying keeps that reach in one place.</p></div>
+      <div class="power"><span class="k">PUBLISHED PRICE</span><h3>Buyers who need a list price today</h3><p>Shopify publishes Plus pricing, starting at $2,300 USD a month <a class="src" href="https://www.shopify.com/pricing" aria-label="Source 1">[1]</a>. RetailSpec does not publish pricing yet, so pricing comes through a conversation.</p></div>
+    </div>
+  </section>
+
+  <section class="vs-sec" id="built-for">
+    <div class="eyebrow">Our fit</div>
+    <h2>Who RetailSpec is built for</h2>
+    <p>Established retailers with several stores and many brands, who sell in their stores and online, often across borders, and often with a trade program for designers, hotels or other businesses. RetailSpec puts the counter, the stockroom, the websites, the customer list and the books in one system.</p>
+    <div class="fit">
+      <div class="power"><span class="k">STORES</span><h3>Several stores, one system</h3><p>A native point of sale in every store, with the stock, customers and reports shared with your websites. Panorama shows every register, printer and screen on one map.</p></div>
+      <div class="power"><span class="k">BRANDS</span><h3>Hundreds of brands without the typing</h3><p>Subscribe to a brand in the Brand Library and its whole catalogue lands in your store, written, photographed and barcoded. Updates flow in after that.</p></div>
+      <div class="power"><span class="k">BORDERS</span><h3>More than one country</h3><p>Several storefronts, each with its own currency and language, automatic translations, and a console your staff can use in five languages.</p></div>
+      <div class="power"><span class="k">TRADE</span><h3>A trade program beside retail</h3><p>Trade and B2B accounts with their own price lists.</p></div>
+    </div>
+  </section>
+
+  <section class="vs-sec" id="compare">
+    <div class="eyebrow">Side by side</div>
+    <h2>The questions buyers ask</h2>
+    <p>Each Shopify Plus cell links to the Shopify page it comes from. Each RetailSpec cell describes what is built today.</p>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th scope="col">Concern</th><th scope="col">Shopify Plus</th><th scope="col">RetailSpec</th></tr></thead>
+        <tbody>
+          <tr>
+            <th scope="row">Point of sale for several stores</th>
+            <td><p>Plus includes POS Pro for the first 20 locations, and up to 200 with Shopify Payments <a class="src" href="https://www.shopify.com/pricing" aria-label="Source 1">[1]</a> <a class="src" href="https://help.shopify.com/en/manual/intro-to-shopify/pricing-plans/plans-features/shopify-plus-plan" aria-label="Source 2">[2]</a>. On other plans, POS Pro is $89 USD a month per location <a class="src" href="https://www.shopify.com/pos/pricing" aria-label="Source 3">[3]</a>.</p><p>Offline checkout takes cash and manual payments without internet. Offline card payments must be switched on in the admin, need a compatible reader, and Shopify advises reconnecting within 24 hours to reduce the risk of declines <a class="src" href="https://help.shopify.com/en/manual/sell-in-person/shopify-pos/selling-offline" aria-label="Source 4">[4]</a> <a class="src" href="https://help.shopify.com/en/manual/sell-in-person/shopify-pos/selling-offline/offline-payments" aria-label="Source 5">[5]</a>.</p></td>
+            <td><p>Native POS in every store, with offline selling, a direct link to the card reader, end-of-day capture, blind drawer counts and a loss-prevention log.</p><p>Training and test registers for new staff. Panorama shows every device in every store on one map.</p></td>
+          </tr>
+          <tr>
+            <th scope="row">Inventory across locations and purchasing</th>
+            <td><p>Plus supports up to 200 inventory locations <a class="src" href="https://help.shopify.com/en/manual/intro-to-shopify/pricing-plans/plans-features/shopify-plus-plan" aria-label="Source 2">[2]</a>. Purchase orders can be created in the admin, listing products, quantities, costs, payment terms and supplier details. Receiving and cost adjustments are handled through an inventory transfer <a class="src" href="https://help.shopify.com/en/manual/products/inventory/purchase-orders" aria-label="Source 6">[6]</a>.</p></td>
+            <td><p>Multi-location inventory with transfers. Purchase orders in multiple currencies, with landed cost. Receiving with the supplier's documents attached.</p><p>Cycle counts, kits and bundles, and serial tracking.</p></td>
+          </tr>
+          <tr>
+            <th scope="row">Multi-brand catalogue sourcing</th>
+            <td><p>Merchants add products in the admin or import them by CSV file <a class="src" href="https://help.shopify.com/en/manual/shopify-admin/productivity-tools/csv-files" aria-label="Source 8">[8]</a>. Shopify Collective lets retailers import and sell products from other Shopify stores, and the supplier ships each order directly to the customer <a class="src" href="https://help.shopify.com/en/manual/online-sales-channels/shopify-collective/retailers" aria-label="Source 7">[7]</a>.</p></td>
+            <td><p>Brand Library: subscribe to a brand and its whole catalogue lands in your store, written, photographed and barcoded. Updates from the brand flow in. You hold and sell your own stock.</p></td>
+          </tr>
+          <tr>
+            <th scope="row">Selling internationally</th>
+            <td><p>Markets target specific countries or regions <a class="src" href="https://help.shopify.com/en/manual/international" aria-label="Source 10">[10]</a>. Local currency pricing needs Shopify Payments for full functionality <a class="src" href="https://help.shopify.com/en/manual/international/pricing" aria-label="Source 11">[11]</a>. Languages are added per market, and translation runs through the Translate &amp; Adapt app, CSV files or third-party apps <a class="src" href="https://help.shopify.com/en/manual/international/languages" aria-label="Source 12">[12]</a>.</p><p>Plus includes up to 9 expansion stores. Products, settings and inventory are not synced between them, and apps are billed per store <a class="src" href="https://help.shopify.com/en/manual/organization-settings/expansion-stores" aria-label="Source 9">[9]</a> <a class="src" href="https://help.shopify.com/en/manual/intro-to-shopify/pricing-plans/plans-features/shopify-plus-plan" aria-label="Source 2">[2]</a>.</p></td>
+            <td><p>Several storefronts, each with its own currency and language. Automatic translations. The console itself runs in five languages.</p></td>
+          </tr>
+          <tr>
+            <th scope="row">B2B and trade</th>
+            <td><p>Shopify B2B is available on Plus. B2B customers are set up as companies, each with its own pricing, currency, products, and payment and shipping methods <a class="src" href="https://help.shopify.com/en/manual/b2b" aria-label="Source 13">[13]</a>. Plus adds unlimited B2B catalogs <a class="src" href="https://www.shopify.com/pricing" aria-label="Source 1">[1]</a> <a class="src" href="https://help.shopify.com/en/manual/intro-to-shopify/pricing-plans/plans-features/shopify-plus-plan" aria-label="Source 2">[2]</a>.</p></td>
+            <td><p>Trade and B2B accounts with their own price lists.</p></td>
+          </tr>
+          <tr>
+            <th scope="row">Shipping</th>
+            <td><p>Merchants can buy, print and manage discounted labels from Shopify-supported carriers in the admin. Carriers depend on location, and discounts vary by plan. Domestic return labels are available for locations in the United States or Canada <a class="src" href="https://help.shopify.com/en/manual/shipping/shopify-shipping" aria-label="Source 14">[14]</a> <a class="src" href="https://help.shopify.com/en/manual/shipping/shopify-shipping/shipping-labels" aria-label="Source 15">[15]</a>.</p></td>
+            <td><p>Built in: labels, rates, tracking and returns. No separate shipping app or carrier account to set up.</p></td>
+          </tr>
+          <tr>
+            <th scope="row">Email marketing</th>
+            <td><p>Shopify Messaging, formerly Shopify Email, sends email, SMS and WhatsApp campaigns and supports automations <a class="src" href="https://help.shopify.com/en/manual/promoting-marketing/create-marketing/shopify-email" aria-label="Source 17">[17]</a>. Up to 10,000 emails a month are free, then $1 USD per 1,000. SMS is charged separately <a class="src" href="https://www.shopify.com/email-marketing" aria-label="Source 16">[16]</a>.</p></td>
+            <td><p>Marketing email and automated flows built in. Customers are recognised across your stores and websites, so a store purchase and a web visit belong to the same person.</p></td>
+          </tr>
+          <tr>
+            <th scope="row">Loyalty</th>
+            <td><p>Shopify's own guide says Shopify POS doesn't have built-in loyalty tools, and points merchants to third-party loyalty apps <a class="src" href="https://www.shopify.com/blog/pos-loyalty-program" aria-label="Source 18">[18]</a>.</p></td>
+            <td><p>Loyalty and referrals built in, shared by the counter and the websites.</p></td>
+          </tr>
+          <tr>
+            <th scope="row">Accounting sync</th>
+            <td><p>For QuickBooks Online, Shopify's help center says to install the QuickBooks Online app <a class="src" href="https://help.shopify.com/en/manual/sell-in-person/quickbooks/integration" aria-label="Source 19">[19]</a>, which is published by Intuit <a class="src" href="https://apps.shopify.com/quickbooks" aria-label="Source 20">[20]</a>. Xero sync is offered by third-party apps in the Shopify App Store <a class="src" href="https://apps.shopify.com/xero-accounting-integration" aria-label="Source 21">[21]</a>.</p></td>
+            <td><p>QuickBooks, Xero and Business Central sync built in.</p></td>
+          </tr>
+          <tr>
+            <th scope="row">Reporting</th>
+            <td><p>All plans include 200+ real-time reports and custom analytics <a class="src" href="https://www.shopify.com/pricing" aria-label="Source 1">[1]</a>. Plus adds advanced sales, cohort, inventory and customer reports, with custom dashboards and exportable data <a class="src" href="https://help.shopify.com/en/manual/intro-to-shopify/pricing-plans/plans-features/shopify-plus-plan" aria-label="Source 2">[2]</a>.</p></td>
+            <td><p>Reports across stores and websites, including loss prevention and sales tax tracking. Sam, an AI-powered console copilot, helps staff find answers in the console.</p></td>
+          </tr>
+          <tr>
+            <th scope="row">Data ownership and export</th>
+            <td><p>CSV files can export products, customers, inventory, and admin and POS users. Orders and discounts can be exported too <a class="src" href="https://help.shopify.com/en/manual/shopify-admin/productivity-tools/csv-files" aria-label="Source 8">[8]</a>.</p></td>
+            <td><p>Each merchant has its own database. You can leave at any time with a full data export.</p></td>
+          </tr>
+          <tr>
+            <th scope="row">Typical app needs</th>
+            <td><p>Shopify's own pages point to apps for loyalty <a class="src" href="https://www.shopify.com/blog/pos-loyalty-program" aria-label="Source 18">[18]</a>, for QuickBooks Online and Xero <a class="src" href="https://help.shopify.com/en/manual/sell-in-person/quickbooks/integration" aria-label="Source 19">[19]</a> <a class="src" href="https://apps.shopify.com/xero-accounting-integration" aria-label="Source 21">[21]</a>, and for translation beyond the Translate &amp; Adapt app <a class="src" href="https://help.shopify.com/en/manual/international/languages" aria-label="Source 12">[12]</a>. Keeping inventory in step between expansion stores relies on third-party apps or an ERP <a class="src" href="https://help.shopify.com/en/manual/organization-settings/expansion-stores" aria-label="Source 9">[9]</a>.</p></td>
+            <td><p>POS, inventory, purchasing, shipping, email, loyalty, referrals, trade accounts, translations and accounting sync are part of RetailSpec. Payments run through your own Stripe account.</p></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="vs-sec" id="apps">
+    <div class="eyebrow">The quiet cost</div>
+    <h2>What the extra apps add up to</h2>
+    <p>Apps are a strength of Shopify. They also add up as a business grows. Here is what to count when you compare.</p>
+    <ul class="apps">
+      <li><b>Subscriptions.</b> Each app has its own plan and price, and many price by order volume. Add them up for your busiest month, not your average one.</li>
+      <li><b>Per-store billing.</b> On Plus, apps are billed per store, so each expansion store can repeat the same app bills <a class="src" href="https://help.shopify.com/en/manual/organization-settings/expansion-stores" aria-label="Source 9">[9]</a>.</li>
+      <li><b>Sync between systems.</b> Every app keeps its own copy of some data. Loyalty balances, stock counts and accounting entries can drift when a sync fails, and someone has to notice.</li>
+      <li><b>Training and support.</b> Staff learn several tools, and a problem can mean several vendors to call.</li>
+      <li><b>Changes over time.</b> Apps update on their own schedules. A change in one can affect the others.</li>
+    </ul>
+    <p class="note">We have not listed app prices here. Prices vary by app and plan, and they change. The Shopify App Store lists each app's current price.</p>
+  </section>
+
+  <section class="vs-sec" id="moving">
+    <div class="eyebrow">Switching</div>
+    <h2>Moving from Shopify</h2>
+    <p>RetailSpec imports from Shopify to help you move in. The import is one-way and read-only: your products, customers and order history come across, and nothing is changed in your Shopify store. You can keep selling on Shopify until you are ready to switch. <a href="/moving-in">See how moving in works</a>.</p>
+  </section>
+
+  <section class="vs-sec sources" id="sources">
+    <div class="eyebrow">Sources</div>
+    <h2>Where the Shopify details come from</h2>
+    <p>All pages accessed 14 November 2026. Shopify is a trademark of its owner. RetailSpec is not affiliated with Shopify.</p>
+    <ol>
+      <li id="s1"><a href="https://www.shopify.com/pricing">https://www.shopify.com/pricing</a> (accessed 14 Nov 2026)</li>
+      <li id="s2"><a href="https://help.shopify.com/en/manual/intro-to-shopify/pricing-plans/plans-features/shopify-plus-plan">https://help.shopify.com/en/manual/intro-to-shopify/pricing-plans/plans-features/shopify-plus-plan</a> (accessed 14 Nov 2026)</li>
+      <li id="s3"><a href="https://www.shopify.com/pos/pricing">https://www.shopify.com/pos/pricing</a> (accessed 14 Nov 2026)</li>
+      <li id="s4"><a href="https://help.shopify.com/en/manual/sell-in-person/shopify-pos/selling-offline">https://help.shopify.com/en/manual/sell-in-person/shopify-pos/selling-offline</a> (accessed 14 Nov 2026)</li>
+      <li id="s5"><a href="https://help.shopify.com/en/manual/sell-in-person/shopify-pos/selling-offline/offline-payments">https://help.shopify.com/en/manual/sell-in-person/shopify-pos/selling-offline/offline-payments</a> (accessed 14 Nov 2026)</li>
+      <li id="s6"><a href="https://help.shopify.com/en/manual/products/inventory/purchase-orders">https://help.shopify.com/en/manual/products/inventory/purchase-orders</a> (accessed 14 Nov 2026)</li>
+      <li id="s7"><a href="https://help.shopify.com/en/manual/online-sales-channels/shopify-collective/retailers">https://help.shopify.com/en/manual/online-sales-channels/shopify-collective/retailers</a> (accessed 14 Nov 2026)</li>
+      <li id="s8"><a href="https://help.shopify.com/en/manual/shopify-admin/productivity-tools/csv-files">https://help.shopify.com/en/manual/shopify-admin/productivity-tools/csv-files</a> (accessed 14 Nov 2026)</li>
+      <li id="s9"><a href="https://help.shopify.com/en/manual/organization-settings/expansion-stores">https://help.shopify.com/en/manual/organization-settings/expansion-stores</a> (accessed 14 Nov 2026)</li>
+      <li id="s10"><a href="https://help.shopify.com/en/manual/international">https://help.shopify.com/en/manual/international</a> (accessed 14 Nov 2026)</li>
+      <li id="s11"><a href="https://help.shopify.com/en/manual/international/pricing">https://help.shopify.com/en/manual/international/pricing</a> (accessed 14 Nov 2026)</li>
+      <li id="s12"><a href="https://help.shopify.com/en/manual/international/languages">https://help.shopify.com/en/manual/international/languages</a> (accessed 14 Nov 2026)</li>
+      <li id="s13"><a href="https://help.shopify.com/en/manual/b2b">https://help.shopify.com/en/manual/b2b</a> (accessed 14 Nov 2026)</li>
+      <li id="s14"><a href="https://help.shopify.com/en/manual/shipping/shopify-shipping">https://help.shopify.com/en/manual/shipping/shopify-shipping</a> (accessed 14 Nov 2026)</li>
+      <li id="s15"><a href="https://help.shopify.com/en/manual/shipping/shopify-shipping/shipping-labels">https://help.shopify.com/en/manual/shipping/shopify-shipping/shipping-labels</a> (accessed 14 Nov 2026)</li>
+      <li id="s16"><a href="https://www.shopify.com/email-marketing">https://www.shopify.com/email-marketing</a> (accessed 14 Nov 2026)</li>
+      <li id="s17"><a href="https://help.shopify.com/en/manual/promoting-marketing/create-marketing/shopify-email">https://help.shopify.com/en/manual/promoting-marketing/create-marketing/shopify-email</a> (accessed 14 Nov 2026)</li>
+      <li id="s18"><a href="https://www.shopify.com/blog/pos-loyalty-program">https://www.shopify.com/blog/pos-loyalty-program</a> (accessed 14 Nov 2026)</li>
+      <li id="s19"><a href="https://help.shopify.com/en/manual/sell-in-person/quickbooks/integration">https://help.shopify.com/en/manual/sell-in-person/quickbooks/integration</a> (accessed 14 Nov 2026)</li>
+      <li id="s20"><a href="https://apps.shopify.com/quickbooks">https://apps.shopify.com/quickbooks</a> (accessed 14 Nov 2026)</li>
+      <li id="s21"><a href="https://apps.shopify.com/xero-accounting-integration">https://apps.shopify.com/xero-accounting-integration</a> (accessed 14 Nov 2026)</li>
+    </ol>
+  </section>
+
+  <section class="end">
+    <div>
+      <div class="eyebrow">See it with your own catalogue</div>
+      <h2>Book a demo</h2>
+      <p>We will walk through your stores, brands and websites, and show what moving in from Shopify would look like for you.</p>
+      <a class="cta" href="/demo">Book a demo</a>
+    </div>
+    <ul>
+      <li><b>POS</b>Native point of sale in every store</li>
+      <li><b>BRANDS</b>Brand Library catalogues</li>
+      <li><b>SHIP</b>Shipping built in</li>
+      <li><b>DATA</b>Your own database, full export</li>
+    </ul>
+  </section>
+</main>
+<section class="pre-f" aria-label="Keep exploring"><div class="pin"><div class="pre-l"><h2>Not convinced yet? Fair enough.</h2><p>Most retailers look around before they talk to anyone. Here are three good places to look next, and the demo is here whenever you want it.</p><a class="site-cta" href="/demo">Book a demo</a></div><div class="pre-g"><a href="/platform"><b>See every tool</b><span>Twelve stories from a real retail day, week and year.</span></a><a href="/moving-in"><b>See how moving works</b><span>Store by store, with our team, and every import can be undone.</span></a><a href="/one-platform"><b>See how it fits together</b><span>One code base that makes every call, with no apps bolted on.</span></a></div></div></section><footer class="site-f"><div class="fin"><div><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><rect x="0" y="0" width="28" height="28" rx="4" fill="#ffffff"/><rect x="36" y="0" width="28" height="28" rx="4" fill="#82AB78"/><rect x="0" y="36" width="28" height="28" rx="4" fill="#82AB78" opacity="0.6"/><rect x="36" y="36" width="28" height="28" rx="4" fill="#ffffff"/></svg>RetailSpec</a><p>One platform for retailers with more than one store, more than one website and more than one brand.</p><a class="site-cta" href="/demo" style="display:inline-block;margin-top:14px">Book a demo</a></div><div><h4>Platform</h4><a href="/platform">All powers</a><a href="/catalogue">Catalogue power</a><a href="/online-store">Selling everywhere</a><a href="/counter">Counter power</a><a href="/stock">Stock and buying</a><a href="/orders">Orders and fulfilment</a><a href="/shipping">Shipping</a><a href="/customers">Knowing your shoppers</a><a href="/insight">Insight</a><a href="/money">Money and books</a><a href="/overnight">While you sleep</a><a href="/trust">Control and trust</a></div><div><h4>Solutions</h4><a href="/multi-store">Multi-store retail</a><a href="/retail-and-trade">Retail and trade</a><a href="/cross-border">Selling across borders</a><a href="/stores-web-warehouse">Stores, web and warehouse</a><a href="/sam">Sam, the AI copilot</a></div><div><h4>Compare</h4><a href="/compare">All comparisons</a><a href="/vs-shopify-plus">vs Shopify Plus</a><a href="/vs-lightspeed">vs Lightspeed</a><a href="/app-cost">What your apps cost</a><a href="/moving-in">Moving to RetailSpec</a></div><div><h4>Company</h4><a href="/about">About</a><a href="/halcourt">Meet Halcourt</a><a href="/one-platform">One platform</a><a href="/hardware">Supported hardware</a><a href="/demo">Book a demo</a></div><div><h4>Help and legal</h4><a href="https://retailspec.com/help">Help center</a><a href="https://retailspec.com/legal">Legal</a><a href="https://retailspec.com/sms">Text messaging</a></div><div class="legal">© 2026 RetailSpec. All rights reserved.</div></div></footer><a class="float-cta" href="/demo" hidden>Book a demo</a><a class="back-tour" href="/#tour" hidden>&larr; Back to the home page</a><script>(()=>{const K="rs-tour";document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("a");if(!a)return;try{a.hasAttribute("data-tour")?sessionStorage.setItem(K,a.id):sessionStorage.removeItem(K)}catch(x){}});let id=null;try{id=sessionStorage.getItem(K)}catch(e){}const home=/\/(index\.html)?$/.test(location.pathname);if(home||!id)return;let r=null;try{r=new URL(document.referrer)}catch(e){}if(!r||r.origin!==location.origin||!/\/(index\.html)?$/.test(r.pathname))return;const b=document.querySelector(".back-tour");if(!b)return;b.href="/#"+id;b.hidden=false;b.addEventListener("click",e=>{if(history.length>1){e.preventDefault();history.back()}})})();</script><script>document.addEventListener("click",e=>{document.querySelectorAll("details.mega[open]").forEach(d=>{if(!d.contains(e.target))d.removeAttribute("open")})});document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll("details.mega[open]").forEach(d=>d.removeAttribute("open"))});(()=>{const b=document.querySelector(".float-cta");if(!b||location.pathname==="/demo")return;const f=()=>{b.hidden=window.scrollY<600};addEventListener("scroll",f,{passive:true});f()})();</script>
+</body>
+</html>

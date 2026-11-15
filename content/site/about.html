@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>About RetailSpec</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: a store day told in five moments (open → rush → trouble → close → behind the counter). Each moment: timestamp, one story line, three headline powers, the rest folded. The receipt is the motif: thermal paper, perforations, mono type. */
+:root {
+  --bg: #f3f5f0;
+  --ink: #1a2118;
+  --muted: #5b6656;
+  --accent: #3f6b35;
+  --accent-soft: #e2eadc;
+  --paper: #fffef9;
+  --paper-ink: #2a2a26;
+  --card: #ffffff;
+  --rule: #d6dccf;
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --text: "Inter", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #10140f; --ink: #e6ebe2; --muted: #9ba596; --accent: #9cc48f; --accent-soft: #1e2a1b;
+  --paper: #eeeadf; --paper-ink: #24241f; --card: #171c15; --rule: #2a3226; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #10140f; --ink: #e6ebe2; --muted: #9ba596; --accent: #9cc48f; --accent-soft: #1e2a1b;
+  --paper: #eeeadf; --paper-ink: #24241f; --card: #171c15; --rule: #2a3226; color-scheme: dark }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+.top { padding-block: 18px 0; font: 500 13.5px/1 var(--text); }
+.top a { color: var(--muted); text-decoration: none; }
+.top a:hover, .top a:focus-visible { color: var(--accent); }
+body { background: var(--bg); color: var(--ink); font-family: var(--text); line-height: 1.6; }
+.wrap { max-width: 1100px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.eyebrow { font: 600 12px/1 var(--text); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+
+/* hero */
+.hero { padding-block: 48px 40px; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 48px; align-items: center; }
+.hero h1 { font: 700 clamp(34px, 5.4vw, 58px)/1.02 var(--display); letter-spacing: -.015em; margin: 14px 0 18px; text-wrap: balance; }
+.hero p { font-size: 18px; color: var(--muted); max-width: 52ch; margin: 0 0 22px; }
+.feel { display: flex; flex-wrap: wrap; gap: 8px; }
+.feel span { font: 500 13.5px/1 var(--text); padding: 9px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+
+.receipt { background: var(--paper); color: var(--paper-ink); font: 400 13.5px/1.55 var(--mono); padding: 26px 24px 30px; max-width: 340px; justify-self: center; width: 100%;
+  box-shadow: 0 22px 40px rgba(20, 30, 18, .16); transform: rotate(1.6deg); position: relative;
+  -webkit-mask: radial-gradient(circle 6px at 50% 100%, transparent 98%, #000) 0 0 / 16px 100% repeat-x;
+          mask: radial-gradient(circle 6px at 50% 100%, transparent 98%, #000) 0 0 / 16px 100% repeat-x; }
+.receipt .c { text-align: center; }
+.receipt .b { font-weight: 600; }
+.receipt hr { border: 0; border-top: 1.5px dashed currentColor; opacity: .45; margin: 10px 0; }
+.receipt .row { display: flex; justify-content: space-between; gap: 12px; }
+@media (prefers-reduced-motion: no-preference) { .receipt { animation: feed .9s ease-out both; } @keyframes feed { from { transform: translateY(-10px) rotate(1.6deg); } to { transform: rotate(1.6deg); } } }
+
+/* day rail */
+.rail { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(6px); border-block: 1px solid var(--rule); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.rail nav { display: flex; gap: 6px; overflow-x: auto; padding-block: 10px; scrollbar-width: none; }
+.rail a { flex: none; text-decoration: none; color: var(--muted); font: 500 13.5px/1 var(--text); padding: 9px 12px; border-radius: 8px; display: inline-flex; gap: 8px; align-items: baseline; }
+.rail a b { font: 600 12px/1 var(--mono); color: var(--accent); }
+.rail a:hover, .rail a:focus-visible { background: var(--accent-soft); color: var(--ink); outline: none; }
+
+/* moments */
+.moment { padding-block: 64px 8px; scroll-margin-top: 64px; }
+.stamp { font: 600 14px/1 var(--mono); color: var(--accent); display: flex; align-items: center; gap: 12px; }
+.stamp::after { content: ""; flex: 1; border-top: 1.5px dashed var(--rule); }
+.moment h2 { font: 600 clamp(26px, 3.6vw, 38px)/1.1 var(--display); margin: 16px 0 10px; text-wrap: balance; max-width: 22ch; }
+.story { font-size: 17px; color: var(--muted); max-width: 62ch; margin: 0 0 26px; }
+.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.power { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 20px 20px 22px; min-width: 0; }
+.power h3 { font: 600 18px/1.25 var(--display); margin: 0 0 8px; }
+.power p { margin: 0; font-size: 14.5px; color: var(--muted); }
+.power .k { font: 500 11.5px/1 var(--mono); color: var(--accent); letter-spacing: .04em; margin-bottom: 12px; display: block; }
+details { margin-top: 14px; border-top: 1px dashed var(--rule); }
+summary { cursor: pointer; list-style: none; padding: 14px 0; font: 600 14px/1 var(--text); color: var(--accent); display: inline-flex; gap: 8px; align-items: center; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; font: 600 16px/1 var(--mono); width: 16px; }
+details[open] summary::before { content: "−"; }
+summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+.more { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 4px 28px; padding-bottom: 8px; }
+.more div { padding: 8px 0; border-bottom: 1px solid var(--rule); font-size: 14px; color: var(--muted); min-width: 0; }
+.more b { color: var(--ink); font-weight: 600; }
+
+/* close */
+.end { margin-block: 80px 64px; background: var(--card); border: 1px solid var(--rule); border-radius: 16px; padding: 36px clamp(20px, 4vw, 44px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; }
+.end h2 { font: 700 clamp(26px, 3.6vw, 36px)/1.1 var(--display); margin: 10px 0 12px; text-wrap: balance; }
+.end ul { margin: 0; padding: 0; list-style: none; font-size: 15px; }
+.end li { padding: 9px 0; border-bottom: 1px dashed var(--rule); display: flex; gap: 12px; }
+.end li b { font: 600 12.5px/1.6 var(--mono); color: var(--accent); flex: none; width: 48px; }
+.cta { display: inline-block; margin-top: 8px; background: var(--accent); color: var(--bg); text-decoration: none; font: 600 15px/1 var(--text); padding: 14px 20px; border-radius: 10px; }
+.cta:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.next { display: block; margin-top: 18px; color: var(--muted); font-size: 14px; }
+
+@media (max-width: 820px) {
+  .hero { grid-template-columns: 1fr; gap: 32px; }
+  .trio { grid-template-columns: 1fr; }
+  .end { grid-template-columns: 1fr; }
+}
+
+/* page-only: shared by hardware, about, demo */
+.lede { padding-block: 48px 24px; max-width: 760px; }
+.lede h1 { font: 700 clamp(34px, 5.4vw, 54px)/1.04 var(--display); letter-spacing: -.015em; margin: 14px 0 18px; text-wrap: balance; }
+.lede p { font-size: 18px; color: var(--muted); max-width: 60ch; margin: 0 0 18px; }
+.block { padding-block: 48px 8px; }
+.block h2 { font: 600 clamp(24px, 3.2vw, 34px)/1.12 var(--display); margin: 14px 0 10px; text-wrap: balance; max-width: 26ch; }
+.block > p { font-size: 16.5px; color: var(--muted); max-width: 62ch; margin: 0 0 24px; }
+.tbd { color: var(--muted); font-style: italic; opacity: .8; }
+.tag { display: inline-block; font: 600 11.5px/1 var(--mono); letter-spacing: .04em; padding: 6px 9px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); }
+.tag.dim { background: transparent; border: 1px dashed var(--rule); color: var(--muted); }
+.power.on { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.power .tag { margin-bottom: 12px; }
+.inline { color: var(--accent); font-weight: 600; text-decoration: none; }
+.inline:hover, .inline:focus-visible { text-decoration: underline; }
+
+/* certified table */
+.devices { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; font-size: 14.5px; }
+.devices th { text-align: left; font: 600 11.5px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 14px 18px; border-bottom: 1px solid var(--rule); }
+.devices td { padding: 16px 18px; border-bottom: 1px solid var(--rule); vertical-align: top; color: var(--muted); }
+.devices tr:last-child td { border-bottom: 0; }
+.devices td:first-child { color: var(--ink); }
+.devices td:first-child b { display: block; font: 600 16px/1.3 var(--display); }
+.devices td:first-child small { font: 500 12px/1.4 var(--mono); color: var(--muted); }
+.note { font-size: 14px; color: var(--muted); margin: 14px 0 0; }
+
+/* steps */
+.steps { list-style: none; margin: 0; padding: 0; counter-reset: s; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 4px 12px; padding: 16px 0; border-bottom: 1px dashed var(--rule); }
+.steps li::before { content: counter(s, decimal-leading-zero); font: 600 14px/1.5 var(--mono); color: var(--accent); grid-row: span 2; }
+.steps b { font: 600 16px/1.35 var(--display); }
+.steps span { font-size: 14.5px; color: var(--muted); }
+
+/* demo form */
+.book { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 40px; align-items: start; padding-block: 8px 72px; }
+.form-card { background: var(--card); border: 1px solid var(--rule); border-radius: 16px; padding: clamp(20px, 4vw, 36px); }
+.fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px 18px; }
+.field { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+.field.wide, fieldset.field { grid-column: 1 / -1; }
+.field > label, legend { font: 600 13.5px/1.3 var(--text); color: var(--ink); }
+.opt { font-weight: 400; color: var(--muted); }
+.field input[type="text"], .field input[type="email"], .field input[type="tel"], .field select, .field textarea {
+  width: 100%; font: 400 15px/1.4 var(--text); color: var(--ink); background: var(--bg); border: 1px solid var(--rule); border-radius: 9px; padding: 11px 12px; }
+.field textarea { min-height: 110px; resize: vertical; }
+.field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+fieldset.field { border: 0; margin: 0; padding: 0; }
+legend { padding: 0; margin-bottom: 7px; }
+.checks { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
+.checks label { display: flex; gap: 10px; align-items: center; font-size: 14.5px; padding: 10px 12px; border: 1px solid var(--rule); border-radius: 9px; background: var(--bg); cursor: pointer; }
+.checks input { accent-color: var(--accent); width: 16px; height: 16px; margin: 0; flex: none; }
+.form-foot { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+.form-foot p { margin: 0; font-size: 13.5px; color: var(--muted); }
+button.cta { border: 0; cursor: pointer; margin-top: 0; }
+.thanks { padding: 12px 0; }
+.thanks h2 { font: 700 clamp(24px, 3.2vw, 32px)/1.15 var(--display); margin: 10px 0 10px; }
+.thanks p { color: var(--muted); margin: 0; font-size: 16px; }
+.aside { position: sticky; top: 24px; }
+.aside h2 { font: 600 22px/1.2 var(--display); margin: 10px 0 6px; }
+
+@media (max-width: 820px) {
+  .book { grid-template-columns: 1fr; }
+  .aside { position: static; }
+  .fields { grid-template-columns: 1fr; }
+  .devices thead { display: none; }
+  .devices, .devices tbody, .devices tr, .devices td { display: block; width: 100%; }
+  .devices tr { border-bottom: 1px solid var(--rule); padding: 6px 0; }
+  .devices tr:last-child { border-bottom: 0; }
+  .devices td { border: 0; padding: 6px 18px; }
+  .devices td[data-k]::before { content: attr(data-k); display: block; font: 600 11px/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+}
+</style>
+<link rel="stylesheet" href="/site.css">
+</head>
+<body>
+<script>document.documentElement.dataset.page="about"</script><header class="site-h"><div class="site-in"><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><rect x="0" y="0" width="28" height="28" rx="4" fill="#111827"/><rect x="36" y="0" width="28" height="28" rx="4" fill="#82AB78"/><rect x="0" y="36" width="28" height="28" rx="4" fill="#82AB78" opacity="0.6"/><rect x="36" y="36" width="28" height="28" rx="4" fill="#111827"/></svg>RetailSpec</a><nav class="site-nav" aria-label="Main"><details class="mega"><summary>Platform</summary><div class="mega-p"><div><h4>Sell</h4><a href="/catalogue">Catalogue power<span>Brands land ready to sell</span></a><a href="/online-store">Selling everywhere<span>Storefronts in any currency</span></a><a href="/counter">Counter power<span>Registers that never stop</span></a></div><div><h4>Operate</h4><a href="/stock">Stock and buying<span>One warehouse, every store</span></a><a href="/orders">Orders and fulfilment<span>Every order leaves right</span></a><a href="/shipping">Shipping<span>Labels, rates, customs</span></a></div><div><h4>Grow</h4><a href="/customers">Knowing your shoppers<span>One customer, everywhere</span></a><a href="/insight">Insight<span>The week before coffee</span></a></div><div><h4>Run</h4><a href="/money">Money and books<span>Month close, done</span></a><a href="/overnight">While you sleep<span>What runs on its own</span></a><a href="/trust">Control and trust<span>Who changed what</span></a></div><div class="mega-side"><a class="mega-card" href="/one-platform"><b>One platform</b><span>Every store, website and brand on one code base that makes every call.</span></a><a class="mega-card" href="/sam"><b>Sam, the AI copilot</b><span>Drafts the next step from your own numbers. You make the call.</span></a></div><a class="all" href="/platform">See all twelve →</a></div></details><details class="mega"><summary>Solutions</summary><div class="mega-p cards"><a href="/multi-store"><b>Multi-store retail</b><span>Every store runs like your best one.</span></a><a href="/retail-and-trade"><b>Retail and trade</b><span>Shoppers and trade accounts, one system.</span></a><a href="/cross-border"><b>Selling across borders</b><span>A second country, not a second system.</span></a><a href="/stores-web-warehouse"><b>Stores, web and warehouse</b><span>Everyone counting the same stock.</span></a></div></details><a class="nav-flag" href="/brand-library">Brand Library</a><details class="mega"><summary>Why switch</summary><div class="mega-p cards"><a href="/vs-shopify-plus"><b>Moving from Shopify Plus</b><span>What changes, what you gain, and how the move works.</span></a><a href="/vs-lightspeed"><b>Moving from Lightspeed</b><span>One platform for every store and website, side by side.</span></a><a href="/moving-in"><b>How moving in works</b><span>Our team moves you store by store. Every import can be undone.</span></a><a href="/one-platform"><b>One code base</b><span>Every tool built in. No apps bolted on, one bill, one login.</span></a><a href="/halcourt"><b>Meet Halcourt</b><span>One shop that grew into a retail group. Picture your own next stage.</span></a><a href="/compare"><b>All comparisons</b><span>Every comparison in one place, dated and sourced.</span></a><a href="/app-cost"><b>What your apps cost</b><span>Add up the subscriptions you pay for today.</span></a></div></details><a href="/hardware">Hardware</a></nav><a class="site-login" href="{{PLATFORM_ORIGIN}}/login">Log in</a><a class="site-cta" href="/demo">Book a demo</a></div></header>
+<main class="wrap">
+  <header class="lede">
+    <div class="eyebrow">About RetailSpec</div>
+    <h1>One platform for retailers who've outgrown a stack of apps.</h1>
+    <p>RetailSpec runs your catalogue, websites, registers, stock, orders, shipping, customers, payments, books and reports from one code base. Everything shares one set of products, one set of customers and one set of numbers.</p>
+    <p class="tbd">[Company story to come]</p>
+  </header><div class="ph-wide"><figure class="ph photo" data-ratio="21:9"><img src="/img/hero-about.jpg" alt="The owner unlocking the doors of the flagship in the morning" loading="lazy"></figure></div>
+
+  <section class="block" id="who">
+    <div class="stamp">WHO IT'S FOR</div>
+    <h2>Established retailers with more than one of everything.</h2>
+    <p>We build for retailers doing a million dollars or more a year who already know how hard retail gets at scale.</p>
+    <div class="trio">
+      <div class="power"><span class="k">STORES</span><h3>Many locations</h3><p>Several stores, a warehouse, maybe a tasting room or showroom, all on one map with one stock count.</p></div>
+      <div class="power"><span class="k">CHANNELS</span><h3>Many channels and borders</h3><p>Stores and websites selling in more than one country, currency and language, with retail and trade buyers side by side.</p></div>
+      <div class="power"><span class="k">BRANDS</span><h3>Many brands</h3><p>Multi-brand retailers carrying thousands of products from dozens of makers, kept clean by our Brand Library.</p></div>
+    </div>
+  </section>
+
+  <section class="block" id="beliefs">
+    <div class="stamp">WHAT WE BELIEVE</div>
+    <h2>Four ideas we build every tool around.</h2>
+    <p>These are the rules we hold ourselves to when we decide what to build and how.</p>
+    <div class="trio" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+      <div class="power"><span class="k">ONE CODE BASE</span><h3>One platform beats a stack of apps</h3><p>Every app you bolt on adds a login, a bill and a sync that can break. We build the tools into one platform so they share the same data from the start.</p></div>
+      <div class="power"><span class="k">FULL POWER, YOUR WAY</span><h3>Ready when you are</h3><p>Every tool is ready from day one. A new cashier sees a simple screen; a buyer or an owner reaches for the depth they need, when they need it.</p></div>
+      <div class="power"><span class="k">YOUR DATA</span><h3>Your data is yours</h3><p>Every merchant has their own database. If you ever leave, you take a clean export package of your business with you.</p></div>
+      <div class="power"><span class="k">BEST IN CLASS</span><h3>Meet or beat the specialists</h3><p>We build every tool to meet or beat the best single-purpose product in its category, so going all-in-one never means settling.</p></div>
+    </div>
+  </section>
+
+  <section class="block" id="how">
+    <div class="stamp">HOW WE WORK</div>
+    <h2>Proven before it ships. A person when you need one.</h2>
+    <p>Retail runs on the shop floor, so we test where it counts and answer when you ask.</p>
+    <div class="trio">
+      <div class="power"><span class="k">LAB-TESTED</span><h3>Hardware proven in our lab</h3><p>Every certified printer, reader and tablet has run RetailSpec in our own lab. <a class="inline" href="/hardware">See the list</a>.</p></div>
+      <div class="power"><span class="k">REAL PEOPLE</span><h3>A real person when you ask</h3><p>Ask for help and you reach someone who knows retail and knows RetailSpec, ready to look at your screen with you.</p></div>
+      <div class="power"><span class="k">FROM THE CONSOLE</span><h3>Help from inside the console</h3><p>Press Get help where you're working. No hunting for a phone number and no starting your story over.</p></div>
+    </div>
+  </section>
+
+  <section class="block" id="company">
+    <div class="stamp">THE COMPANY</div>
+    <h2>Who we are.</h2>
+    <p class="tbd">[Company facts to come: founders, team and where we're based]</p>
+  </section>
+
+  <section class="end">
+    <div>
+      <div class="eyebrow">See it for yourself</div>
+      <h2>One platform, shown on a real retail group's stores.</h2>
+      <p style="color:var(--muted);margin:0 0 18px">A live demo tailored to your stores, channels and brands.</p>
+      <a class="cta" href="/demo">Book a demo</a>
+      <a class="next" href="/one-platform">Why one platform →</a>
+    </div>
+    <ul aria-label="What we believe">
+      <li><b>ONE</b><span>One code base instead of a stack of apps.</span></li>
+      <li><b>READY</b><span>Full power from day one, used your way.</span></li>
+      <li><b>YOURS</b><span>Your own database, and a clean export if you leave.</span></li>
+      <li><b>BEST</b><span>Every tool built to meet or beat the specialists.</span></li>
+    </ul>
+  </section>
+</main>
+<section class="pre-f" aria-label="Keep exploring"><div class="pin"><div class="pre-l"><h2>Not convinced yet? Fair enough.</h2><p>Most retailers look around before they talk to anyone. Here are three good places to look next, and the demo is here whenever you want it.</p><a class="site-cta" href="/demo">Book a demo</a></div><div class="pre-g"><a href="/platform"><b>See every tool</b><span>Twelve stories from a real retail day, week and year.</span></a><a href="/moving-in"><b>See how moving works</b><span>Store by store, with our team, and every import can be undone.</span></a><a href="/one-platform"><b>See how it fits together</b><span>One code base that makes every call, with no apps bolted on.</span></a></div></div></section><footer class="site-f"><div class="fin"><div><a class="brand" href="/"><svg class="mark" viewBox="0 0 64 64" width="26" height="26" aria-hidden="true"><rect x="0" y="0" width="28" height="28" rx="4" fill="#ffffff"/><rect x="36" y="0" width="28" height="28" rx="4" fill="#82AB78"/><rect x="0" y="36" width="28" height="28" rx="4" fill="#82AB78" opacity="0.6"/><rect x="36" y="36" width="28" height="28" rx="4" fill="#ffffff"/></svg>RetailSpec</a><p>One platform for retailers with more than one store, more than one website and more than one brand.</p><a class="site-cta" href="/demo" style="display:inline-block;margin-top:14px">Book a demo</a></div><div><h4>Platform</h4><a href="/platform">All powers</a><a href="/catalogue">Catalogue power</a><a href="/online-store">Selling everywhere</a><a href="/counter">Counter power</a><a href="/stock">Stock and buying</a><a href="/orders">Orders and fulfilment</a><a href="/shipping">Shipping</a><a href="/customers">Knowing your shoppers</a><a href="/insight">Insight</a><a href="/money">Money and books</a><a href="/overnight">While you sleep</a><a href="/trust">Control and trust</a></div><div><h4>Solutions</h4><a href="/multi-store">Multi-store retail</a><a href="/retail-and-trade">Retail and trade</a><a href="/cross-border">Selling across borders</a><a href="/stores-web-warehouse">Stores, web and warehouse</a><a href="/sam">Sam, the AI copilot</a></div><div><h4>Compare</h4><a href="/compare">All comparisons</a><a href="/vs-shopify-plus">vs Shopify Plus</a><a href="/vs-lightspeed">vs Lightspeed</a><a href="/app-cost">What your apps cost</a><a href="/moving-in">Moving to RetailSpec</a></div><div><h4>Company</h4><a href="/about">About</a><a href="/halcourt">Meet Halcourt</a><a href="/one-platform">One platform</a><a href="/hardware">Supported hardware</a><a href="/demo">Book a demo</a></div><div><h4>Help and legal</h4><a href="https://retailspec.com/help">Help center</a><a href="https://retailspec.com/legal">Legal</a><a href="https://retailspec.com/sms">Text messaging</a></div><div class="legal">© 2026 RetailSpec. All rights reserved.</div></div></footer><a class="float-cta" href="/demo" hidden>Book a demo</a><a class="back-tour" href="/#tour" hidden>&larr; Back to the home page</a><script>(()=>{const K="rs-tour";document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("a");if(!a)return;try{a.hasAttribute("data-tour")?sessionStorage.setItem(K,a.id):sessionStorage.removeItem(K)}catch(x){}});let id=null;try{id=sessionStorage.getItem(K)}catch(e){}const home=/\/(index\.html)?$/.test(location.pathname);if(home||!id)return;let r=null;try{r=new URL(document.referrer)}catch(e){}if(!r||r.origin!==location.origin||!/\/(index\.html)?$/.test(r.pathname))return;const b=document.querySelector(".back-tour");if(!b)return;b.href="/#"+id;b.hidden=false;b.addEventListener("click",e=>{if(history.length>1){e.preventDefault();history.back()}})})();</script><script>document.addEventListener("click",e=>{document.querySelectorAll("details.mega[open]").forEach(d=>{if(!d.contains(e.target))d.removeAttribute("open")})});document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll("details.mega[open]").forEach(d=>d.removeAttribute("open"))});(()=>{const b=document.querySelector(".float-cta");if(!b||location.pathname==="/demo")return;const f=()=>{b.hidden=window.scrollY<600};addEventListener("scroll",f,{passive:true});f()})();</script>
+</body>
+</html>
