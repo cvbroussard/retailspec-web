@@ -30,7 +30,11 @@ async function certifiedRows(): Promise<string | null> {
     return fams.map((f: any) => {
       const name = [f.maker, f.family].filter(Boolean).join(" ");
       const small = f.models ? `<small>${esc(f.models)}</small>` : "";
-      return `<tr><td><b>${esc(name)}</b>${small}</td><td data-k="Role">${esc(KIND[f.kind] || f.kind)}</td><td data-k="In RetailSpec">${esc(f.uses || "")}</td></tr>`;
+      // the family's approved studio picture (Control → Hardware catalogue): 320px thumb, the master for sharp screens
+      const img = f.image?.thumb || f.image?.url
+        ? `<img class="hw-thumb" src="${esc(f.image.thumb || f.image.url)}"${f.image.url && f.image.thumb ? ` srcset="${esc(f.image.thumb)} 1x, ${esc(f.image.url)} 2x"` : ""} alt="${esc(name)}" width="72" height="72" loading="lazy">`
+        : "";
+      return `<tr><td><span class="hw-dev">${img}<span><b>${esc(name)}</b>${small}</span></span></td><td data-k="Role">${esc(KIND[f.kind] || f.kind)}</td><td data-k="In RetailSpec">${esc(f.uses || "")}</td></tr>`;
     }).join("");
   } catch {
     return null;

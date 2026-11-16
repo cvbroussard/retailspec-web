@@ -181,6 +181,11 @@ button.cta { border: 0; cursor: pointer; margin-top: 0; }
 #byoh .byoh-check b { color: var(--accent); }
 @media (max-width: 860px) { #byoh .byoh { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { #byoh .byoh { grid-template-columns: 1fr; } }
+/* Certified list pictures (live site fills them from the hardware catalogue) */
+.devices .hw-dev { display: flex; align-items: center; gap: 14px; }
+.devices .hw-thumb { width: 72px; height: 72px; flex: none; object-fit: contain; border-radius: 12px; background: linear-gradient(180deg, #F7F8F5, #ECEEE8); border: 1px solid var(--rule); }
+.devices .hw-dev b { display: block; }
+@media (max-width: 560px) { .devices .hw-thumb { width: 56px; height: 56px; } }
 </style>
 <link rel="stylesheet" href="/site.css">
 </head>
